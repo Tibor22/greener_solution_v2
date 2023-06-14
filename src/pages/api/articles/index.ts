@@ -27,16 +27,13 @@ const handler: NextApiHandler = async (req, res) => {
 const createNewPost: NextApiHandler = async (req, res) => {
 	const { files, body }: PostObject = await readFile(req);
 	let tags: string[] = [];
-	let categories: string[] = [];
 	const { slug } = body;
 	// // tags will be in string form so converting to array
 	if (body.tags) tags = body.tags.split(',');
-	if (body.categories) categories = body.categories.split(',');
 
 	const error = validateSchema(postValidationSchema, {
 		...body,
 		tags,
-		categories,
 	});
 	if (error) return res.status(400).json({ error });
 	const article = await postModel.findPost('slug', slug);

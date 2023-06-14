@@ -33,17 +33,18 @@ model Article {
   slug         String   @unique
   author       User?    @relation(fields: [authorId], references: [id])
   authorId     Int?
+  category     Category?    @relation(fields: [categoryName], references: [name])
+  categoryName String?
   meta         String
   thumbnailUrl String?
   thumbnailId  String?
-  categories   Category[]
   tags         Tag[]
 }
 
 model Category {
   id       Int    @id @default(autoincrement())
-  name     String
-  articles Article[]
+  name     String @unique
+  article Article[]
 }
 model Tag {
   id       Int    @id @default(autoincrement())

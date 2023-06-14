@@ -31,7 +31,7 @@ export const postValidationSchema = Joi.object().keys({
 		'string.base': errorMessages.INVALID_TAGS,
 		'string.empty': errorMessages.INVALID_TAGS,
 	}),
-	categories: Joi.array().items(Joi.string()).messages({
+	categoryName: Joi.string().required().messages({
 		'string.base': errorMessages.INVALID_CATEGORIES,
 		'string.empty': errorMessages.INVALID_CATEGORIES,
 	}),

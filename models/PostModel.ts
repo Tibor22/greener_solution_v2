@@ -23,6 +23,7 @@ class PostModel {
 					meta: obj.meta,
 					thumbnailUrl: url,
 					thumbnailId: public_id,
+					categoryName: obj.categoryName,
 				},
 			});
 
@@ -32,7 +33,7 @@ class PostModel {
 		}
 	}
 
-	async findPost(key: string, value: string) {
+	async findPost(key: string, value: string | number) {
 		// try {
 		const article = await prisma.article.findUnique({
 			where: {
@@ -42,7 +43,7 @@ class PostModel {
 
 		return article;
 	}
-	async updatePost(thumbnail: formidable.File, obj: Article) {
+	async updatePost(thumbnail: formidable.File, obj: Article, slug: string) {
 		if (thumbnail) {
 			const { secure_url: url, public_id } = await cloudinary.uploader.upload(
 				thumbnail.filepath,
@@ -50,43 +51,37 @@ class PostModel {
 					folder: 'test',
 				}
 			);
-
-			// #1-cond. => the post can already have thumbnail
-			// so remove old, upload new image and then update record inside DB.
 			const publicId = obj?.thumbnailId as string;
 			if ('thumbnailId' in obj) await cloudinary.uploader.destroy(publicId);
-
-			const updateArticle = await prisma.article.update({
-				where: {
-					id: Number(obj.id),
-				},
-				data: {
-					title: obj.title,
-					content: obj.content,
-					slug: obj.slug,
-					published: false,
-					meta: obj.meta,
-					thumbnailUrl: url,
-					thumbnailId: public_id,
-				},
-			});
-
-			return updateArticle;
-		} else {
-			const updateArticle = await prisma.article.update({
-				where: {
-					id: Number(obj.id),
-				},
-				data: {
-					title: obj.title,
-					content: obj.content,
-					slug: obj.slug,
-					published: false,
-					meta: obj.meta,
-				},
-			});
-			return updateArticle;
+			obj.thumbnailId = public_id;
+			obj.thumbnailUrl = url;
 		}
+
+		const updateArticle = await prisma.article.update({
+			where: {
+				slug: slug,
+			},
+			data: {
+				...(obj.title && { title: obj.title }),
+				...(obj.content && { content: obj.content }),
+				...(obj.slug && { slug: obj.slug }),
+				...(obj.meta && { meta: obj.meta }),
+				published: obj.published || false,
+				...(obj.thumbnailUrl && { thumbnailUrl: obj.thumbnailUrl }),
+				...(obj.thumbnailId && { thumbnailId: obj.thumbnailId }),
+				...(obj.categoryName && {
+					category: {
+						connect: {
+							name: obj.categoryName,
+						},
+					},
+				}),
+			},
+			include: {
+				category: true,
+			},
+		});
+		return updateArticle;
 	}
 }
 

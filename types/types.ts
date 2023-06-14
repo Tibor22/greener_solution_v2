@@ -2,7 +2,7 @@ import formidable from 'formidable';
 export type PostObject = {
 	body: {
 		tags?: string;
-		categories?: string;
+		categoryName?: string;
 		title: string;
 		content: string;
 		slug: string;
@@ -21,7 +21,7 @@ export interface UpdateObj {
 	published: boolean;
 	meta: string;
 	tags: string;
-	categories: string;
+	categoryName: string;
 	id: number;
 	createdAt: Date;
 	updatedAt: Date;
