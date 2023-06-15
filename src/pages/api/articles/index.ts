@@ -21,6 +21,9 @@ const handler: NextApiHandler = async (req, res) => {
 		case 'POST':
 			return createNewPost(req, res);
 			break;
+		case 'GET':
+			return getAllPost(req, res);
+			break;
 	}
 };
 
@@ -47,6 +50,14 @@ const createNewPost: NextApiHandler = async (req, res) => {
 	try {
 		const createdPost = await postModel.createPost(thumbnail, body, tags);
 		res.status(201).json(createdPost);
+	} catch (err: any) {
+		res.status(500).json({ error: err.message });
+	}
+};
+const getAllPost: NextApiHandler = async (req, res) => {
+	try {
+		const allPosts = await prisma.article.findMany();
+		res.status(200).json(allPosts);
 	} catch (err: any) {
 		res.status(500).json({ error: err.message });
 	}

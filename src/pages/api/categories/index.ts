@@ -7,6 +7,9 @@ const handler: NextApiHandler = async (req, res) => {
 		case 'POST':
 			return createNewCategory(req, res);
 			break;
+		case 'GET':
+			return getAllCategories(req, res);
+			break;
 	}
 };
 
@@ -28,6 +31,14 @@ const createNewCategory: NextApiHandler = async (req, res) => {
 			},
 		});
 		res.status(201).json(createdCategory);
+	} catch (err: any) {
+		res.status(500).json({ error: err.message });
+	}
+};
+const getAllCategories: NextApiHandler = async (req, res) => {
+	try {
+		const allCategory = await prisma.category.findMany();
+		res.status(200).json(allCategory);
 	} catch (err: any) {
 		res.status(500).json({ error: err.message });
 	}

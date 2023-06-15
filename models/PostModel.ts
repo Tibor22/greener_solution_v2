@@ -1,4 +1,4 @@
-import { Article } from '@prisma/client';
+import { Article, Tag } from '@prisma/client';
 import cloudinary from '../lib/cloudinary';
 import prisma from '../lib/prisma';
 import { PostObject } from '../types/types';
@@ -77,7 +77,8 @@ class PostModel {
 		thumbnail: formidable.File,
 		obj: Article,
 		slug: string,
-		tags: string[]
+		tags: string[],
+		oldTags: Tag[]
 	) {
 		if (thumbnail) {
 			const { secure_url: url, public_id } = await cloudinary.uploader.upload(
@@ -119,6 +120,7 @@ class PostModel {
 				}),
 				...(tagsFound && {
 					tags: {
+						disconnect: oldTags.map((tag) => ({ id: tag.id })),
 						connect: tagsFound.map((tag) => ({ id: tag.id })),
 					},
 				}),
@@ -129,6 +131,19 @@ class PostModel {
 			},
 		});
 		return updateArticle;
+	}
+
+	async deletePost(thumbnailId: string | null, slug: string) {
+		if (thumbnailId) {
+			await cloudinary.uploader.destroy(thumbnailId);
+		}
+
+		const deletedPost = await prisma.article.delete({
+			where: {
+				slug: slug,
+			},
+		});
+		return deletedPost;
 	}
 }
 

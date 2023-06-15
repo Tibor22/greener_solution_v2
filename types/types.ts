@@ -29,3 +29,11 @@ export interface UpdateObj {
 	thumbnailUrl: string;
 	thumbnailId: string;
 }
+
+export type UserObject = {
+	name: string;
+	role: string;
+	displayName: string;
+	email: string;
+	password: string;
+};
