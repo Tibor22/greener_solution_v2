@@ -5,7 +5,11 @@ import { PostObject } from '../types/types';
 import formidable from 'formidable';
 
 class PostModel {
-	async createPost(thumbnail: formidable.File, obj: PostObject['body']) {
+	async createPost(
+		thumbnail: formidable.File,
+		obj: PostObject['body'],
+		tags: string[]
+	) {
 		if (thumbnail) {
 			const { secure_url: url, public_id } = await cloudinary.uploader.upload(
 				thumbnail.filepath,
@@ -16,6 +20,11 @@ class PostModel {
 			const categoryFound = await prisma.category.findUnique({
 				where: {
 					name: obj.categoryName,
+				},
+			});
+			const tagsFound = await prisma.tag.findMany({
+				where: {
+					OR: tags.map((tagName) => ({ name: tagName })),
 				},
 			});
 
@@ -32,9 +41,16 @@ class PostModel {
 					...(categoryFound && {
 						categoryName: obj.categoryName,
 					}),
+					...(tagsFound && {
+						tags: {
+							connect: tagsFound.map((tag) => ({ id: tag.id })),
+						},
+					}),
 				},
+
 				include: {
 					category: true,
+					tags: true,
 				},
 			});
 
@@ -51,12 +67,18 @@ class PostModel {
 			},
 			include: {
 				category: true,
+				tags: true,
 			},
 		});
 
 		return article;
 	}
-	async updatePost(thumbnail: formidable.File, obj: Article, slug: string) {
+	async updatePost(
+		thumbnail: formidable.File,
+		obj: Article,
+		slug: string,
+		tags: string[]
+	) {
 		if (thumbnail) {
 			const { secure_url: url, public_id } = await cloudinary.uploader.upload(
 				thumbnail.filepath,
@@ -69,6 +91,12 @@ class PostModel {
 			obj.thumbnailId = public_id;
 			obj.thumbnailUrl = url;
 		}
+
+		const tagsFound = await prisma.tag.findMany({
+			where: {
+				OR: tags.map((tagName) => ({ name: tagName })),
+			},
+		});
 
 		const updateArticle = await prisma.article.update({
 			where: {
@@ -89,9 +117,15 @@ class PostModel {
 						},
 					},
 				}),
+				...(tagsFound && {
+					tags: {
+						connect: tagsFound.map((tag) => ({ id: tag.id })),
+					},
+				}),
 			},
 			include: {
 				category: true,
+				tags: true,
 			},
 		});
 		return updateArticle;

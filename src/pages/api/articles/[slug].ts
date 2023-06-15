@@ -53,11 +53,14 @@ const updatePost: NextApiHandler = async (req, res) => {
 	let tags: string[] = [];
 	// // tags will be in string form so converting to array
 	if (body.tags) tags = body.tags.split(',');
+	if (body.tags.length > 0) {
+		tags = [...tags, ...post.tags.map((tag) => tag.name)];
+	}
 
 	const thumbnail = files.thumbnail as formidable.File;
 
 	try {
-		const updatedPost = await postModel.updatePost(thumbnail, body, slug);
+		const updatedPost = await postModel.updatePost(thumbnail, body, slug, tags);
 		res.status(201).json(updatedPost);
 	} catch (err: any) {
 		res.status(500).json({ error: err.message });

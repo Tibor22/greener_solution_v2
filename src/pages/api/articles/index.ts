@@ -45,7 +45,7 @@ const createNewPost: NextApiHandler = async (req, res) => {
 	const thumbnail = files.thumbnail as formidable.File;
 
 	try {
-		const createdPost = await postModel.createPost(thumbnail, body);
+		const createdPost = await postModel.createPost(thumbnail, body, tags);
 		res.status(201).json(createdPost);
 	} catch (err: any) {
 		res.status(500).json({ error: err.message });
