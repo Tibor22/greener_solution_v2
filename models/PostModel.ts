@@ -13,6 +13,12 @@ class PostModel {
 					folder: 'test',
 				}
 			);
+			const categoryFound = await prisma.category.findUnique({
+				where: {
+					name: obj.categoryName,
+				},
+			});
+
 			const articleCreated = await prisma.article.create({
 				data: {
 					title: obj.title,
@@ -23,7 +29,12 @@ class PostModel {
 					meta: obj.meta,
 					thumbnailUrl: url,
 					thumbnailId: public_id,
-					categoryName: obj.categoryName,
+					...(categoryFound && {
+						categoryName: obj.categoryName,
+					}),
+				},
+				include: {
+					category: true,
 				},
 			});
 
@@ -34,10 +45,12 @@ class PostModel {
 	}
 
 	async findPost(key: string, value: string | number) {
-		// try {
 		const article = await prisma.article.findUnique({
 			where: {
 				[key]: value,
+			},
+			include: {
+				category: true,
 			},
 		});
 

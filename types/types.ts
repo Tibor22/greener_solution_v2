@@ -2,7 +2,7 @@ import formidable from 'formidable';
 export type PostObject = {
 	body: {
 		tags?: string;
-		categoryName?: string;
+		categoryName: string;
 		title: string;
 		content: string;
 		slug: string;
