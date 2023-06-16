@@ -2,6 +2,7 @@ import { NextApiHandler } from 'next';
 import { UserObject } from '../../../../types/types';
 import prisma from '../../../../lib/prisma';
 import { Role } from '@prisma/client';
+import userModel from '../../../../models/UserModel';
 
 const handler: NextApiHandler = async (req, res) => {
 	const { method } = req;
@@ -19,17 +20,19 @@ const handler: NextApiHandler = async (req, res) => {
 
 const createNewUser: NextApiHandler = async (req, res) => {
 	const { name, role, displayName, email, password }: UserObject = req.body;
-
-	const userCreated = await prisma.user.create({
-		data: {
-			name: name,
-			role: role as Role,
-			displayName: displayName,
-			email: email,
-			password: password,
-		},
+	const signupResponse = await userModel.signup({
+		name,
+		role,
+		displayName,
+		email,
+		password,
 	});
-	res.status(201).json(userCreated);
+
+	if (signupResponse.error) {
+		res.status(400).json({ error: signupResponse.error });
+	}
+
+	res.status(201).json(signupResponse.userCreated);
 };
 const getAllUsers: NextApiHandler = async (req, res) => {
 	try {
