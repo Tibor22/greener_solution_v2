@@ -19,15 +19,19 @@ const handler: NextApiHandler = async (req, res) => {
 };
 
 const getUser: NextApiHandler = async (req, res) => {
-	const { email, password }: UserObject = req.body;
-	const id = req.query.id;
+	// const { email, password }: UserObject = req.body;
+	console.log('CALL RECIEVED');
+	console.log('EMAIL:', req.query.email);
+	const email = req.query.email as string;
+	if (!email) return res.status(400).json({ error: 'Invalid email' });
+
 	try {
-		const userCreated = await prisma.user.findUnique({
+		const user = await prisma.user.findUnique({
 			where: {
 				email: email,
 			},
 		});
-		res.status(200).json(userCreated);
+		res.status(200).json(user);
 	} catch (err) {
 		res.status(500).json({ error: err });
 	}
