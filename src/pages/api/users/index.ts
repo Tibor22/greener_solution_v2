@@ -1,10 +1,7 @@
 import { NextApiHandler } from 'next';
 import { UserObject } from '../../../../types/types';
 import prisma from '../../../../lib/prisma';
-import { Role } from '@prisma/client';
 import userModel from '../../../../models/UserModel';
-import { getSession } from 'next-auth/react';
-import { getToken } from 'next-auth/jwt';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
 
@@ -19,6 +16,8 @@ const handler: NextApiHandler = async (req, res) => {
 		case 'POST':
 			return createNewUser(req, res);
 			break;
+		default:
+			return res.status(404).send('Not found!');
 	}
 };
 
@@ -39,12 +38,8 @@ const createNewUser: NextApiHandler = async (req, res) => {
 	res.status(201).json(signupResponse.userCreated);
 };
 const getAllUsers: NextApiHandler = async (req, res) => {
-	// console.log(req);
-	// const session = await getSession({ req });
 	const session = await getServerSession(req, res, authOptions);
-	const token = await getToken({ req });
-	console.log('JSON Web Token', token);
-	console.log('SESSION:', session);
+
 	if (!session) res.status(401).json({ message: 'Invalid session' });
 	try {
 		const allUsers = await prisma.user.findMany();

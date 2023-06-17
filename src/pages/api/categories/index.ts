@@ -10,6 +10,8 @@ const handler: NextApiHandler = async (req, res) => {
 		case 'GET':
 			return getAllCategories(req, res);
 			break;
+		default:
+			return res.status(404).send('Not found!');
 	}
 };
 

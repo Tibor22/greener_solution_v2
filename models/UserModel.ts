@@ -2,7 +2,7 @@ import { Role, User } from '@prisma/client';
 import prisma from '../lib/prisma';
 import { UserObject } from '../types/types';
 import { userValidationSchema, validateSchema } from '../lib/validators';
-import bcrypt, { hash } from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 interface SignupResponse {
 	error?: string;
@@ -29,6 +29,31 @@ class UserModel {
 			return { userCreated };
 		} catch (e: any) {
 			return { error: e.message };
+		}
+	}
+
+	async getUser(key: string, value: string | number) {
+		try {
+			const user = await prisma.user.findUnique({
+				where: {
+					[key]: value,
+				},
+			});
+			return user;
+		} catch (err: any) {
+			return { message: err.message };
+		}
+	}
+	async deleteUser(key: string, value: string | number) {
+		try {
+			const user = await prisma.user.delete({
+				where: {
+					[key]: value,
+				},
+			});
+			return user;
+		} catch (err: any) {
+			return { message: err.message };
 		}
 	}
 }

@@ -1,6 +1,7 @@
 import { NextApiHandler } from 'next';
 import { UserObject } from '../../../../types/types';
-import prisma from '../../../../lib/prisma';
+import { compare } from 'bcrypt';
+import userModel from '../../../../models/UserModel';
 
 const handler: NextApiHandler = async (req, res) => {
 	const { method } = req;
@@ -15,22 +16,17 @@ const handler: NextApiHandler = async (req, res) => {
 				return deleteUser(req, res);
 			}
 			break;
+		default:
+			return res.status(404).send('Not found!');
 	}
 };
 
 const getUser: NextApiHandler = async (req, res) => {
-	// const { email, password }: UserObject = req.body;
-	console.log('CALL RECIEVED');
-	console.log('EMAIL:', req.query.email);
 	const email = req.query.email as string;
 	if (!email) return res.status(400).json({ error: 'Invalid email' });
 
 	try {
-		const user = await prisma.user.findUnique({
-			where: {
-				email: email,
-			},
-		});
+		const user = await userModel.getUser('email', email);
 		res.status(200).json(user);
 	} catch (err) {
 		res.status(500).json({ error: err });
@@ -38,25 +34,21 @@ const getUser: NextApiHandler = async (req, res) => {
 };
 const deleteUser: NextApiHandler = async (req, res) => {
 	const { email, password }: UserObject = req.body;
-	console.log(req.body);
-	const id = req.query.id;
-	const userToDelete = await prisma.user.findUnique({
-		where: {
-			email: email,
-		},
-	});
+	const userToDelete = await userModel.getUser('email', email);
+
 	if (!userToDelete) {
 		res.status(404).json({ error: 'User not found.' });
 		return;
 	}
+	const user = userToDelete as UserObject;
+	const isPasswordValid = await compare(password, user.password);
 
-	// Verify the user's password here (e.g., using bcrypt.compare)
-	const userCreated = await prisma.user.delete({
-		where: {
-			email: email,
-		},
-	});
-	res.status(202).json(userCreated);
+	if (!isPasswordValid) {
+		res.status(404).json({ error: 'Wrong Password.' });
+		return;
+	}
+	const deletedUser = await userModel.deleteUser('email', email);
+	res.status(202).json(deletedUser);
 };
 
 export default handler;
