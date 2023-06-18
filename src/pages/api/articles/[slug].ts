@@ -35,8 +35,8 @@ const getPost: NextApiHandler = async (req, res) => {
 			throw new Error("Post doesn't exist");
 		}
 		return res.status(200).json(post);
-	} catch (err) {
-		return res.status(400).json({ message: err });
+	} catch (err: any) {
+		return res.status(400).json({ message: err.message });
 	}
 };
 

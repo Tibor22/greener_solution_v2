@@ -61,17 +61,20 @@ class PostModel {
 	}
 
 	async findPost(key: string, value: string | number) {
-		const article = await prisma.article.findUnique({
-			where: {
-				[key]: value,
-			},
-			include: {
-				category: true,
-				tags: true,
-			},
-		});
-
-		return article;
+		try {
+			const article = await prisma.article.findUnique({
+				where: {
+					[key]: value,
+				},
+				include: {
+					category: true,
+					tags: true,
+				},
+			});
+			return article;
+		} catch (e) {
+			return null;
+		}
 	}
 	async updatePost(
 		thumbnail: formidable.File,
