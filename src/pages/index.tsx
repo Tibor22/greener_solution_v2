@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { FormEventHandler, useState } from 'react';
 import axios from 'axios';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import styled from 'styled-components';
 
 export default function Home() {
 	const [userData, setUserData] = useState({
@@ -31,7 +32,7 @@ export default function Home() {
 	if (session) {
 		return (
 			<>
-				<p>Paragraph Text</p>
+				<Paragraph>Paragraph Text</Paragraph>
 				<h2>Header Text</h2>
 				Signed in as {session.user.email} <br />
 				<button onClick={() => signOut()}>Sign out</button>
@@ -115,3 +116,8 @@ export default function Home() {
 		</>
 	);
 }
+
+const Paragraph = styled.div`
+	padding: 4rem;
+	background-color: red;
+`;
