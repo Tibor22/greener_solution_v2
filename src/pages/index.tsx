@@ -1,12 +1,7 @@
 import Head from 'next/head';
-import Image from 'next/image';
-import { Inter } from 'next/font/google';
-import styles from '@/styles/Home.module.css';
 import { FormEventHandler, useState } from 'react';
 import axios from 'axios';
 import { useSession, signIn, signOut } from 'next-auth/react';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
 	const [userData, setUserData] = useState({
@@ -29,9 +24,15 @@ export default function Home() {
 		console.log('USER FROM API:', returnedUser);
 	};
 
+	// useEffect(() => {
+	// 	signIn();
+	// }, []);
+
 	if (session) {
 		return (
 			<>
+				<p>Paragraph Text</p>
+				<h2>Header Text</h2>
 				Signed in as {session.user.email} <br />
 				<button onClick={() => signOut()}>Sign out</button>
 			</>
@@ -52,7 +53,7 @@ export default function Home() {
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-			<main className={`${styles.main} ${inter.className}`}>
+			<main>
 				<form
 					onSubmit={(e) => handleSubmit(e)}
 					style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}
