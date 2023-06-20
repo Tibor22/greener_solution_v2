@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { fonts, palette } from './common';
+import { device } from './device';
 import React from 'react';
 
 export const Text = styled.p<any>`
@@ -125,3 +126,32 @@ export const BoxPlaceHolder = styled.div<{ length: string; height: string }>`
 // `letter-spacing: ${
 //   xsmall ? '.25em' : small ? '.1em' : medium ? '.4em' : '.5em'
 // };`}
+
+export const Container = styled.div`
+	margin: 0 auto;
+	padding: 0px 15px;
+	@media ${device.mobileS} {
+		max-width: 575px;
+	}
+	@media ${device.mobileM} {
+		max-width: 575px;
+	}
+	@media ${device.mobileL} {
+		max-width: 700px;
+	}
+	@media ${device.tablet} {
+		max-width: 1000px;
+	}
+	@media ${device.laptop} {
+		max-width: 1400px;
+	}
+	@media ${device.laptopL} {
+		max-width: 1760px;
+	}
+	@media ${device.desktop} {
+		max-width: 2400px;
+	}
+	@media ${device.desktopL} {
+		max-width: 3000px;
+	}
+`;

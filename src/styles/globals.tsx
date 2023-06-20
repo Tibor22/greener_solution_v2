@@ -1,10 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
-import { palette } from './common';
 import { playfair_display, montserrat, merriweather } from './fonts';
 
 export default createGlobalStyle`
   html {
-    font-size: 162.5%;
+    font-size: 62.5%;
   }
 
   html, body {
@@ -15,6 +14,11 @@ export default createGlobalStyle`
     a {
       text-decoration: none;
     }
+		
+		li {
+			font-family: ${montserrat.style.fontFamily}, serif;
+			list-style-type: none;
+		}
 
     h2 {
       font-family: ${playfair_display.style.fontFamily}, serif;

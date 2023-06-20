@@ -1,6 +1,6 @@
-/* eslint-disable no-nested-ternary */
 import styled from 'styled-components';
 import { palette } from '../styles/common';
+import { montserrat } from '../styles/fonts';
 
 function Button({
 	ifClicked,
@@ -124,8 +124,6 @@ const Btn = styled.button<any>`
 	font-weight: 700;
 	opacity: ${({ type }) => (type === 'disable' ? '50%' : '')};
 	cursor: ${({ disabled }) => (disabled ? 'no-drop' : 'pointer')};
-	min-width: ${({ large, hasLabel }) =>
-		hasLabel ? (large ? `12.93rem` : '12.08rem') : 'auto'};
 	width: ${({ stretchMobile }) => (stretchMobile ? '100%' : 'min-content')};
 	width: ${({ width }) => width};
 	white-space: nowrap;
@@ -134,7 +132,7 @@ const Btn = styled.button<any>`
 	position: relative;
 	display: ${({ inline }) => (inline ? 'inline' : 'flex')};
 	justify-content: center;
-	font-family: 'lft-etica', sans-serif;
+	font-family: ${montserrat.style.fontFamily}, serif;
 `;
 
 export default Button;
