@@ -5,6 +5,8 @@ export const palette: any = {
 	dark_brown: '#604B33',
 	medium_brown: '#846C4E',
 	light_brown: '#AE956E',
+	black: '#000',
+	white: '#fff',
 
 	shadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
 	shadow2: '0px 4px 4px rgba(0, 0, 0, 0.25)',

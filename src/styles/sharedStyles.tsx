@@ -1,31 +1,127 @@
-// export const Text = styled.p<any>`
-//   // line-height: ${({ lineHeight }) => lineHeight || '2.16rem'};
-//   line-height: ${({ small, medium, xsmall }) =>
-//     xsmall ? '1.35rem' : small ? '1.54rem' : medium ? '1.85rem' : '2.16rem'};
-//   font-weight: ${({ bold, semibold }) =>
-//     semibold ? '600' : bold ? 'bold' : 'normal'};
-//   font-size: ${({ small, medium, xsmall }) =>
-//     xsmall ? '.9em' : small ? '1.08rem' : medium ? '1.231rem' : '1.39rem'};
-//   font-family: ${({ font }) => font};
-//   text-decoration: ${({ decoration }) => decoration ?? 'none'};
-//   ${({ spaced, small, medium, xsmall }) =>
-//     spaced &&
-//     `letter-spacing: ${
-//       xsmall ? '.25em' : small ? '.1em' : medium ? '.4em' : '.5em'
-//     };`}
-//   // color: ${({ color }) => palette[color]};
-//   color: ${({ color, ignoreTheme, isDarkTheme }) =>
-//     ignoreTheme
-//       ? palette[color]
-//       : isDarkTheme
-//       ? palette.RL_grey_light
-//       : color
-//       ? palette[color]
-//       : palette.RL_grey_dark2};
-//   margin: ${({ margin }) => `${margin}`};
-//   text-align: ${({ isCentered }) => (isCentered ? 'center' : 'inherit')};
-//   display: ${({ inline }) => (inline ? 'inline' : '')};
-//   // i {
-//   // 	font-style: italic;
-//   // }
-// `;
+import styled from 'styled-components';
+import { fonts, palette } from './common';
+import React from 'react';
+
+export const Text = styled.p<any>`
+	font-size: ${({ small, medium, xsmall }) =>
+		xsmall
+			? fonts.xsmall
+			: small
+			? fonts.small
+			: medium
+			? fonts.regular
+			: fonts.medium};
+	font-weight: ${({ bold, semibold }) =>
+		semibold ? '600' : bold ? 'bold' : 'normal'};
+	font-family: ${({ font }) => font};
+	text-decoration: ${({ decoration }) => decoration ?? 'none'};
+	color: ${({ color }) => palette[color]};
+	margin: ${({ margin }) => `${margin}`};
+	text-align: ${({ isCentered }) => (isCentered ? 'center' : 'inherit')};
+	display: ${({ inline }) => (inline ? 'inline' : '')};
+`;
+
+export const Heading = React.forwardRef(
+	({ level = 4, children, looksLike, ...rest }: any) => (
+		<CustomHeading as={`h${level}`} level={looksLike || level} {...rest}>
+			{children}
+		</CustomHeading>
+	)
+);
+
+export const CustomHeading = styled.div<any>`
+	white-space: break-spaces;
+	letter-spacing: ${({ level }) =>
+		level === 1 ? '-0.02em' : level === 5 ? '0.1em' : 'unset'};
+	text-transform: ${({ level }) => (level === 5 ? 'uppercase' : 'unset')};
+	font-size: ${({ level, supersize, size }) =>
+		size || handleHeadingFontSize(level, supersize)};
+	color: ${({ color }) => palette[color]};
+	margin: ${({ margin }) => `${margin}`};
+	${({ strike }) => strike && 'text-decoration: line-through;'}
+	max-width: ${({ maxWidth }) => maxWidth};
+	text-align: ${({ isCentered }) => (isCentered ? 'center' : 'inherit')};
+	font-weight: ${({ level, bold }) =>
+		bold
+			? '700'
+			: level === 2
+			? 'bold'
+			: level === 3
+			? 'bold'
+			: level === 4
+			? 'bold'
+			: level === 5
+			? 'bold'
+			: 'inherit'};
+	text-shadow: ${({ hasShadow }) =>
+		hasShadow ? `2px 2px ${palette.RL_black}` : 'none'};
+	&:hover {
+		cursor: ${({ isLink }) => (isLink ? 'pointer' : 'inherit')};
+	}
+	&:hover {
+		left: 0.3rem;
+		color: ${palette.RL_red_main};
+	}
+`;
+
+const handleHeadingFontSize = (level: number, supersize: boolean) => {
+	switch (level) {
+		case 1:
+			return supersize ? '5rem' : '3.693rem';
+		case 2:
+			return '2.5rem';
+		case 3:
+			return '1.85rem';
+		case 4:
+			return '1.54rem';
+		case 5:
+			return '0.93rem';
+		default:
+			return palette.RL_red_main;
+	}
+};
+
+export const loadingWrapper = (comparator: any) =>
+	!comparator &&
+	`background-image: repeating-linear-gradient(90deg, #0000001f, #00000012,#0000001f 100%);
+background-repeat-x: repeat;
+background-size: 500% 100%;
+overflow:hidden;
+position:relative;
+animation: loading 2s infinite;`;
+
+export const textLoadingWrapper = (
+	comparator: any,
+	length?: string,
+	height?: string
+) =>
+	!comparator &&
+	`width: ${length || '15ch'};
+  height: ${height || '1ch'};
+  border-radius: 3rem;
+  background-image: repeating-linear-gradient(90deg, #0000001f, #00000012,#0000001f 100%);
+  background-repeat-x: repeat;
+  background-size: 500% 100%;
+  margin-bottom:1ch;
+  overflow: hidden;
+  position: relative;
+  animation: loading 2s infinite;`;
+
+export const TextPlaceHolder = styled.div<{ length: string; height: string }>`
+	${({ length, height }) => textLoadingWrapper(undefined, length, height)}
+`;
+
+export const BoxPlaceHolder = styled.div<{ length: string; height: string }>`
+	height: ${({ height }) => height};
+	width: ${({ length }) => length};
+	${loadingWrapper(undefined)}
+`;
+
+// line-height: ${({ small, medium, xsmall }) =>
+//     xsmall ? fonts.xsmall : small ? fonts.small : medium ? fonts.regular : fonts.medium};
+
+// ${({ spaced, small, medium, xsmall }) =>
+// spaced &&
+// `letter-spacing: ${
+//   xsmall ? '.25em' : small ? '.1em' : medium ? '.4em' : '.5em'
+// };`}
