@@ -3,7 +3,7 @@ import { Container } from '@/styles/sharedStyles';
 import styled from 'styled-components';
 import { palette } from '@/styles/common';
 import Link from 'next/link';
-
+import dynamic from 'next/dynamic';
 interface Props {}
 
 const NavBar: FC<Props> = (props): JSX.Element => {
