@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Container } from '@/styles/sharedStyles';
 import styled from 'styled-components';
 import { palette } from '@/styles/common';
@@ -7,21 +7,32 @@ import Link from 'next/link';
 interface Props {}
 
 const NavBar: FC<Props> = (props): JSX.Element => {
+	const [coordinates, setCoordinates] = useState<{ x: number; y: number }>({
+		x: 0,
+		y: 0,
+	});
+	const handleSlider = (e: any) => {
+		setCoordinates({
+			x: e.target.offsetLeft + e.target.clientWidth / 2,
+			y: e.clientY,
+		});
+	};
+
 	return (
 		<Container as={`header`}>
 			<InnerContainer>
 				<LogoContainer></LogoContainer>
 				<ListContainer>
-					<Link href={'/'}>
+					<Link onClick={(e) => handleSlider(e)} href={'/'}>
 						<ListItem>Home</ListItem>
 					</Link>
-					<Link href={'/categories'}>
+					<Link onClick={(e) => handleSlider(e)} href={'/categories'}>
 						<ListItem>Categories</ListItem>
 					</Link>
-					<Link href={'/contact'}>
+					<Link onClick={(e) => handleSlider(e)} href={'/contact'}>
 						<ListItem>Contact</ListItem>
 					</Link>
-					<Link href={'/subscribe'}>
+					<Link onClick={(e) => handleSlider(e)} href={'/subscribe'}>
 						<ListItem>Subscribe</ListItem>
 					</Link>
 
@@ -29,18 +40,34 @@ const NavBar: FC<Props> = (props): JSX.Element => {
 						<SearchContainer></SearchContainer>
 					</ListItem> */}
 				</ListContainer>
+				<Slider xcoordinates={coordinates.x} />
 			</InnerContainer>
 		</Container>
 	);
 };
 
+const Slider = styled.div<{ xcoordinates: number }>`
+	width: 0;
+	height: 0;
+	border-left: 7.5px solid transparent;
+	border-right: 7.5px solid transparent;
+	border-bottom: 15px solid #fff;
+	z-index: 1;
+	position: absolute;
+	bottom: -0px;
+	left: ${({ xcoordinates }) => `${xcoordinates - 7.5}px;`};
+	transition: all 0.2s;
+`;
+
 const InnerContainer = styled.nav`
+	position: relative;
 	display: grid;
 	align-items: center;
 	background-color: ${palette.light_brown};
 	grid-template-columns: 100px 1fr;
 `;
 const ListContainer = styled.ul`
+	// overflow-y: hidden;
 	display: flex;
 	justify-content: center;
 	gap: 8rem;

@@ -129,7 +129,7 @@ export const BoxPlaceHolder = styled.div<{ length: string; height: string }>`
 
 export const Container = styled.div`
 	margin: 0 auto;
-	padding: 0px 15px;
+	// padding: 0px 15px;
 	@media ${device.mobileS} {
 		max-width: 575px;
 	}
