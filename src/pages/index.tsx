@@ -32,10 +32,10 @@ export default function Home() {
 	if (session) {
 		return (
 			<>
-				{/* <Paragraph>Paragraph Text</Paragraph>
+				<Paragraph>Paragraph Text</Paragraph>
 				<h2>Header Text</h2>
 				Signed in as {session.user.email} <br />
-				<button onClick={() => signOut()}>Sign out</button> */}
+				<button onClick={() => signOut()}>Sign out</button>
 			</>
 		);
 	}
