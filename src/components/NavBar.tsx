@@ -3,7 +3,7 @@ import { Container } from '@/styles/sharedStyles';
 import styled from 'styled-components';
 import { palette } from '@/styles/common';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
+import Image from 'next/image';
 interface Props {}
 
 const NavBar: FC<Props> = (props): JSX.Element => {
@@ -21,7 +21,14 @@ const NavBar: FC<Props> = (props): JSX.Element => {
 	return (
 		<Container as={`header`}>
 			<InnerContainer>
-				<LogoContainer></LogoContainer>
+				<LogoContainer>
+					<Image
+						alt='greener solution logo'
+						height={75}
+						width={200}
+						src='/logo/logo.png'
+					/>
+				</LogoContainer>
 				<ListContainer>
 					<Link onClick={(e) => handleSlider(e)} href={'/'}>
 						<ListItem>Home</ListItem>
@@ -35,11 +42,12 @@ const NavBar: FC<Props> = (props): JSX.Element => {
 					<Link onClick={(e) => handleSlider(e)} href={'/subscribe'}>
 						<ListItem>Subscribe</ListItem>
 					</Link>
-
-					{/* <ListItem>
-						<SearchContainer></SearchContainer>
-					</ListItem> */}
 				</ListContainer>
+
+				<SearchContainer>
+					<input type='text' />
+				</SearchContainer>
+
 				<Slider xcoordinates={coordinates.x} />
 			</InnerContainer>
 		</Container>
@@ -57,17 +65,19 @@ const Slider = styled.div<{ xcoordinates: number }>`
 	bottom: -0px;
 	left: ${({ xcoordinates }) => `${xcoordinates - 7.5}px;`};
 	transition: all 0.2s;
+	opacity: ${({ xcoordinates }) => `${xcoordinates === 0 ? 0 : 1}`};
 `;
 
 const InnerContainer = styled.nav`
 	position: relative;
 	display: grid;
+	justify-content: center;
 	align-items: center;
 	background-color: ${palette.light_brown};
-	grid-template-columns: 100px 1fr;
+	grid-template-columns: auto 1fr auto;
+	padding: 0rem 4rem 0rem 1rem;
 `;
 const ListContainer = styled.ul`
-	// overflow-y: hidden;
 	display: flex;
 	justify-content: center;
 	gap: 8rem;
@@ -79,9 +89,8 @@ const SearchContainer = styled.div`
 	justify-content: center;
 `;
 const LogoContainer = styled.div`
-	width: 100px;
-	background: yellow;
-	height: 100%;
+	background-color: ${palette.light_brown};
+	margin-top: 2px;
 `;
 
 const ListItem = styled.li`
