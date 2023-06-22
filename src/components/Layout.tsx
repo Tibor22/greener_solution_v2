@@ -9,14 +9,16 @@ interface Props {
 const Layout: FC<Props> = ({ children }): JSX.Element => {
 	const { data: session, status, update } = useSession();
 	return (
-		<>
+		<div
+			style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
+		>
 			<NavBar />
-			<main>
+			<main style={{ display: 'flex', flex: 1 }}>
 				{session && <AdminNav />}
 				{children}
 			</main>
 			{/* <Footer /> */}
-		</>
+		</div>
 	);
 };
 

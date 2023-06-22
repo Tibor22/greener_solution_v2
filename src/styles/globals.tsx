@@ -10,9 +10,16 @@ export default createGlobalStyle`
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    min-height: 100vh;
+    min-height: fill-available;
+    min-height: -webkit-fill-available;
 
     a {
       text-decoration: none;
+    }
+
+    ul {
+      padding-inline-start: 0px;
     }
 		
 		li {

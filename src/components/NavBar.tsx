@@ -19,7 +19,7 @@ const NavBar: FC<Props> = (props): JSX.Element => {
 	};
 
 	return (
-		<Container as={`header`}>
+		<Container style={{ width: '100%' }} as={`header`}>
 			<InnerContainer>
 				<LogoContainer>
 					<Image
