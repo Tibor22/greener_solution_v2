@@ -91,7 +91,7 @@ const Button = styled.button`
 
 const Nav = styled.nav<{ visible: boolean }>`
 	background-color: ${palette.light_brown};
-	padding: 3rem ${({ visible }) => (visible ? 3 : 1)}rem 0rem 1rem;
+	padding: 0rem ${({ visible }) => (visible ? 3 : 1)}rem 0rem 1rem;
 	position: relative;
 	transition: width 0.3s;
 	width: ${({ visible }) => (visible ? 16 : 3.5)}rem;
@@ -105,6 +105,7 @@ const LinkContainer = styled.ul`
 	display: flex;
 	flex-direction: column;
 	gap: 3rem;
+	padding-top: 3rem;
 `;
 
 const fadeIn = keyframes`

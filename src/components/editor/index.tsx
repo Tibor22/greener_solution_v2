@@ -17,6 +17,8 @@ import {
 // import { ImageSelectionResult } from './GalleryModal';
 import axios from 'axios';
 import styled from 'styled-components';
+import { fonts } from '@/styles/common';
+import { merriweather } from '@/styles/fonts';
 // import SEOForm, { SeoResult } from './SEOForm';
 // import ActionButton from '../common/ActionButton';
 // import ThumbnailSelector from './ThumbnailSelector';
@@ -163,7 +165,7 @@ const Editor: FC<Props> = ({
 							/> */}
 						</div>
 					</div>
-					<input
+					<Title
 						value={post.title}
 						onChange={updateTitle}
 						type='text'
@@ -198,7 +200,23 @@ const Editor: FC<Props> = ({
 	);
 };
 
-const EditorContainer = styled.div``;
+const Title = styled.input`
+	width: 100%;
+	margin-top: 2rem;
+	font-size: 1.8rem;
+	border: none;
+	border-bottom: 1px solid grey;
+	outline: none;
+	padding: 1rem 0rem 1rem 1rem;
+	&::placeholder {
+		font-size: 1.8rem;
+		letter-spacing: 2px;
+	}
+`;
+
+const EditorContainer = styled.div`
+	overflow-x: hidden;
+`;
 
 const EditorNav = styled.div``;
 export default Editor;

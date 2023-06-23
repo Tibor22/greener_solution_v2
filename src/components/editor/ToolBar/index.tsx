@@ -146,7 +146,10 @@ const ToolBar: FC<Props> = ({
 			<div />
 			<div>
 				{/* <EmbedYoutube onSubmit={handleEmbedYoutube} /> */}
-				<Button onClick={() => onOpenImageClick}>
+				<Button
+					style={{ marginRight: '0rem' }}
+					onClick={() => onOpenImageClick}
+				>
 					<BsImageFill />
 				</Button>
 			</div>
@@ -161,6 +164,8 @@ const DropDownHeader = styled.div`
 	display: flex;
 	gap: 0.5rem;
 	align-items: center;
+	padding: 0.3rem 1rem;
+	cursor: pointer;
 `;
 
 const Button = styled.button<{ active?: boolean }>`
@@ -174,6 +179,11 @@ const Button = styled.button<{ active?: boolean }>`
 	justify-content: center;
 	align-items: center;
 	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.15s;
+	&:hover {
+		scale: 0.96;
+	}
 `;
 
 const ToolBarWrapper = styled.div`

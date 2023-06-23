@@ -20,10 +20,16 @@ export default createGlobalStyle`
 
     ul {
       padding-inline-start: 0px;
+      margin-block-start:0px;
+      margin-block-end:0px;
     }
 		
 		li {
 			font-family: ${montserrat.style.fontFamily}, serif;
+			list-style-type: none;
+		}
+		input {
+			font-family: ${merriweather.style.fontFamily}, serif;
 			list-style-type: none;
 		}
 
