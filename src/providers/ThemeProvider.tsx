@@ -9,7 +9,7 @@ const ThemeProvider: FC<Props> = ({ children }): JSX.Element => {
 	return (
 		<Layout>
 			<GlobalCSS />
-			<div>{children}</div>
+			{children}
 		</Layout>
 	);
 };

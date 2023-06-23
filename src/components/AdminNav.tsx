@@ -5,7 +5,6 @@ import { RiMenuFoldFill, RiMenuUnfoldFill } from 'react-icons/ri';
 import {
 	AiOutlineContainer,
 	AiOutlineDashboard,
-	AiOutlineFileAdd,
 	AiOutlineTeam,
 } from 'react-icons/ai';
 import { ImStatsBars2 } from 'react-icons/im';
@@ -96,6 +95,10 @@ const Nav = styled.nav<{ visible: boolean }>`
 	position: relative;
 	transition: width 0.3s;
 	width: ${({ visible }) => (visible ? 16 : 3.5)}rem;
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
 `;
 
 const LinkContainer = styled.ul`

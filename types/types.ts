@@ -37,3 +37,25 @@ export type UserObject = {
 	email: string;
 	password: string;
 };
+
+export interface FinalPost extends SeoResult {
+	title: string;
+	content: String;
+	thumbnail?: File | string;
+}
+
+export interface SeoResult {
+	meta: string;
+	slug: string;
+	tags: string;
+}
+
+export interface ImageSelectionResult {
+	src: string;
+	altText: string;
+}
+
+export type LinkOption = {
+	url: string;
+	openInNewTab: boolean;
+};

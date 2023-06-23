@@ -13,7 +13,7 @@ const Layout: FC<Props> = ({ children }): JSX.Element => {
 			style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
 		>
 			<NavBar />
-			<main style={{ display: 'flex', flex: 1 }}>
+			<main style={{ display: 'flex', flex: 1, position: 'relative' }}>
 				{session && <AdminNav />}
 				{children}
 			</main>
