@@ -18,7 +18,7 @@ export default createGlobalStyle`
       text-decoration: none;
     }
 
-    ul {
+    ul,ol{
       padding-inline-start: 0px;
       margin-block-start:0px;
       margin-block-end:0px;
@@ -66,10 +66,10 @@ export default createGlobalStyle`
 
  
 blockquote p::before {
-  content:'“';
+  content:'“ ';
 }
 blockquote p::after {
-  content:'”';
+  content:' ”';
 }
   
 `;
