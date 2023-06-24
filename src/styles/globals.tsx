@@ -26,7 +26,7 @@ export default createGlobalStyle`
 		
 		li {
 			font-family: ${montserrat.style.fontFamily}, serif;
-			list-style-type: none;
+			// list-style-type: none;
 		}
 		input {
 			font-family: ${merriweather.style.fontFamily}, serif;
@@ -45,5 +45,31 @@ export default createGlobalStyle`
     b {
       font-weight: bold;
     }
+
+    .ProseMirror {
+      > * + * {
+        margin-top: 0.75em;
+      }
+    }
+
+    blockquote {
+      border-left: 3px solid rgba(13, 13, 13, 0.1) !important;
+      padding-left: 1rem !important;
+      margin-block-start: 0px;
+      margin-block-end: 0px;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+    }
+
+
   }
+
+ 
+blockquote p::before {
+  content:'“';
+}
+blockquote p::after {
+  content:'”';
+}
+  
 `;

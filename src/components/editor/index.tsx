@@ -7,6 +7,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
 import Youtube from '@tiptap/extension-youtube';
 import TipTapImage from '@tiptap/extension-image';
+import ListItem from '@tiptap/extension-list-item';
 import {
 	SeoResult,
 	FinalPost,
@@ -20,6 +21,9 @@ import styled from 'styled-components';
 import { fonts } from '@/styles/common';
 import { merriweather } from '@/styles/fonts';
 import HardBreak from '@tiptap/extension-hard-break';
+import Color from '@tiptap/extension-color';
+import TextStyle from '@tiptap/extension-text-style';
+import Blockquote from '@tiptap/extension-blockquote';
 // import SEOForm, { SeoResult } from './SEOForm';
 // import ActionButton from '../common/ActionButton';
 // import ThumbnailSelector from './ThumbnailSelector';
@@ -218,7 +222,7 @@ const CEditorContent = styled(EditorContent)<{ editor: any }>`
 		min-height: 300px;
 		font-size: ${fonts.regular};
 		max-width: 100%;
-		padding-right: 0.75rem;
+		padding: 0.75rem;
 		color: black;
 	}
 
@@ -243,6 +247,16 @@ const Title = styled.input`
 		font-size: 1.8rem;
 		letter-spacing: 2px;
 	}
+`;
+
+const CustomBLockQuote = styled.blockquote`
+	margin-block-start: 0px;
+	margin-block-end: 0px;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
+	padding: 15px;
+	background: #eee;
+	border-radius: 5px;
 `;
 
 const EditorContainer = styled.div`
