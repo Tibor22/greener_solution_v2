@@ -2,7 +2,6 @@ import { FC, SetStateAction } from 'react';
 import { Editor } from '@tiptap/react';
 import Dropdown from '@/components/DropDown';
 import { getFocusedEditor } from '../../../../clientHelpers/helpers';
-// import Button from './Button';
 import { AiFillCaretDown } from 'react-icons/ai';
 import { RiDoubleQuotesL } from 'react-icons/ri';
 import {
@@ -19,8 +18,8 @@ import {
 import { LinkOption } from '../../../../types/types';
 import styled from 'styled-components';
 import { palette } from '@/styles/common';
-// import InsertLink from '../Link/InsertLink';
-// import { linkOption } from '../Link/LinkForm';
+import InsertLink from '../Link/InsertLink';
+import { linkOption } from '../Link/LinkForm';
 // import EmbedYoutube from './EmbedYoutube';
 
 interface Props {
@@ -70,7 +69,6 @@ const ToolBar: FC<Props> = ({
 	};
 
 	const handleLinkSubmit = ({ url, openInNewTab }: LinkOption) => {
-		console.log('URL:', url);
 		editor.commands.setLink({
 			href: url,
 			...(openInNewTab && { target: '_blank' }),
@@ -123,13 +121,13 @@ const ToolBar: FC<Props> = ({
 				>
 					<BsCode />
 				</Button>
-				<Button
+				{/* <Button
 					active={editor.isActive('codeBlock')}
 					onClick={() => getFocusedEditor(editor).toggleCodeBlock().run()}
 				>
 					<BsBraces />
-				</Button>
-				{/* <InsertLink onSubmit={handleLinkSubmit} /> */}
+				</Button> */}
+				<InsertLink onSubmit={handleLinkSubmit} />
 				<Button
 					active={editor.isActive('orderedList')}
 					onClick={() => getFocusedEditor(editor).toggleOrderedList().run()}

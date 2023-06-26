@@ -24,6 +24,7 @@ import HardBreak from '@tiptap/extension-hard-break';
 import Color from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
 import Blockquote from '@tiptap/extension-blockquote';
+import EditLink from './Link/EditLink';
 // import SEOForm, { SeoResult } from './SEOForm';
 // import ActionButton from '../common/ActionButton';
 // import ThumbnailSelector from './ThumbnailSelector';
@@ -193,7 +194,7 @@ const Editor: FC<Props> = ({
 					/>
 					{/* SPACER */}
 				</EditorNav>
-				{/* {editor ? <EditLink editor={editor} /> : null} */}
+				{editor ? <EditLink editor={editor} /> : null}
 				<CEditorContent editor={editor} />
 				{/* SPACER */}
 				{/* <SEOForm
@@ -218,6 +219,8 @@ const Editor: FC<Props> = ({
 
 const CEditorContent = styled(EditorContent)<{ editor: any }>`
 	margin-top: 1rem;
+	margin: 0 auto;
+	max-width: 100%;
 	& .ProseMirror {
 		min-height: 300px;
 		font-size: ${fonts.regular};
@@ -256,6 +259,7 @@ const Title = styled.input`
 
 const EditorContainer = styled.div`
 	overflow-x: hidden;
+	max-width: 780px;
 `;
 
 const EditorNav = styled.div``;

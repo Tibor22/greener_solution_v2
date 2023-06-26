@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import { playfair_display, montserrat, merriweather } from './fonts';
+import { fonts } from './common';
 
 export default createGlobalStyle`
   html {
@@ -59,6 +60,8 @@ export default createGlobalStyle`
       margin-block-end: 0px;
       margin-inline-start: 0px;
       margin-inline-end: 0px;
+      font-size:15px;
+      font-style:italic;
     }
 
 

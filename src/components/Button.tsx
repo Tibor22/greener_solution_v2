@@ -45,8 +45,9 @@ const handleColorType = (type: string) => {
 	switch (type) {
 		case 'primary':
 		case 'secondary':
+			return palette.white;
 		case 'clear':
-			return palette.black;
+			palette.black;
 		default:
 			return palette.black;
 	}
