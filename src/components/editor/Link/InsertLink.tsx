@@ -35,8 +35,6 @@ const LinkFormContainer = styled.div`
 	position: absolute;
 	margin-top: 1rem;
 	z-index: 1;
-
-	border-radius: 12px;
 `;
 
 const Button = styled.button<{ active?: boolean }>`
