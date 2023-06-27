@@ -1,21 +1,16 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { BsLink45Deg } from 'react-icons/bs';
 
-import LinkForm, { linkOption } from './LinkForm';
 import styled from 'styled-components';
 import { palette } from '@/styles/common';
 
 interface Props {
-	onSubmit(link: linkOption): void;
+	children: any;
+	visible: boolean;
+	setVisible(visible: boolean): void;
 }
 
-const InsertLink: FC<Props> = ({ onSubmit }) => {
-	const [visible, setVisible] = useState(false);
-	const handleSubmit = (link: linkOption) => {
-		if (!link.url.trim()) return setVisible(false);
-		onSubmit(link);
-		setVisible(false);
-	};
+const InsertLink: FC<Props> = ({ visible, setVisible, children }) => {
 	return (
 		<div
 			onKeyDown={({ key }) => (key === 'Escape' ? setVisible(false) : '')}
@@ -24,9 +19,7 @@ const InsertLink: FC<Props> = ({ onSubmit }) => {
 			<Button onClick={() => setVisible(!visible)}>
 				<BsLink45Deg />
 			</Button>
-			<LinkFormContainer>
-				<LinkForm onSubmit={handleSubmit} visible={visible} />
-			</LinkFormContainer>
+			<LinkFormContainer>{children}</LinkFormContainer>
 		</div>
 	);
 };

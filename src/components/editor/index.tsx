@@ -13,8 +13,7 @@ import {
 	FinalPost,
 	ImageSelectionResult,
 } from '../../../types/types';
-// import EditLink from './Link/EditLink';
-// import GalleryModal from './GalleryModal';
+import GalleryModal from './GalleryModal';
 // import { ImageSelectionResult } from './GalleryModal';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -122,7 +121,7 @@ const Editor: FC<Props> = ({
 		},
 	});
 
-	console.log('EDITOR:', editor);
+	console.log('EDITOR:', editor, 'SHOW GALLER:', showGallery);
 
 	const handleImageSelection = (result: ImageSelectionResult) => {
 		editor
@@ -203,7 +202,7 @@ const Editor: FC<Props> = ({
 					initialValue={seoInitialValue}
 				/> */}
 			</EditorContainer>
-			{/* {showGallery && (
+			{showGallery && (
 				<GalleryModal
 					images={images}
 					visible={showGallery}
@@ -212,7 +211,7 @@ const Editor: FC<Props> = ({
 					onFileSelect={handleImageUpload}
 					uploading={uploading}
 				/>
-			)} */}
+			)}
 		</>
 	);
 };

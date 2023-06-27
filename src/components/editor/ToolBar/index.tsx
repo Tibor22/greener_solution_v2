@@ -1,4 +1,4 @@
-import { FC, SetStateAction } from 'react';
+import { FC, SetStateAction, useState } from 'react';
 import { Editor } from '@tiptap/react';
 import Dropdown from '@/components/DropDown';
 import { getFocusedEditor } from '../../../../clientHelpers/helpers';
@@ -19,12 +19,12 @@ import { LinkOption } from '../../../../types/types';
 import styled from 'styled-components';
 import { palette } from '@/styles/common';
 import InsertLink from '../Link/InsertLink';
-import { linkOption } from '../Link/LinkForm';
+import LinkForm, { linkOption } from '../Link/LinkForm';
 // import EmbedYoutube from './EmbedYoutube';
 
 interface Props {
 	editor: Editor | null;
-	onOpenImageClick?(): void;
+	onOpenImageClick(): void;
 }
 
 const ToolBar: FC<Props> = ({
@@ -67,8 +67,10 @@ const ToolBar: FC<Props> = ({
 		if (editor.isActive('heading', { level: 3 })) return 'Heading 3';
 		return 'Paragraph';
 	};
-
+	const [visible, setVisible] = useState(false);
 	const handleLinkSubmit = ({ url, openInNewTab }: LinkOption) => {
+		if (!url.trim()) return setVisible(false);
+		setVisible(false);
 		editor.commands.setLink({
 			href: url,
 			...(openInNewTab && { target: '_blank' }),
@@ -78,6 +80,12 @@ const ToolBar: FC<Props> = ({
 	const handleEmbedYoutube = (url: string) => {
 		editor.chain().focus().setYoutubeVideo({ src: url }).run();
 	};
+
+	// const handleSubmit = (link: linkOption) => {
+	// 	if (!link.url.trim()) return setVisible(false);
+	// 	onSubmit(link);
+	// 	setVisible(false);
+	// };
 
 	return (
 		<ToolBarWrapper>
@@ -127,7 +135,10 @@ const ToolBar: FC<Props> = ({
 				>
 					<BsBraces />
 				</Button> */}
-				<InsertLink onSubmit={handleLinkSubmit} />
+				<InsertLink visible={visible} setVisible={setVisible}>
+					<LinkForm onSubmit={handleLinkSubmit} visible={visible} />
+				</InsertLink>
+				{/* <InsertLink onSubmit={handleLinkSubmit} /> */}
 				<Button
 					active={editor.isActive('orderedList')}
 					onClick={() => getFocusedEditor(editor).toggleOrderedList().run()}
@@ -146,7 +157,7 @@ const ToolBar: FC<Props> = ({
 				{/* <EmbedYoutube onSubmit={handleEmbedYoutube} /> */}
 				<Button
 					style={{ marginRight: '0rem' }}
-					onClick={() => onOpenImageClick}
+					onClick={() => onOpenImageClick()}
 				>
 					<BsImageFill />
 				</Button>
