@@ -29,11 +29,16 @@ const Image: FC<Props> = ({ src, selected, onClick }): JSX.Element => {
 const CheckMarContainer = styled.div`
 	position: absolute;
 	left: 1rem;
+	top: 1rem;
 `;
 
 const ImageContainer = styled.div`
 	height: 200px;
 	position: relative;
+
+	& img {
+		border-radius: 8px;
+	}
 `;
 
 export default Image;

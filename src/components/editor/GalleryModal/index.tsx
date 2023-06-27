@@ -96,8 +96,9 @@ const GalleryModal: FC<Props> = ({
 										value={altText}
 										onChange={({ target }) => setAltText(target.value)}
 									></textarea>
-									<button onClick={handleSelection} title='Select' />
-									<SelectedImageContainer className='relative aspect-video'>
+
+									<button onClick={handleSelection}>Select</button>
+									<SelectedImageContainer>
 										<Image
 											alt='selected image'
 											src={selectedImage}
@@ -118,11 +119,12 @@ const GalleryModal: FC<Props> = ({
 const SelectedImageContainer = styled.div`
 	position: relative;
 	height: 100px;
+	margin-top: 2rem;
 `;
 
 const Grid = styled.div`
 	display: grid;
-	grid-template-columns: 3fr 1fr;
+	grid-template-columns: minmax(550px, 3fr) 1fr;
 	gap: 2rem;
 `;
 
@@ -145,7 +147,7 @@ const UploadContainer = styled.div`
 `;
 
 const SelectorContainer = styled.div`
-	border: 1px solid red;
+	// border: 1px solid red;
 `;
 
 const OuterWrapper = styled.div`
