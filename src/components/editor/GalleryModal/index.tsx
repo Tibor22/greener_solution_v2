@@ -64,7 +64,7 @@ const GalleryModal: FC<Props> = ({
 		<ModalContainer visible onClose={onClose}>
 			<OuterWrapper>
 				<Grid>
-					<GalleryWrapper className='basis-[75%] max-h-[450px] overflow-y-auto custom-scroll-bar'>
+					<GalleryWrapper>
 						<Gallery
 							images={images}
 							onSelect={(src) => setSelectedImage(src)}
@@ -97,14 +97,14 @@ const GalleryModal: FC<Props> = ({
 										onChange={({ target }) => setAltText(target.value)}
 									></textarea>
 									<button onClick={handleSelection} title='Select' />
-									<div className='relative aspect-video'>
+									<SelectedImageContainer className='relative aspect-video'>
 										<Image
 											alt='selected image'
 											src={selectedImage}
 											fill
 											style={{ objectFit: 'contain' }}
 										/>
-									</div>
+									</SelectedImageContainer>
 								</>
 							)}
 						</div>
@@ -114,6 +114,11 @@ const GalleryModal: FC<Props> = ({
 		</ModalContainer>
 	);
 };
+
+const SelectedImageContainer = styled.div`
+	position: relative;
+	height: 100px;
+`;
 
 const Grid = styled.div`
 	display: grid;

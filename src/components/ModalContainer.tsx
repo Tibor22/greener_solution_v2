@@ -27,6 +27,7 @@ const ModalContainer: FC<Props> = ({
 	}, [onClose]);
 
 	const handleClick = ({ target }: any) => {
+		console.log('TARGETID:', target.id, 'CONTAINERID:', containerId);
 		if (target.id === containerId) handleClose();
 	};
 
@@ -52,10 +53,12 @@ const ModalContainer: FC<Props> = ({
 
 const Modal = styled.div`
 	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 50;
+	display: grid;
+	place-items: center;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 `;
 
 export default ModalContainer;

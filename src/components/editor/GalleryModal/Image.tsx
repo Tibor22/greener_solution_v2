@@ -19,15 +19,19 @@ const Image: FC<Props> = ({ src, selected, onClick }): JSX.Element => {
 				alt='gallery'
 				className='bg-secondary-light hover:scale-110 transition'
 			/>
-			<div className='absolute top-2 left-2'>
+			<CheckMarContainer>
 				<CheckMark visible={selected || false} />
-			</div>
+			</CheckMarContainer>
 		</ImageContainer>
 	);
 };
 
+const CheckMarContainer = styled.div`
+	position: absolute;
+	left: 1rem;
+`;
+
 const ImageContainer = styled.div`
-	width: 200px;
 	height: 200px;
 	position: relative;
 `;
