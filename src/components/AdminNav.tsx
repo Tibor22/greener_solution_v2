@@ -18,7 +18,11 @@ const navItems = [
 	{ href: '/admin/statistics', icon: ImStatsBars2, label: 'Statistics' },
 ];
 
-const AdminNav: FC = (): JSX.Element => {
+interface Props {
+	navbarHeight: number;
+}
+
+const AdminNav: FC<Props> = ({ navbarHeight }): JSX.Element => {
 	const [visible, setVisible] = useState<boolean | null>(null);
 	const [delayedVisible, setDelayedVisible] = useState<boolean | null>(null);
 
@@ -26,6 +30,8 @@ const AdminNav: FC = (): JSX.Element => {
 		const storedNavOpen = localStorage.getItem('navOpen');
 		setVisible((storedNavOpen === 'false' ? false : true) || false);
 	}, []);
+
+	console.log('NAVBAR HEIGHT:', navbarHeight);
 
 	useEffect(() => {
 		setTimeout(
@@ -39,11 +45,11 @@ const AdminNav: FC = (): JSX.Element => {
 	return (
 		<>
 			{visible !== null && (
-				<Nav visible={visible}>
+				<Nav navbarHeight={navbarHeight} visible={visible}>
 					<LinkContainer>
 						{navItems.map((item) => {
 							return (
-								<LinkItems delayedVisible={delayedVisible}>
+								<LinkItems key={item.href} delayedVisible={delayedVisible}>
 									<Link key={item.href} href={item.href}>
 										<item.icon size={35} />
 										<span>{item.label}</span>
@@ -89,16 +95,19 @@ const Button = styled.button`
 	right: 1rem;
 `;
 
-const Nav = styled.nav<{ visible: boolean }>`
+const Nav = styled.nav<{ visible: boolean; navbarHeight: number }>`
 	background-color: ${palette.light_brown};
 	padding: 0rem ${({ visible }) => (visible ? 3 : 1)}rem 0rem 1rem;
 	position: relative;
 	transition: width 0.3s;
 	width: ${({ visible }) => (visible ? 16 : 3.5)}rem;
-	position: absolute;
+	position: sticky;
 	left: 0;
-	top: 0;
-	height: 100%;
+	top: ${({ navbarHeight }) => (navbarHeight ? `${navbarHeight}px` : '80px')};
+	height: calc(
+		100vh -
+			${({ navbarHeight }) => (navbarHeight ? `${navbarHeight}px` : '80px')}
+	);
 `;
 
 const LinkContainer = styled.ul`

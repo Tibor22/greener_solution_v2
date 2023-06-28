@@ -98,11 +98,11 @@ const Editor: FC<Props> = ({
 			// 		class: 'mx-auto rounded',
 			// 	},
 			// }),
-			// TipTapImage.configure({
-			// 	HTMLAttributes: {
-			// 		class: 'mx-auto',
-			// 	},
-			// }),
+			TipTapImage.configure({
+				HTMLAttributes: {
+					style: 'aspect-ratio:16/9;width:100%;',
+				},
+			}),
 		],
 		editorProps: {
 			handleClick(view, pos, event) {

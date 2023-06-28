@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import styled from 'styled-components';
 import { fonts, palette } from '@/styles/common';
+import Button from '@/components/Button';
 
 export interface ImageSelectionResult {
 	src: string;
@@ -27,14 +28,6 @@ const GalleryModal: FC<Props> = ({
 	onClose,
 	uploading,
 }): JSX.Element => {
-	console.log('GALLERY MODAL:', {
-		images,
-		visible,
-		onFileSelect,
-		onSelect,
-		onClose,
-		uploading,
-	});
 	const [selectedImage, setSelectedImage] = useState('');
 	const [altText, setAltText] = useState('');
 
@@ -73,42 +66,47 @@ const GalleryModal: FC<Props> = ({
 						/>
 					</GalleryWrapper>
 					<SelectorContainer>
-						<div className='space-y-4'>
-							<div className='div'>
-								<input
-									onChange={handleOnImageChange}
-									hidden
-									type='file'
-									id='image-input'
-								/>
-								<label htmlFor='image-input'>
-									<UploadContainer className='w-full border-2 border-action text-action flex items-center justify-center space-x-2 p-2 cursor-pointer rounded'>
-										<AiOutlineCloudUpload />
-										<span> Upload Image</span>
-									</UploadContainer>
-								</label>
-							</div>
-							{selectedImage.length > 0 && (
-								<>
-									<textarea
-										className='resize-none w-full rounded bg-secondary-dark focus:ring-1 focus:border-secondary-dark text-primary dark:text-primary-dark h-32 p-1 placeholder-white placeholder-opacity-75'
-										placeholder='Alt text'
-										value={altText}
-										onChange={({ target }) => setAltText(target.value)}
-									></textarea>
-
-									<button onClick={handleSelection}>Select</button>
-									<SelectedImageContainer>
-										<Image
-											alt='selected image'
-											src={selectedImage}
-											fill
-											style={{ objectFit: 'contain' }}
-										/>
-									</SelectedImageContainer>
-								</>
-							)}
+						<div className='div'>
+							<input
+								onChange={handleOnImageChange}
+								hidden
+								type='file'
+								id='image-input'
+							/>
+							<label htmlFor='image-input'>
+								<UploadContainer>
+									<AiOutlineCloudUpload />
+									<span> Upload Image</span>
+								</UploadContainer>
+							</label>
 						</div>
+						{selectedImage.length > 0 && (
+							<>
+								<TextArea
+									placeholder='Alt text'
+									value={altText}
+									onChange={({ target }) => setAltText(target.value)}
+								></TextArea>
+
+								<Button
+									large
+									stretchMobile
+									type='primary'
+									ifClicked={handleSelection}
+									busy={uploading}
+								>
+									Select
+								</Button>
+								<SelectedImageContainer>
+									<Image
+										alt='selected image'
+										src={selectedImage}
+										fill
+										style={{ objectFit: 'contain' }}
+									/>
+								</SelectedImageContainer>
+							</>
+						)}
 					</SelectorContainer>
 				</Grid>
 			</OuterWrapper>
@@ -116,15 +114,22 @@ const GalleryModal: FC<Props> = ({
 	);
 };
 
+const TextArea = styled.textarea`
+	resize: none;
+	height: 5rem;
+	padding: 0.5rem;
+	outline: none;
+	border-radius: 4px;
+`;
+
 const SelectedImageContainer = styled.div`
 	position: relative;
 	height: 100px;
-	margin-top: 2rem;
 `;
 
 const Grid = styled.div`
 	display: grid;
-	grid-template-columns: minmax(550px, 3fr) 1fr;
+	grid-template-columns: minmax(550px, 3fr) 200px;
 	gap: 2rem;
 `;
 
@@ -147,12 +152,13 @@ const UploadContainer = styled.div`
 `;
 
 const SelectorContainer = styled.div`
-	// border: 1px solid red;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
 `;
 
 const OuterWrapper = styled.div`
 	max-width: 90rem;
-	border: 2px solid grey;
 	border-radius: 12px;
 	padding: 2rem;
 	background-color: ${palette.grey_dark2};

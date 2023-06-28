@@ -1,16 +1,27 @@
-import { FC, useState } from 'react';
+import {
+	Dispatch,
+	FC,
+	SetStateAction,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { Container } from '@/styles/sharedStyles';
 import styled from 'styled-components';
 import { palette } from '@/styles/common';
 import Link from 'next/link';
 import Image from 'next/image';
-interface Props {}
+interface Props {
+	setNavbarHeight: Dispatch<SetStateAction<number>>;
+}
 
-const NavBar: FC<Props> = (props): JSX.Element => {
+const NavBar: FC<Props> = ({ setNavbarHeight }): JSX.Element => {
 	const [coordinates, setCoordinates] = useState<{ x: number; y: number }>({
 		x: 0,
 		y: 0,
 	});
+
+	const navbar: any = useRef(null);
 	const handleSlider = (e: any) => {
 		setCoordinates({
 			x: e.target.offsetLeft + e.target.clientWidth / 2,
@@ -18,8 +29,17 @@ const NavBar: FC<Props> = (props): JSX.Element => {
 		});
 	};
 
+	useEffect(() => {
+		console.log('navbar:', navbar);
+		setNavbarHeight(navbar?.current?.clientHeight);
+	}, [navbar]);
+
 	return (
-		<Container style={{ width: '100%' }} as={`header`}>
+		<Container
+			ref={navbar}
+			style={{ width: '100%', position: 'sticky', top: 0, zIndex: 100 }}
+			as={`header`}
+		>
 			<InnerContainer>
 				<LogoContainer>
 					<Image

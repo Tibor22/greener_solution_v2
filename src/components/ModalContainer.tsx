@@ -41,11 +41,7 @@ const ModalContainer: FC<Props> = ({
 	if (!visible) return null;
 
 	return (
-		<Modal
-			id={containerId}
-			onClick={handleClick}
-			className='fixed inset-0 bg-primary dark:bg-primary-dark dark:bg-opacity-5 bg-opacity-5 backdrop-blur-[2px] z-50 flex items-center justify-center'
-		>
+		<Modal id={containerId} onClick={handleClick}>
 			{children}
 		</Modal>
 	);
@@ -59,6 +55,7 @@ const Modal = styled.div`
 	bottom: 0;
 	left: 0;
 	right: 0;
+	blur: 1;
 `;
 
 export default ModalContainer;

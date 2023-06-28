@@ -45,6 +45,7 @@ const Container = styled.div`
 	grid-template-columns: 1fr 1fr 1fr;
 	gap: 1rem;
 	width: 100%;
+	cursor: pointer;
 `;
 
 export default Gallery;

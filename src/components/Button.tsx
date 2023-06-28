@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { palette } from '../styles/common';
 import { montserrat } from '../styles/fonts';
+import { BiLoader } from 'react-icons/bi';
 
 function Button({
 	ifClicked,
@@ -18,6 +19,7 @@ function Button({
 	stretchDesktop,
 	inline,
 	padding,
+	busy = false,
 }: any) {
 	return (
 		<Btn
@@ -36,7 +38,7 @@ function Button({
 			hasLabel={!!(label || children)}
 			padding={padding}
 		>
-			{children}
+			{busy ? <BiLoader className='animate-spin' size={20} /> : children}
 		</Btn>
 	);
 }
@@ -53,7 +55,7 @@ const handleColorType = (type: string) => {
 	}
 };
 
-const handleBackgroundType = (type: string, index: number) => {
+const handleBackgroundType = (type: string) => {
 	switch (type) {
 		case 'primary':
 			return palette.medium_green;
@@ -79,22 +81,18 @@ const handleBorderColor = (type: string) => {
 	}
 };
 
-// const handleHoverBackgroundType = (type: string) => {
-// 	switch (type) {
-// 		case 'primary':
-// 			return palette.RL_red_main;
-// 		case 'secondary':
-// 			return palette.RL_grey_dark2;
-// 		case 'blue':
-// 			return palette.rareBlue;
-// 		case 'connect':
-// 			return palette.RL_red_main;
-// 		case 'clear':
-// 			return palette.RL_white;
-// 		default:
-// 			return palette.RL_red_main;
-// 	}
-// };
+const handleHoverBackgroundType = (type: string) => {
+	switch (type) {
+		case 'primary':
+			return palette.light_green;
+		case 'secondary':
+			return palette.medium_green;
+		case 'clear':
+			return '#F1F1F1';
+		default:
+			return palette.medium_green;
+	}
+};
 
 const Btn = styled.button<any>`
 	opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
@@ -113,11 +111,7 @@ const Btn = styled.button<any>`
 	height: ${({ large, hasLabel }) =>
 		hasLabel ? (large ? `3.7rem` : '3.08rem') : 'auto'};
 	color: ${({ type }) => handleColorType(type)};
-	background: ${({ type }) =>
-		`linear-gradient(180deg,${handleBackgroundType(
-			type,
-			1
-		)} 0%, ${handleBackgroundType(type, 2)} 100%)`};
+	background: ${({ type }) => handleBackgroundType(type)};
 	box-shadow: ${({ hasShadow }) =>
 		hasShadow ? `1px 1px 2px ${palette.RL_black}` : 'none'};
 	margin: ${({ margin }) => `${margin}`};
@@ -134,6 +128,11 @@ const Btn = styled.button<any>`
 	display: ${({ inline }) => (inline ? 'inline' : 'flex')};
 	justify-content: center;
 	font-family: ${montserrat.style.fontFamily}, serif;
+	transition: all 0.2s;
+	&:hover {
+		background: ${({ type }) => handleHoverBackgroundType(type)};
+		transition: all 0.2s;
+	}
 `;
 
 export default Button;
