@@ -30,7 +30,7 @@ export const Heading = React.forwardRef(
 	)
 );
 
-export const CustomHeading = styled.div<any>`
+const CustomHeading = styled.div<any>`
 	white-space: break-spaces;
 	letter-spacing: ${({ level }) =>
 		level === 1 ? '-0.02em' : level === 5 ? '0.1em' : 'unset'};

@@ -89,7 +89,6 @@ const GalleryModal: FC<Props> = ({
 								></TextArea>
 
 								<Button
-									large
 									stretchMobile
 									type='primary'
 									ifClicked={handleSelection}

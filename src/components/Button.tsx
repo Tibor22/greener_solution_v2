@@ -103,10 +103,10 @@ const Btn = styled.button<any>`
 		padding ||
 		(hasLabel
 			? large
-				? `1.4rem 1.8rem`
+				? `2rem 2.6rem`
 				: small
 				? '0.5rem 1rem'
-				: '0.65rem 1rem'
+				: '1.6rem 1.8rem'
 			: '0.5rem')};
 	height: ${({ large, hasLabel }) =>
 		hasLabel ? (large ? `3.7rem` : '3.08rem') : 'auto'};
@@ -122,7 +122,7 @@ const Btn = styled.button<any>`
 	width: ${({ stretchMobile }) => (stretchMobile ? '100%' : 'min-content')};
 	width: ${({ width }) => width};
 	white-space: nowrap;
-	font-size: ${({ large }) => (large ? `1rem` : '0.93rem')};
+	font-size: ${({ large }) => (large ? `1.5rem` : '1.2rem')};
 	align-items: center;
 	position: relative;
 	display: ${({ inline }) => (inline ? 'inline' : 'flex')};

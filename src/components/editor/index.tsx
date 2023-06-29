@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, useEffect, useState } from 'react';
+import { ChangeEventHandler, FC, useEffect, useRef, useState } from 'react';
 import { useEditor, EditorContent, getMarkRange, Range } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import ToolBar from './ToolBar';
@@ -14,19 +14,18 @@ import {
 	ImageSelectionResult,
 } from '../../../types/types';
 import GalleryModal from './GalleryModal';
-// import { ImageSelectionResult } from './GalleryModal';
 import axios from 'axios';
 import styled from 'styled-components';
-import { fonts } from '@/styles/common';
+import { fonts, palette } from '@/styles/common';
 import { merriweather } from '@/styles/fonts';
 import HardBreak from '@tiptap/extension-hard-break';
 import Color from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
 import Blockquote from '@tiptap/extension-blockquote';
 import EditLink from './Link/EditLink';
-// import SEOForm, { SeoResult } from './SEOForm';
-// import ActionButton from '../common/ActionButton';
-// import ThumbnailSelector from './ThumbnailSelector';
+import SEOForm from './SEOForm';
+import ThumbnailSelector from './ThumbnailSelector';
+import Button from '../Button';
 
 interface Props {
 	initialValue?: FinalPost;
@@ -46,6 +45,7 @@ const Editor: FC<Props> = ({
 	const [images, setImages] = useState<{ src: string }[]>([]);
 	const [seoInitialValue, setSeoInitialValue] = useState<SeoResult>();
 	const [uploading, setUploading] = useState(false);
+	const [editorHeight, setEditorHeight] = useState(300);
 	const [post, setPost] = useState<FinalPost>({
 		title: '',
 		content: '',
@@ -53,6 +53,7 @@ const Editor: FC<Props> = ({
 		tags: '',
 		slug: '',
 	});
+	const editorRef = useRef(null);
 
 	const fetchImages = async () => {
 		const { data } = await axios('/api/image');
@@ -91,16 +92,16 @@ const Editor: FC<Props> = ({
 				},
 			}),
 
-			// Youtube.configure({
-			// 	width: 840,
-			// 	height: 472.5,
-			// 	HTMLAttributes: {
-			// 		class: 'mx-auto rounded',
-			// 	},
-			// }),
+			Youtube.configure({
+				width: 840,
+				height: 472.5,
+				HTMLAttributes: {
+					style: 'width:100%; border-radius:8px;',
+				},
+			}),
 			TipTapImage.configure({
 				HTMLAttributes: {
-					style: 'aspect-ratio:16/9;width:100%;',
+					style: 'aspect-ratio:16/9;width:100%;border-radius:8px;',
 				},
 			}),
 		],
@@ -113,15 +114,8 @@ const Editor: FC<Props> = ({
 				);
 				if (selectionRange) setSelectionRange(selectionRange);
 			},
-
-			// attributes: {
-			// 	class:
-			// 		'prose prose-lg focus:outline-none dark:prose-invert max-w-full mx-auto h-full',
-			// },
 		},
 	});
-
-	console.log('EDITOR:', editor, 'SHOW GALLER:', showGallery);
 
 	const handleImageSelection = (result: ImageSelectionResult) => {
 		editor
@@ -129,6 +123,12 @@ const Editor: FC<Props> = ({
 			.focus()
 			.setImage({ src: result.src, alt: result.altText })
 			.run();
+
+		setEditorHeight(
+			editorRef &&
+				// @ts-ignore:next-line
+				editorRef.current?.editorContentRef.current.clientHeight + 300
+		);
 	};
 
 	useEffect(() => {
@@ -168,19 +168,22 @@ const Editor: FC<Props> = ({
 		<>
 			<EditorContainer>
 				<EditorNav>
-					<div>
-						{/* <ThumbnailSelector
+					<ThumbnailContainer>
+						<ThumbnailSelector
 							initialValue={post.thumbnail as string}
 							onChange={updateThumbnail}
-						/> */}
+						/>
 						<div className='inline-block'>
-							{/* <ActionButton
+							<Button
+								type='primary'
+								// width='10rem'
 								busy={busy}
-								onClick={handleSubmit}
-								title={btnTitle}
-							/> */}
+								ifClicked={handleSubmit}
+							>
+								{btnTitle}
+							</Button>
 						</div>
-					</div>
+					</ThumbnailContainer>
 					<Title
 						value={post.title}
 						onChange={updateTitle}
@@ -189,18 +192,23 @@ const Editor: FC<Props> = ({
 					/>
 					<ToolBar
 						editor={editor}
+						setEditorHeight={setEditorHeight}
 						onOpenImageClick={() => setShowGallery(true)}
 					/>
 					{/* SPACER */}
 				</EditorNav>
 				{editor ? <EditLink editor={editor} /> : null}
-				<CEditorContent editor={editor} />
+				<CEditorContent
+					editorHeight={editorHeight}
+					ref={editorRef}
+					editor={editor}
+				/>
 				{/* SPACER */}
-				{/* <SEOForm
+				<SEOForm
 					onChange={updateSEOValue}
 					title={post.title}
 					initialValue={seoInitialValue}
-				/> */}
+				/>
 			</EditorContainer>
 			{showGallery && (
 				<GalleryModal
@@ -216,17 +224,29 @@ const Editor: FC<Props> = ({
 	);
 };
 
-const CEditorContent = styled(EditorContent)<{ editor: any }>`
+const ThumbnailContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	margin-top: 3rem;
+	font-size: ${fonts.regular};
+	align-items: center;
+`;
+
+const CEditorContent = styled(EditorContent)<{
+	editor: any;
+	editorHeight: number;
+}>`
 	margin-top: 1rem;
 	margin: 0 auto;
 	max-width: 100%;
 	& .ProseMirror {
-		min-height: 300px;
+		min-height: ${({ editorHeight }) => editorHeight}px;
 		font-size: ${fonts.regular};
 		max-width: 100%;
 		padding: 0.75rem;
 		color: black;
 		outline: none;
+		border-bottom: 1px solid ${palette.grey_light};
 	}
 	& .ProseMirror ul,
 	ol li {
@@ -257,8 +277,8 @@ const Title = styled.input`
 `;
 
 const EditorContainer = styled.div`
-	overflow-x: hidden;
-	max-width: 780px;
+	max-width: 840px;
+	padding: 1rem;
 `;
 
 const EditorNav = styled.div``;

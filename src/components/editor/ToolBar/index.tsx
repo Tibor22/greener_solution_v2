@@ -1,4 +1,4 @@
-import { FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { Editor } from '@tiptap/react';
 import Dropdown from '@/components/DropDown';
 import { getFocusedEditor } from '../../../../clientHelpers/helpers';
@@ -20,16 +20,18 @@ import styled from 'styled-components';
 import { palette } from '@/styles/common';
 import InsertLink from '../Link/InsertLink';
 import LinkForm, { linkOption } from '../Link/LinkForm';
-// import EmbedYoutube from './EmbedYoutube';
+import EmbedYoutube from './EmbedYoutube';
 
 interface Props {
 	editor: Editor | null;
 	onOpenImageClick(): void;
+	setEditorHeight: Dispatch<SetStateAction<number>>;
 }
 
 const ToolBar: FC<Props> = ({
 	editor,
 	onOpenImageClick,
+	setEditorHeight,
 }): JSX.Element | null => {
 	if (!editor) return null;
 
@@ -79,13 +81,8 @@ const ToolBar: FC<Props> = ({
 
 	const handleEmbedYoutube = (url: string) => {
 		editor.chain().focus().setYoutubeVideo({ src: url }).run();
+		setEditorHeight((prevHeight) => (prevHeight > 300 ? 400 : 700));
 	};
-
-	// const handleSubmit = (link: linkOption) => {
-	// 	if (!link.url.trim()) return setVisible(false);
-	// 	onSubmit(link);
-	// 	setVisible(false);
-	// };
 
 	return (
 		<ToolBarWrapper>
@@ -152,16 +149,16 @@ const ToolBar: FC<Props> = ({
 					<BsListUl />
 				</Button>
 			</Flex>
-			<div />
-			<div>
-				{/* <EmbedYoutube onSubmit={handleEmbedYoutube} /> */}
+			<Flex>
+				<EmbedYoutube onSubmit={handleEmbedYoutube} />
+
 				<Button
 					style={{ marginRight: '0rem' }}
 					onClick={() => onOpenImageClick()}
 				>
 					<BsImageFill />
 				</Button>
-			</div>
+			</Flex>
 		</ToolBarWrapper>
 	);
 };
@@ -197,9 +194,11 @@ const Button = styled.button<{ active?: boolean }>`
 
 const ToolBarWrapper = styled.div`
 	display: flex;
+	flex-wrap: wrap;
 	gap: 2rem;
 	align-items: center;
 	margin-top: 2rem;
+	margin-bottom: 2rem;
 `;
 
 export default ToolBar;

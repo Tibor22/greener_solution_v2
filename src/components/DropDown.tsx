@@ -17,6 +17,7 @@ const DropDown: FC<Props> = ({ head, options }): JSX.Element => {
 				border: 'none',
 				backgroundColor: `${palette.silver_light}`,
 				color: 'white',
+				borderRadius: '8px',
 			}}
 			onBlur={() => setShowOptions(false)}
 			onMouseDown={() => setShowOptions(!showOptions)}

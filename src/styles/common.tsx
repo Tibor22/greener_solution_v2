@@ -23,6 +23,7 @@ export const fonts = {
 	small: '1.4rem',
 	regular: '1.6rem',
 	medium: '1.8rem',
+	mediumLarge: '2rem',
 	large: '2.4rem',
 	xlarge: '3.0rem',
 	xxlarge: '3.6rem',

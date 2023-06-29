@@ -41,6 +41,7 @@ const Create: NextPage<Props> = () => {
 
 const CContainer = styled(Container)`
 	// background: red;
+	margin-bottom: 20rem;
 `;
 
 export default Create;

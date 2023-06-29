@@ -27,7 +27,6 @@ const ModalContainer: FC<Props> = ({
 	}, [onClose]);
 
 	const handleClick = ({ target }: any) => {
-		console.log('TARGETID:', target.id, 'CONTAINERID:', containerId);
 		if (target.id === containerId) handleClose();
 	};
 

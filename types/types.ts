@@ -59,3 +59,9 @@ export type LinkOption = {
 	url: string;
 	openInNewTab: boolean;
 };
+
+export interface SeoResult {
+	meta: string;
+	slug: string;
+	tags: string;
+}
