@@ -20,11 +20,11 @@ export interface UpdateObj {
 	slug: string;
 	published: boolean;
 	meta: string;
-	tags: string;
-	categoryName: string;
+	tags?: string | string[];
+	categoryName?: string;
 	id: number;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt?: Date;
+	updatedAt?: Date | string;
 	authorId: number;
 	thumbnailUrl: string;
 	thumbnailId: string;
@@ -41,6 +41,7 @@ export type UserObject = {
 export interface FinalPost extends SeoResult {
 	title: string;
 	content: String;
+	authorId: String;
 	thumbnail?: File | string;
 }
 
@@ -48,6 +49,7 @@ export interface SeoResult {
 	meta: string;
 	slug: string;
 	tags: string;
+	categoryName: string;
 }
 
 export interface ImageSelectionResult {

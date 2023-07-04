@@ -4,6 +4,8 @@ import { SeoResult } from '../../../types/types';
 import styled from 'styled-components';
 import { fonts, palette } from '@/styles/common';
 import { Heading } from '@/styles/sharedStyles';
+import Select from 'react-select';
+import axios from 'axios';
 
 interface Props {
 	title?: string;
@@ -42,7 +44,14 @@ const SEOForm: FC<Props> = ({
 	onChange,
 	initialValue,
 }): JSX.Element => {
-	const [values, setValues] = useState({ meta: '', slug: '', tags: '' });
+	const [values, setValues] = useState({
+		meta: '',
+		slug: '',
+		tags: '',
+		categoryName: '',
+	});
+
+	const [options, setOptions] = useState([{ value: '', label: '' }]);
 
 	const handleChange: ChangeEventHandler<
 		HTMLInputElement | HTMLTextAreaElement
@@ -54,11 +63,31 @@ const SEOForm: FC<Props> = ({
 		onChange({ ...values, [name]: value });
 	};
 
+	const handleSelectChange = (selectedOption: any) => {
+		onChange({ ...values, categoryName: selectedOption.label });
+	};
+
 	useEffect(() => {
 		const slug = slugify(title.toLowerCase());
 		setValues((prevValues) => ({ ...prevValues, slug }));
 		onChange({ ...values, slug });
 	}, [title]);
+
+	useEffect(() => {
+		const getCategories = async () => {
+			const categories = await axios.get('/api/categories');
+			if (!200) return;
+			setOptions(
+				categories.data.map((category: any) => ({
+					value: category.name,
+					label: category.name,
+				}))
+			);
+		};
+
+		getCategories();
+	}, []);
+
 	useEffect(() => {
 		if (initialValue) {
 			setValues({ ...initialValue, slug: slugify(initialValue.slug) });
@@ -66,6 +95,7 @@ const SEOForm: FC<Props> = ({
 	}, [initialValue]);
 
 	const { meta, slug, tags } = values;
+
 	return (
 		<SEOContainer>
 			<Heading level={2}>SEO Section</Heading>
@@ -76,6 +106,7 @@ const SEOForm: FC<Props> = ({
 				label='Slug:'
 				onChange={handleChange}
 			/>
+
 			<Input
 				value={tags}
 				name='tags'
@@ -83,6 +114,12 @@ const SEOForm: FC<Props> = ({
 				label='Tags:'
 				onChange={handleChange}
 			/>
+
+			<SelectWrapper>
+				<span>Category:</span>
+				<Select options={options} onChange={handleSelectChange}></Select>
+			</SelectWrapper>
+
 			<div className='relative'>
 				<TextArea
 					onChange={handleChange}
@@ -95,6 +132,13 @@ const SEOForm: FC<Props> = ({
 		</SEOContainer>
 	);
 };
+
+const SelectWrapper = styled.div`
+	display: flex;
+	gap: 2rem;
+	font-size: ${fonts.mediumLarge};
+	align-items: center;
+`;
 
 const TextArea = styled.textarea`
 	width: 100%;

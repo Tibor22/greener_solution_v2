@@ -17,7 +17,6 @@ import GalleryModal from './GalleryModal';
 import axios from 'axios';
 import styled from 'styled-components';
 import { fonts, palette } from '@/styles/common';
-import { merriweather } from '@/styles/fonts';
 import HardBreak from '@tiptap/extension-hard-break';
 import Color from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
@@ -52,6 +51,8 @@ const Editor: FC<Props> = ({
 		meta: '',
 		tags: '',
 		slug: '',
+		categoryName: '',
+		authorId: '',
 	});
 	const editorRef = useRef(null);
 
@@ -144,8 +145,8 @@ const Editor: FC<Props> = ({
 			setPost({ ...initialValue });
 			editor?.commands.setContent(initialValue.content);
 
-			const { meta, slug, tags } = initialValue;
-			setSeoInitialValue({ meta, slug, tags });
+			const { meta, slug, tags, categoryName } = initialValue;
+			setSeoInitialValue({ meta, slug, tags, categoryName });
 		}
 	}, [initialValue, editor]);
 
@@ -163,6 +164,9 @@ const Editor: FC<Props> = ({
 		if (!editor) return;
 		onSubmit({ ...post, content: editor.getHTML() });
 	};
+
+	console.log('POST:', post);
+	console.log('EDITOR:', editor && editor.getHTML());
 
 	return (
 		<>

@@ -41,8 +41,8 @@ export default function Home() {
 	}
 	return (
 		<>
-			{/* Not signed in <br />
-			<button onClick={() => signIn()}>Sign in</button> */}
+			Not signed in <br />
+			<button onClick={() => signIn()}>Sign in</button>
 		</>
 	);
 

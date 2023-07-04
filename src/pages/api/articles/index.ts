@@ -1,4 +1,4 @@
-import { NextApiHandler } from 'next';
+import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import {
 	postValidationSchema,
 	validateSchema,
@@ -10,12 +10,37 @@ import prisma from '../../../../lib/prisma';
 import { PostObject } from '../../../../types/types';
 import postModel from '../../../../models/PostModel';
 import { Article } from '@prisma/client';
+import Cors from 'cors';
 
 export const config = {
 	api: { bodyParser: false },
 };
 
+const cors = Cors({
+	methods: ['GET'],
+	origin: 'http://localhost:3000',
+});
+
+// Helper method to wait for a middleware to execute before continuing
+// And to throw an error when an error happens in a middleware
+function runMiddleware(
+	req: NextApiRequest,
+	res: NextApiResponse,
+	fn: Function
+) {
+	return new Promise((resolve, reject) => {
+		fn(req, res, (result: any) => {
+			if (result instanceof Error) {
+				return reject(result);
+			}
+
+			return resolve(result);
+		});
+	});
+}
+
 const handler: NextApiHandler = async (req, res) => {
+	await runMiddleware(req, res, cors);
 	const { method } = req;
 	switch (method) {
 		case 'POST':
@@ -34,7 +59,7 @@ const createNewPost: NextApiHandler = async (req, res) => {
 	let tags: string[] = [];
 	const { slug } = body;
 	// // tags will be in string form so converting to array
-	if (body.tags) tags = body.tags.split(',');
+	if (body.tags) tags = JSON.parse(body.tags as string);
 
 	const error = validateSchema(postValidationSchema, {
 		...body,
@@ -58,6 +83,7 @@ const createNewPost: NextApiHandler = async (req, res) => {
 };
 const getAllPost: NextApiHandler = async (req, res) => {
 	try {
+		console.log('INSIDE GET ALL');
 		const allPosts = await prisma.article.findMany();
 		res.status(200).json(allPosts);
 	} catch (err: any) {

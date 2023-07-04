@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { FinalPost } from '../types/types';
 import { Editor } from '@tiptap/react';
 
@@ -29,4 +30,17 @@ export const validateUrl = (url: string) => {
 	}
 
 	return finalUrl.origin;
+};
+
+export const client = {
+	GET: async (url: string) => {
+		try {
+			const data = await axios.get(url);
+			if (data.status === 200) {
+				return data.data;
+			}
+		} catch (e: any) {
+			return { msg: e.message };
+		}
+	},
 };

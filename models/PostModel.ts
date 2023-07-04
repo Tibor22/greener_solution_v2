@@ -28,6 +28,10 @@ class PostModel {
 				},
 			});
 
+			const tagsToCreate = tagsFound.filter((tag) =>
+				tags.some((tagName) => tagName !== tag.name)
+			);
+
 			const articleCreated = await prisma.article.create({
 				data: {
 					title: obj.title,
@@ -41,11 +45,16 @@ class PostModel {
 					...(categoryFound && {
 						categoryName: obj.categoryName,
 					}),
-					...(tagsFound && {
-						tags: {
+					tags: {
+						...(tagsFound.length > 0 && {
 							connect: tagsFound.map((tag) => ({ id: tag.id })),
-						},
-					}),
+						}),
+						...(tagsToCreate.length > 0 && {
+							create: tagsFound.map((tagName) => ({
+								name: tagName.name,
+							})),
+						}),
+					},
 				},
 
 				include: {
