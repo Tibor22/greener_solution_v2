@@ -9,9 +9,7 @@ const handler: NextApiHandler = async (req, res) => {
 	const { method } = req;
 	switch (method) {
 		case 'GET':
-			{
-				return getAllUsers(req, res);
-			}
+			return getAllUsers(req, res);
 			break;
 		case 'POST':
 			return createNewUser(req, res);

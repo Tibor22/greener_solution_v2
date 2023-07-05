@@ -31,8 +31,6 @@ const AdminNav: FC<Props> = ({ navbarHeight }): JSX.Element => {
 		setVisible((storedNavOpen === 'false' ? false : true) || false);
 	}, []);
 
-	console.log('NAVBAR HEIGHT:', navbarHeight);
-
 	useEffect(() => {
 		setTimeout(
 			() => {
