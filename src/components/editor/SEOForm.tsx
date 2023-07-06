@@ -123,7 +123,14 @@ const SEOForm: FC<Props> = ({
 			<SelectWrapper>
 				<span>Category:</span>
 				<Select
-					value={{ value: values.categoryName, label: values.categoryName }}
+					value={{
+						value: values.categoryName
+							? values.categoryName
+							: 'select category',
+						label: values.categoryName
+							? values.categoryName
+							: 'select category',
+					}}
 					options={options}
 					onChange={handleSelectChange}
 				></Select>

@@ -5,7 +5,7 @@ import { client, generateFormData } from '../../../../../clientHelpers/helpers';
 import { API_URL } from '../../../../../config/config';
 import { useRouter } from 'next/router';
 import Editor from '@/components/editor';
-import { FinalPost } from '../../../../../types/types';
+import { FinalPost, UpdateObj } from '../../../../../types/types';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import Loading from '@/components/Loading';
@@ -15,7 +15,7 @@ interface Props {}
 const UpdatePost: FC<Props> = (props): JSX.Element => {
 	const router = useRouter();
 	const [loading, isLoading] = useState(false);
-	const [post, setPost] = useState(null);
+	const [post, setPost] = useState<FinalPost | null>(null);
 	const [creating, setCreating] = useState(false);
 	const { data: session } = useSession();
 	console.log(router);
@@ -24,12 +24,17 @@ const UpdatePost: FC<Props> = (props): JSX.Element => {
 		setCreating(true);
 		try {
 			// we have to generate FormData
+
+			delete post.category;
 			const formData = generateFormData({
 				...post,
 				authorId: session!.user.id,
 			});
 			// submit our post
-			const { data } = await axios.post('/api/articles', formData);
+			const { data } = await client.PATCH(
+				`${API_URL}/articles/${router.query.slug}`,
+				formData
+			);
 			router.push('/admin/posts');
 		} catch (error: any) {
 			console.log(error.response.data);
@@ -41,11 +46,17 @@ const UpdatePost: FC<Props> = (props): JSX.Element => {
 		const fetchPost = async () => {
 			isLoading(true);
 			const post = await client.GET(`${API_URL}/articles/${router.query.slug}`);
-			setPost({ ...post, thumbnail: post.thumbnailUrl });
+			setPost({
+				...post,
+				thumbnail: post.thumbnailUrl,
+				tags: post.tags.map((tag: any) => tag.name).toString(),
+			});
 			isLoading(false);
 		};
 		fetchPost();
 	}, [router.isReady]);
+
+	console.log('POST:', post);
 
 	return (
 		<CContainer>

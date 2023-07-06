@@ -28,8 +28,17 @@ class PostModel {
 				},
 			});
 
-			const tagsToCreate = tagsFound.filter((tag) =>
-				tags.some((tagName) => tagName !== tag.name)
+			const tagsToCreate = tags.filter((tag) => {
+				if (tagsFound.length < 1) return true;
+				return tagsFound.some((tagName) => tagName.name !== tag);
+			});
+
+			console.log(
+				`tagsToCreate: ${tagsToCreate}`,
+				'tagsFound:',
+				tagsFound,
+				'tags:',
+				tags
 			);
 
 			const articleCreated = await prisma.article.create({
@@ -47,11 +56,11 @@ class PostModel {
 					}),
 					tags: {
 						...(tagsFound.length > 0 && {
-							connect: tagsFound.map((tag) => ({ id: tag.id })),
+							connect: tagsFound.map((tag: any) => ({ id: tag.id })),
 						}),
 						...(tagsToCreate.length > 0 && {
-							create: tagsFound.map((tagName) => ({
-								name: tagName.name,
+							create: tagsToCreate.map((tagName) => ({
+								name: tagName,
 							})),
 						}),
 					},
@@ -105,44 +114,58 @@ class PostModel {
 			obj.thumbnailUrl = url;
 		}
 
-		const tagsFound = await prisma.tag.findMany({
+		const tagsFound: Tag[] = await prisma.tag.findMany({
 			where: {
 				OR: tags.map((tagName) => ({ name: tagName })),
 			},
 		});
 
-		const updateArticle = await prisma.article.update({
-			where: {
-				slug: slug,
-			},
-			data: {
-				...(obj.title && { title: obj.title }),
-				...(obj.content && { content: obj.content }),
-				...(obj.slug && { slug: obj.slug }),
-				...(obj.meta && { meta: obj.meta }),
-				published: obj.published || false,
-				...(obj.thumbnailUrl && { thumbnailUrl: obj.thumbnailUrl }),
-				...(obj.thumbnailId && { thumbnailId: obj.thumbnailId }),
-				...(obj.categoryName && {
-					category: {
-						connect: {
-							name: obj.categoryName,
-						},
-					},
-				}),
-				...(tagsFound && {
-					tags: {
-						disconnect: oldTags.map((tag) => ({ id: tag.id })),
-						connect: tagsFound.map((tag) => ({ id: tag.id })),
-					},
-				}),
-			},
-			include: {
-				category: true,
-				tags: true,
-			},
+		const tagsToCreate = tags.filter((tag) => {
+			if (tagsFound.length < 1) return true;
+			return tagsFound.some((tagName: any) => tagName.name !== tag);
 		});
-		return updateArticle;
+
+		try {
+			const updateArticle = await prisma.article.update({
+				where: {
+					slug: slug,
+				},
+				data: {
+					...(obj.title && { title: obj.title }),
+					...(obj.content && { content: obj.content }),
+					...(obj.slug && { slug: obj.slug }),
+					...(obj.meta && { meta: obj.meta }),
+					published: Boolean(obj.published) || false,
+					...(obj.thumbnailUrl && { thumbnailUrl: obj.thumbnailUrl }),
+					...(obj.thumbnailId && { thumbnailId: obj.thumbnailId }),
+					...(obj.categoryName && {
+						category: {
+							connect: {
+								name: obj.categoryName,
+							},
+						},
+					}),
+					tags: {
+						...(tagsFound.length > 0 && {
+							disconnect: oldTags.map((tag) => ({ id: tag.id })),
+							connect: tagsFound.map((tag: any) => ({ id: tag.id })),
+						}),
+						...(tagsToCreate.length > 0 && {
+							create: tagsToCreate.map((tagName) => ({
+								name: tagName,
+							})),
+						}),
+					},
+				},
+				include: {
+					category: true,
+					tags: true,
+				},
+			});
+			return updateArticle;
+		} catch (e: any) {
+			console.error(e.message);
+		}
 	}
 
 	async deletePost(thumbnailId: string | null, slug: string) {

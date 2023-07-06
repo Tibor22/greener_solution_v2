@@ -55,4 +55,26 @@ export const client = {
 			return { msg: e.message };
 		}
 	},
+	POST: async (url: string | undefined, formData: any) => {
+		try {
+			if (!url) throw new Error(`url is required`);
+			const data = await axios.post(url, formData);
+			if (data.status === 201) {
+				return data.data;
+			}
+		} catch (e: any) {
+			return { msg: e.message };
+		}
+	},
+	PATCH: async (url: string | undefined, formData: any) => {
+		try {
+			if (!url) throw new Error(`url is required`);
+			const data = await axios.patch(url, formData);
+			if (data.status === 201) {
+				return data.data;
+			}
+		} catch (e: any) {
+			return { msg: e.message };
+		}
+	},
 };

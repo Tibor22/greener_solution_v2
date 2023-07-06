@@ -165,9 +165,6 @@ const Editor: FC<Props> = ({
 		onSubmit({ ...post, content: editor.getHTML() });
 	};
 
-	console.log('POST:', post);
-	console.log('EDITOR:', editor && editor.getHTML());
-
 	return (
 		<>
 			<EditorContainer>
