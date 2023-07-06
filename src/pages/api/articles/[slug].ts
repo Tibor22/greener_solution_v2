@@ -11,6 +11,7 @@ export const config = {
 
 const handler: NextApiHandler = async (req, res) => {
 	const { method } = req;
+	console.log('METHOD:', method);
 	switch (method) {
 		case 'GET':
 			return getPost(req, res);
@@ -56,7 +57,7 @@ const updatePost: NextApiHandler = async (req, res) => {
 	let newTags: string[] = [];
 	let oldTags: Tag[] = post.tags;
 	// // tags will be in string form so converting to array
-	if (body.tags) newTags = body.tags.split(',');
+	if (body.tags) newTags = JSON.parse(body.tags as string);
 
 	const thumbnail = files.thumbnail as formidable.File;
 
@@ -80,7 +81,7 @@ const deletePost: NextApiHandler = async (req, res) => {
 
 	try {
 		const deletedPost = await postModel.deletePost(post.thumbnailId, slug);
-		res.status(201).json(deletedPost);
+		res.status(200).json(deletedPost);
 	} catch (err: any) {
 		res.status(500).json({ error: err.message });
 	}

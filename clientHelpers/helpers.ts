@@ -33,9 +33,21 @@ export const validateUrl = (url: string) => {
 };
 
 export const client = {
-	GET: async (url: string) => {
+	GET: async (url: string | undefined) => {
 		try {
+			if (!url) throw new Error(`url is required`);
 			const data = await axios.get(url);
+			if (data.status === 200) {
+				return data.data;
+			}
+		} catch (e: any) {
+			return { msg: e.message };
+		}
+	},
+	DELETE: async (url: string | undefined) => {
+		try {
+			if (!url) throw new Error(`url is required`);
+			const data = await axios.delete(url);
 			if (data.status === 200) {
 				return data.data;
 			}

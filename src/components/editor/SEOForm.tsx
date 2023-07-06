@@ -64,6 +64,10 @@ const SEOForm: FC<Props> = ({
 	};
 
 	const handleSelectChange = (selectedOption: any) => {
+		setValues((prevValues) => ({
+			...prevValues,
+			categoryName: selectedOption.label,
+		}));
 		onChange({ ...values, categoryName: selectedOption.label });
 	};
 
@@ -90,11 +94,12 @@ const SEOForm: FC<Props> = ({
 
 	useEffect(() => {
 		if (initialValue) {
+			console.log('IITIAL VALUE:', initialValue);
 			setValues({ ...initialValue, slug: slugify(initialValue.slug) });
 		}
 	}, [initialValue]);
 
-	const { meta, slug, tags } = values;
+	const { meta, slug, tags, categoryName } = values;
 
 	return (
 		<SEOContainer>
@@ -117,7 +122,11 @@ const SEOForm: FC<Props> = ({
 
 			<SelectWrapper>
 				<span>Category:</span>
-				<Select options={options} onChange={handleSelectChange}></Select>
+				<Select
+					value={{ value: values.categoryName, label: values.categoryName }}
+					options={options}
+					onChange={handleSelectChange}
+				></Select>
 			</SelectWrapper>
 
 			<div className='relative'>

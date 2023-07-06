@@ -36,7 +36,6 @@ const Create: NextPage<Props> = () => {
 	return (
 		<CContainer>
 			<Editor onSubmit={handleSubmit} busy={creating} />
-			EDITOR PAGE
 		</CContainer>
 	);
 };

@@ -21,10 +21,10 @@ export interface UpdateObj {
 	published: boolean;
 	meta: string;
 	tags?: string | string[];
-	categoryName?: string;
+	categoryName: string | null;
 	id: number;
-	createdAt?: Date;
-	updatedAt?: Date | string;
+	createdAt: Date;
+	updatedAt: Date;
 	authorId: number;
 	thumbnailUrl: string;
 	thumbnailId: string;

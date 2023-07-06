@@ -1,14 +1,10 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { UpdateObj } from '../../../../types/types';
 import prisma from '../../../../lib/prisma';
 import ArticleBox from '@/components/ArticleBox';
-import { NextApiRequest, NextApiResponse } from 'next';
 import styled from 'styled-components';
 
-export async function getStaticProps(
-	req: NextApiRequest,
-	res: NextApiResponse
-) {
+export async function getStaticProps() {
 	const posts = await prisma.article.findMany({
 		select: {
 			title: true,
@@ -22,17 +18,22 @@ export async function getStaticProps(
 		},
 	});
 
-	return { props: { posts: posts }, revalidate: 10 };
+	return { props: { initialPosts: posts }, revalidate: 10 };
 }
 
-const Index: FC<{ posts: UpdateObj[] }> = ({ posts }): JSX.Element => {
-	console.log('posts:', posts);
+const Index: FC<{ initialPosts: UpdateObj[] }> = ({
+	initialPosts,
+}): JSX.Element => {
+	const [posts, setPosts] = useState(initialPosts);
 	return (
 		<Wrapper>
 			<ArticlesContainer>
-				{posts.map((post: UpdateObj) => {
-					return <ArticleBox post={post} />;
-				})}
+				{posts &&
+					posts.map((post: UpdateObj) => {
+						return (
+							<ArticleBox setPosts={setPosts} key={post.title} post={post} />
+						);
+					})}
 			</ArticlesContainer>
 		</Wrapper>
 	);

@@ -3,7 +3,7 @@ import Joi, { ObjectSchema } from 'joi';
 export const errorMessages = {
 	INVALID_TITLE: 'Title is missing!',
 	INVALID_TAGS: 'Tags must be array of strings!',
-	INVALID_CATEGORIES: 'Categories must be array of strings!',
+	INVALID_CATEGORIES: 'Categories must be string!',
 	INVALID_SLUG: 'Slug is missing!',
 	INVALID_META: 'Meta description is missing!',
 	INVALID_CONTENT: 'Post content is missing!',

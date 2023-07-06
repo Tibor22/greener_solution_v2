@@ -1,42 +1,71 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { UpdateObj } from '../../types/types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Button from './Button';
 import { fonts, palette } from '@/styles/common';
 import Image from 'next/image';
+import { client } from '../../clientHelpers/helpers';
+import { API_URL, MAIN_URL } from '../../config/config';
+import Loading from './Loading';
+import { useRouter } from 'next/router';
 
-const ArticleBox: FC<{ post: UpdateObj }> = ({ post }): JSX.Element => {
-	console.log('POST:', post);
+interface Props {
+	post: UpdateObj;
+	setPosts: Dispatch<SetStateAction<UpdateObj[]>>;
+}
+
+const ArticleBox = ({ post, setPosts }: Props): JSX.Element => {
+	const [deleting, setDeleting] = useState(false);
+	const router = useRouter();
+
+	const handleDelete = async () => {
+		setDeleting(true);
+		const deletedObj = await client.DELETE(`${API_URL}/articles/${post.slug}`);
+		setPosts((prevPosts) => {
+			return prevPosts.filter((post) => post.slug !== deletedObj.slug);
+		});
+		setDeleting(false);
+	};
+	const handleEdit = async () => {
+		router.push(`${MAIN_URL}/admin/post/update/${post.slug}`);
+	};
+
 	return (
 		<OuterWrapper>
-			<InnerWrapper>
-				<BoxWrapper>
-					<BoxHeader>Id</BoxHeader>
-					<Box>{post.id}</Box>
-				</BoxWrapper>
-				<BoxWrapper>
-					<BoxHeader>Thumbnail</BoxHeader>
-					<div style={{ padding: '0.5rem 0rem', border: '1px solid grey' }}>
-						<BoxImg>
-							<Image
-								style={{
-									objectFit: 'contain',
-								}}
-								alt={post.title}
-								fill
-								src={post.thumbnailUrl}
-							></Image>
-						</BoxImg>
-					</div>
-				</BoxWrapper>
-				<BoxWrapper>
-					<BoxHeader>Title</BoxHeader>
-					<Box>{post.title}</Box>
-				</BoxWrapper>
-			</InnerWrapper>
-
-			<Button type='primary'>Edit</Button>
-			<Button background='red'>Delete</Button>
+			{deleting && <Loading />}
+			{!deleting && (
+				<InnerWrapper>
+					<BoxWrapper>
+						<BoxHeader>Id</BoxHeader>
+						<Box>{post.id}</Box>
+					</BoxWrapper>
+					<BoxWrapper>
+						<BoxHeader>Thumbnail</BoxHeader>
+						<div style={{ padding: '0.5rem 0rem', border: '1px solid grey' }}>
+							<BoxImg>
+								<Image
+									style={{
+										objectFit: 'contain',
+									}}
+									alt={post.title}
+									fill
+									src={post.thumbnailUrl}
+								></Image>
+							</BoxImg>
+						</div>
+					</BoxWrapper>
+					<BoxWrapper>
+						<BoxHeader>Title</BoxHeader>
+						<Box>{post.title}</Box>
+					</BoxWrapper>
+				</InnerWrapper>
+			)}
+			<Button ifClicked={handleEdit} type='primary'>
+				Edit
+			</Button>
+			<Button ifClicked={handleDelete} background='red'>
+				Delete
+			</Button>
 		</OuterWrapper>
 	);
 };
