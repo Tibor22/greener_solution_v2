@@ -67,7 +67,6 @@ class PostModel {
 				},
 
 				include: {
-					category: true,
 					tags: true,
 				},
 			});
@@ -158,7 +157,6 @@ class PostModel {
 					},
 				},
 				include: {
-					category: true,
 					tags: true,
 				},
 			});

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { CancelTokenSource } from 'axios';
 import { FinalPost } from '../types/types';
 import { Editor } from '@tiptap/react';
 
@@ -33,10 +33,11 @@ export const validateUrl = (url: string) => {
 };
 
 export const client = {
-	GET: async (url: string | undefined) => {
+	GET: async (url: string | undefined, source: CancelTokenSource) => {
 		try {
 			if (!url) throw new Error(`url is required`);
-			const data = await axios.get(url);
+
+			const data = await axios.get(url, { cancelToken: source.token });
 			if (data.status === 200) {
 				return data.data;
 			}

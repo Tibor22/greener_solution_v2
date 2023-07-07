@@ -9,23 +9,24 @@ import { FinalPost, UpdateObj } from '../../../../../types/types';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import Loading from '@/components/Loading';
+import useFetch from '@/hooks/useFetch';
 
 interface Props {}
 
 const UpdatePost: FC<Props> = (props): JSX.Element => {
 	const router = useRouter();
-	const [loading, isLoading] = useState(false);
+	// const [loading, isLoading] = useState(false);
 	const [post, setPost] = useState<FinalPost | null>(null);
 	const [creating, setCreating] = useState(false);
 	const { data: session } = useSession();
-	console.log(router);
+	const { data, loading } = useFetch(
+		`${API_URL}/articles/${router.query.slug}`
+	);
 
 	const handleSubmit = async (post: FinalPost) => {
 		setCreating(true);
 		try {
 			// we have to generate FormData
-
-			delete post.category;
 			const formData = generateFormData({
 				...post,
 				authorId: session!.user.id,
@@ -42,27 +43,19 @@ const UpdatePost: FC<Props> = (props): JSX.Element => {
 		setCreating(false);
 	};
 
-	useEffect(() => {
-		const fetchPost = async () => {
-			isLoading(true);
-			const post = await client.GET(`${API_URL}/articles/${router.query.slug}`);
-			setPost({
-				...post,
-				thumbnail: post.thumbnailUrl,
-				tags: post.tags.map((tag: any) => tag.name).toString(),
-			});
-			isLoading(false);
-		};
-		fetchPost();
-	}, [router.isReady]);
-
-	console.log('POST:', post);
-
 	return (
 		<CContainer>
 			{loading && <Loading />}
-			{!loading && (
-				<Editor initialValue={post} onSubmit={handleSubmit} busy={creating} />
+			{!loading && data && !data.msg && (
+				<Editor
+					initialValue={{
+						...data,
+						thumbnail: data.thumbnailUrl,
+						tags: data.tags.map((tag: any) => tag.name).toString(),
+					}}
+					onSubmit={handleSubmit}
+					busy={creating}
+				/>
 			)}
 		</CContainer>
 	);
