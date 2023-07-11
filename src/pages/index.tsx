@@ -13,16 +13,12 @@ export default function Home() {
 		role: 'ADMIN',
 	});
 	const { data: session, status, update } = useSession();
-	console.log({ data: session, status, update });
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
-		console.log('USER:', userData);
 
 		const returnedUser = await axios.post('/api/users', {
 			...userData,
 		});
-
-		console.log('USER FROM API:', returnedUser);
 	};
 
 	// useEffect(() => {

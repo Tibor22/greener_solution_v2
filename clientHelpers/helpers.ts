@@ -42,7 +42,10 @@ export const client = {
 				return data.data;
 			}
 		} catch (e: any) {
-			return { msg: e.message };
+			return {
+				msg: e.response?.data?.error || e.message,
+				status: e.response.status,
+			};
 		}
 	},
 	DELETE: async (url: string | undefined) => {
@@ -53,7 +56,10 @@ export const client = {
 				return data.data;
 			}
 		} catch (e: any) {
-			return { msg: e.message };
+			return {
+				msg: e.response?.data?.error || e.message,
+				status: e.response.status,
+			};
 		}
 	},
 	POST: async (url: string | undefined, formData: any) => {
@@ -64,7 +70,10 @@ export const client = {
 				return data.data;
 			}
 		} catch (e: any) {
-			return { msg: e.message };
+			return {
+				msg: e.response?.data?.error || e.message,
+				status: e.response.status,
+			};
 		}
 	},
 	PATCH: async (url: string | undefined, formData: any) => {
@@ -75,7 +84,10 @@ export const client = {
 				return data.data;
 			}
 		} catch (e: any) {
-			return { msg: e.message };
+			return {
+				msg: e.response?.data?.error || e.message,
+				status: e.response.status,
+			};
 		}
 	},
 };

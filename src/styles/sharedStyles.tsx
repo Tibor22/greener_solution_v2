@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { fonts, palette } from './common';
 import { device } from './device';
 import React from 'react';
+import { playfair_display, montserrat, merriweather } from './fonts';
 
 export const Text = styled.p<any>`
 	font-size: ${({ small, medium, xsmall }) =>
@@ -14,7 +15,7 @@ export const Text = styled.p<any>`
 			: fonts.medium};
 	font-weight: ${({ bold, semibold }) =>
 		semibold ? '600' : bold ? 'bold' : 'normal'};
-	font-family: ${({ font }) => font};
+	font-family: ${({ font }) => font || montserrat.style.fontFamily};
 	text-decoration: ${({ decoration }) => decoration ?? 'none'};
 	color: ${({ color }) => palette[color]};
 	margin: ${({ margin }) => `${margin}`};

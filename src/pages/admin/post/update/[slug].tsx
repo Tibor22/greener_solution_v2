@@ -5,8 +5,7 @@ import { client, generateFormData } from '../../../../../clientHelpers/helpers';
 import { API_URL } from '../../../../../config/config';
 import { useRouter } from 'next/router';
 import Editor from '@/components/editor';
-import { FinalPost, UpdateObj } from '../../../../../types/types';
-import axios from 'axios';
+import { FinalPost } from '../../../../../types/types';
 import { useSession } from 'next-auth/react';
 import Loading from '@/components/Loading';
 import useFetch from '@/hooks/useFetch';
@@ -15,8 +14,6 @@ interface Props {}
 
 const UpdatePost: FC<Props> = (props): JSX.Element => {
 	const router = useRouter();
-	// const [loading, isLoading] = useState(false);
-	const [post, setPost] = useState<FinalPost | null>(null);
 	const [creating, setCreating] = useState(false);
 	const { data: session } = useSession();
 	const { data, loading } = useFetch(
@@ -32,10 +29,7 @@ const UpdatePost: FC<Props> = (props): JSX.Element => {
 				authorId: session!.user.id,
 			});
 			// submit our post
-			const { data } = await client.PATCH(
-				`${API_URL}/articles/${router.query.slug}`,
-				formData
-			);
+			await client.PATCH(`${API_URL}/articles/${router.query.slug}`, formData);
 			router.push('/admin/posts');
 		} catch (error: any) {
 			console.log(error.response.data);
