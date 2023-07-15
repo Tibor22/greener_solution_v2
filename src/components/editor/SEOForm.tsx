@@ -4,8 +4,12 @@ import { SeoResult } from '../../../types/types';
 import styled from 'styled-components';
 import { fonts, palette } from '@/styles/common';
 import { Heading } from '@/styles/sharedStyles';
-import Select from 'react-select';
+import Select, { GroupBase, OptionsOrGroups } from 'react-select';
 import axios from 'axios';
+import GroupedOption from 'react-select';
+import useFetch from '@/hooks/useFetch';
+import { API_URL } from '../../../config/config';
+import { client } from '../../../clientHelpers/helpers';
 
 interface Props {
 	title?: string;
@@ -52,6 +56,8 @@ const SEOForm: FC<Props> = ({
 	});
 
 	const [options, setOptions] = useState([{ value: '', label: '' }]);
+	const [tagOptions, setTagOptions] = useState([]);
+	// const { data: tagOptions, loading } = useFetch(`${API_URL}/tags`);
 
 	const handleChange: ChangeEventHandler<
 		HTMLInputElement | HTMLTextAreaElement
@@ -91,6 +97,23 @@ const SEOForm: FC<Props> = ({
 
 		getCategories();
 	}, []);
+	useEffect(() => {
+		const getTags = async () => {
+			const tags = await axios.get('/api/tags');
+			console.log('TAGS:', tags);
+			if (!200) return;
+			setTagOptions(
+				tags.data.map((tag: { id: number; name: string }) => ({
+					value: tag.name,
+					label: tag.name,
+				}))
+			);
+		};
+
+		getTags();
+	}, []);
+
+	console.log('TAG AOPTIONS:', tagOptions);
 
 	useEffect(() => {
 		if (initialValue) {
@@ -112,12 +135,20 @@ const SEOForm: FC<Props> = ({
 				onChange={handleChange}
 			/>
 
-			<Input
+			{/* <Input
 				value={tags}
 				name='tags'
 				placeholder='Heating, Energy'
 				label='Tags:'
 				onChange={handleChange}
+			/> */}
+			<Select
+				defaultValue={tags}
+				isMulti
+				name='tags'
+				options={tagOptions.length > 0 ? tagOptions : []}
+				className='basic-multi-select'
+				classNamePrefix='select'
 			/>
 
 			<SelectWrapper>

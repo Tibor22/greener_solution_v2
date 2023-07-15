@@ -44,7 +44,7 @@ export const client = {
 		} catch (e: any) {
 			return {
 				msg: e.response?.data?.error || e.message,
-				status: e.response.status,
+				status: e.response?.status || '',
 			};
 		}
 	},
