@@ -83,7 +83,6 @@ class PostModel {
 		tags: string[],
 		oldTags: Tag[]
 	) {
-		console.log({ obj, slug, tags, oldTags });
 		if (thumbnail) {
 			const { secure_url: url, public_id } = await cloudinary.uploader.upload(
 				thumbnail.filepath,

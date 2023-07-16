@@ -48,7 +48,12 @@ const SEOForm: FC<Props> = ({
 	onChange,
 	initialValue,
 }): JSX.Element => {
-	const [values, setValues] = useState({
+	const [values, setValues] = useState<{
+		meta: string;
+		slug: string;
+		tags: null | [] | { value: string; label: string }[];
+		categoryName: string;
+	}>({
 		meta: '',
 		slug: '',
 		tags: null,
