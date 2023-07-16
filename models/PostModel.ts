@@ -28,19 +28,6 @@ class PostModel {
 				},
 			});
 
-			const tagsToCreate = tags.filter((tag) => {
-				if (tagsFound.length < 1) return true;
-				return tagsFound.some((tagName) => tagName.name !== tag);
-			});
-
-			console.log(
-				`tagsToCreate: ${tagsToCreate}`,
-				'tagsFound:',
-				tagsFound,
-				'tags:',
-				tags
-			);
-
 			const articleCreated = await prisma.article.create({
 				data: {
 					title: obj.title,
@@ -58,11 +45,6 @@ class PostModel {
 						...(tagsFound.length > 0 && {
 							connect: tagsFound.map((tag: any) => ({ id: tag.id })),
 						}),
-						...(tagsToCreate.length > 0 && {
-							create: tagsToCreate.map((tagName) => ({
-								name: tagName,
-							})),
-						}),
 					},
 				},
 
@@ -70,7 +52,7 @@ class PostModel {
 					tags: true,
 				},
 			});
-
+			console.log('ARTICLE CREATED:', articleCreated);
 			return articleCreated;
 		} else {
 			throw new Error('Missing thumbnail');
@@ -88,6 +70,7 @@ class PostModel {
 					tags: true,
 				},
 			});
+			console.log('ARTICLE:', article);
 			return article;
 		} catch (e) {
 			return null;
@@ -100,6 +83,7 @@ class PostModel {
 		tags: string[],
 		oldTags: Tag[]
 	) {
+		console.log({ obj, slug, tags, oldTags });
 		if (thumbnail) {
 			const { secure_url: url, public_id } = await cloudinary.uploader.upload(
 				thumbnail.filepath,
@@ -117,11 +101,6 @@ class PostModel {
 			where: {
 				OR: tags.map((tagName) => ({ name: tagName })),
 			},
-		});
-
-		const tagsToCreate = tags.filter((tag) => {
-			if (tagsFound.length < 1) return true;
-			return tagsFound.some((tagName: any) => tagName.name !== tag);
 		});
 
 		try {
@@ -148,11 +127,6 @@ class PostModel {
 						...(tagsFound.length > 0 && {
 							disconnect: oldTags.map((tag) => ({ id: tag.id })),
 							connect: tagsFound.map((tag: any) => ({ id: tag.id })),
-						}),
-						...(tagsToCreate.length > 0 && {
-							create: tagsToCreate.map((tagName) => ({
-								name: tagName,
-							})),
 						}),
 					},
 				},

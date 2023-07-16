@@ -48,7 +48,7 @@ export interface FinalPost extends SeoResult {
 export interface SeoResult {
 	meta: string;
 	slug: string;
-	tags: string;
+	tags: string[] | null;
 	categoryName: string;
 }
 

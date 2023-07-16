@@ -51,12 +51,15 @@ const SEOForm: FC<Props> = ({
 	const [values, setValues] = useState({
 		meta: '',
 		slug: '',
-		tags: '',
+		tags: null,
 		categoryName: '',
 	});
 
+	console.log('INITIAL VALUE:', initialValue);
+
 	const [options, setOptions] = useState([{ value: '', label: '' }]);
 	const [tagOptions, setTagOptions] = useState([]);
+
 	// const { data: tagOptions, loading } = useFetch(`${API_URL}/tags`);
 
 	const handleChange: ChangeEventHandler<
@@ -75,6 +78,14 @@ const SEOForm: FC<Props> = ({
 			categoryName: selectedOption.label,
 		}));
 		onChange({ ...values, categoryName: selectedOption.label });
+	};
+	const handleTagsChange = (selectedOption: any) => {
+		console.log('SelecctedOptions:', selectedOption);
+		setValues((prevValues) => ({
+			...prevValues,
+			tags: selectedOption.map((tag: any) => tag.label),
+		}));
+		onChange({ ...values, tags: selectedOption.map((tag: any) => tag.label) });
 	};
 
 	useEffect(() => {
@@ -118,12 +129,31 @@ const SEOForm: FC<Props> = ({
 	useEffect(() => {
 		if (initialValue) {
 			console.log('IITIAL VALUE:', initialValue);
-			setValues({ ...initialValue, slug: slugify(initialValue.slug) });
+			setValues({
+				...initialValue,
+				slug: slugify(initialValue.slug),
+				tags:
+					(initialValue?.tags &&
+						initialValue.tags.length > 0 &&
+						initialValue.tags.map((tag: string) => {
+							return { value: tag, label: tag };
+						})) ||
+					[],
+			});
 		}
 	}, [initialValue]);
 
 	const { meta, slug, tags, categoryName } = values;
+	console.log('INITIAL TAGS', initialValue?.tags?.length);
+	console.log('TAGS:', tags);
 
+	console.log('VALUES:', values);
+
+	const options1 = [
+		{ value: 'chocolate', label: 'Chocolate' },
+		{ value: 'strawberry', label: 'Strawberry' },
+		{ value: 'vanilla', label: 'Vanilla' },
+	];
 	return (
 		<SEOContainer>
 			<Heading level={2}>SEO Section</Heading>
@@ -142,14 +172,17 @@ const SEOForm: FC<Props> = ({
 				label='Tags:'
 				onChange={handleChange}
 			/> */}
-			<Select
-				defaultValue={tags}
-				isMulti
-				name='tags'
-				options={tagOptions.length > 0 ? tagOptions : []}
-				className='basic-multi-select'
-				classNamePrefix='select'
-			/>
+			{tags && (
+				<Select
+					defaultValue={tags}
+					isMulti
+					name='tags'
+					options={tagOptions.length > 0 ? tagOptions : []}
+					className='basic-multi-select'
+					classNamePrefix='select'
+					onChange={handleTagsChange}
+				/>
+			)}
 
 			<SelectWrapper>
 				<span>Category:</span>

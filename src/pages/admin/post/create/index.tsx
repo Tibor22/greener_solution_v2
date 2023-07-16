@@ -19,6 +19,7 @@ const Create: NextPage<Props> = () => {
 	const { data: session } = useSession();
 	const handleSubmit = async (post: FinalPost) => {
 		setCreating(true);
+		console.log('POST', post);
 		try {
 			// we have to generate FormData
 			const formData = generateFormData({
@@ -26,10 +27,11 @@ const Create: NextPage<Props> = () => {
 				authorId: session!.user.id,
 			});
 			// submit our post
+			console.log('FORM DATA:', formData);
 			const { data } = await axios.post('/api/articles', formData);
 			router.push('/admin/posts');
 		} catch (error: any) {
-			console.log(error.response.data);
+			console.log(error.response?.data || error);
 		}
 		setCreating(false);
 	};
