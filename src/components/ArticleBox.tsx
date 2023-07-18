@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { UpdateObj } from '../../types/types';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import Button from './Button';
 import { fonts, palette } from '@/styles/common';
 import Image from 'next/image';

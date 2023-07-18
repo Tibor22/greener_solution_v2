@@ -17,7 +17,6 @@ const handler: NextApiHandler = async (req, res) => {
 
 const createNewCategory: NextApiHandler = async (req, res) => {
 	const { name } = req.body;
-	console.log('NAME:', name);
 	if (!name) return res.status(400).json({ error: 'Provide name' });
 	const category = await prisma.category.findUnique({
 		where: {

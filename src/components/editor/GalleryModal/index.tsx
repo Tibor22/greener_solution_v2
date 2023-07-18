@@ -22,7 +22,6 @@ interface Props extends ModalProps {
 
 const GalleryModal: FC<Props> = ({
 	images,
-	visible,
 	onFileSelect,
 	onSelect,
 	onClose,

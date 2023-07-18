@@ -4,17 +4,20 @@ import { SeoResult } from '../../../types/types';
 import styled from 'styled-components';
 import { fonts, palette } from '@/styles/common';
 import { Heading } from '@/styles/sharedStyles';
-import Select, { GroupBase, OptionsOrGroups } from 'react-select';
+import Select from 'react-select';
 import axios from 'axios';
-import GroupedOption from 'react-select';
-import useFetch from '@/hooks/useFetch';
-import { API_URL } from '../../../config/config';
-import { client } from '../../../clientHelpers/helpers';
 
 interface Props {
 	title?: string;
 	onChange(result: SeoResult): void;
 	initialValue?: SeoResult;
+}
+
+interface MetaValues {
+	meta: string;
+	slug: string;
+	tags: any;
+	categoryName: string;
 }
 
 const Input: FC<{
@@ -48,24 +51,15 @@ const SEOForm: FC<Props> = ({
 	onChange,
 	initialValue,
 }): JSX.Element => {
-	const [values, setValues] = useState<{
-		meta: string;
-		slug: string;
-		tags: null | [] | { value: string; label: string }[];
-		categoryName: string;
-	}>({
+	const [values, setValues] = useState<MetaValues>({
 		meta: '',
 		slug: '',
 		tags: null,
 		categoryName: '',
 	});
 
-	console.log('INITIAL VALUE:', initialValue);
-
 	const [options, setOptions] = useState([{ value: '', label: '' }]);
 	const [tagOptions, setTagOptions] = useState([]);
-
-	// const { data: tagOptions, loading } = useFetch(`${API_URL}/tags`);
 
 	const handleChange: ChangeEventHandler<
 		HTMLInputElement | HTMLTextAreaElement
@@ -85,7 +79,6 @@ const SEOForm: FC<Props> = ({
 		onChange({ ...values, categoryName: selectedOption.label });
 	};
 	const handleTagsChange = (selectedOption: any) => {
-		console.log('SelecctedOptions:', selectedOption);
 		setValues((prevValues) => ({
 			...prevValues,
 			tags: selectedOption.map((tag: any) => tag.label),
@@ -116,7 +109,6 @@ const SEOForm: FC<Props> = ({
 	useEffect(() => {
 		const getTags = async () => {
 			const tags = await axios.get('/api/tags');
-			console.log('TAGS:', tags);
 			if (!200) return;
 			setTagOptions(
 				tags.data.map((tag: { id: number; name: string }) => ({
@@ -129,11 +121,8 @@ const SEOForm: FC<Props> = ({
 		getTags();
 	}, []);
 
-	console.log('TAG AOPTIONS:', tagOptions);
-
 	useEffect(() => {
 		if (initialValue) {
-			console.log('IITIAL VALUE:', initialValue);
 			setValues({
 				...initialValue,
 				slug: slugify(initialValue.slug),
@@ -149,16 +138,7 @@ const SEOForm: FC<Props> = ({
 	}, [initialValue]);
 
 	const { meta, slug, tags, categoryName } = values;
-	console.log('INITIAL TAGS', initialValue?.tags?.length);
-	console.log('TAGS:', tags);
 
-	console.log('VALUES:', values);
-
-	const options1 = [
-		{ value: 'chocolate', label: 'Chocolate' },
-		{ value: 'strawberry', label: 'Strawberry' },
-		{ value: 'vanilla', label: 'Vanilla' },
-	];
 	return (
 		<SEOContainer>
 			<Heading level={2}>SEO Section</Heading>
@@ -170,14 +150,9 @@ const SEOForm: FC<Props> = ({
 				onChange={handleChange}
 			/>
 
-			{/* <Input
-				value={tags}
-				name='tags'
-				placeholder='Heating, Energy'
-				label='Tags:'
-				onChange={handleChange}
-			/> */}
-			{tags && (
+			{((initialValue && tags) ||
+				(!initialValue && !tags) ||
+				(!initialValue && tags)) && (
 				<Select
 					defaultValue={tags}
 					isMulti
@@ -193,12 +168,8 @@ const SEOForm: FC<Props> = ({
 				<span>Category:</span>
 				<Select
 					value={{
-						value: values.categoryName
-							? values.categoryName
-							: 'select category',
-						label: values.categoryName
-							? values.categoryName
-							: 'select category',
+						value: categoryName ? categoryName : 'select category',
+						label: categoryName ? categoryName : 'select category',
 					}}
 					options={options}
 					onChange={handleSelectChange}

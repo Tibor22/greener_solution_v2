@@ -21,7 +21,6 @@ const UpdatePost: FC<Props> = (props): JSX.Element => {
 	);
 
 	const handleSubmit = async (post: FinalPost) => {
-		console.log('UPDATE POST:', post);
 		setCreating(true);
 		try {
 			// we have to generate FormData
@@ -37,8 +36,6 @@ const UpdatePost: FC<Props> = (props): JSX.Element => {
 		}
 		setCreating(false);
 	};
-
-	console.log('DATA:', data);
 
 	return (
 		<CContainer>

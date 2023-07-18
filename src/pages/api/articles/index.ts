@@ -9,7 +9,6 @@ import cloudinary from '../../../../lib/cloudinary';
 import prisma from '../../../../lib/prisma';
 import { PostObject } from '../../../../types/types';
 import postModel from '../../../../models/PostModel';
-import { Article } from '@prisma/client';
 import Cors from 'cors';
 
 export const config = {
@@ -83,7 +82,6 @@ const createNewPost: NextApiHandler = async (req, res) => {
 };
 const getAllPost: NextApiHandler = async (req, res) => {
 	try {
-		console.log('INSIDE GET ALL');
 		const allPosts = await prisma.article.findMany();
 		res.status(200).json(allPosts);
 	} catch (err: any) {

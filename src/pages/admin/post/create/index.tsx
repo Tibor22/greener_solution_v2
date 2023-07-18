@@ -1,6 +1,4 @@
-// import Editor, { FinalPost } from '@/components/editor';
 import { NextPage } from 'next';
-// import AdminLayout from '@/components/common/layout/AdminLayout';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
@@ -19,7 +17,6 @@ const Create: NextPage<Props> = () => {
 	const { data: session } = useSession();
 	const handleSubmit = async (post: FinalPost) => {
 		setCreating(true);
-		console.log('POST', post);
 		try {
 			// we have to generate FormData
 			const formData = generateFormData({

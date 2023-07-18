@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
 import { playfair_display, montserrat, merriweather } from './fonts';
-import { fonts } from './common';
 
 export default createGlobalStyle`
   html {
@@ -27,7 +26,7 @@ export default createGlobalStyle`
 		
 		li {
 			font-family: ${montserrat.style.fontFamily}, serif;
-			// list-style-type: none;
+	
 		}
 		input {
 			font-family: ${merriweather.style.fontFamily}, serif;

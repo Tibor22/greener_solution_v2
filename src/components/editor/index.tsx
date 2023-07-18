@@ -7,7 +7,6 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
 import Youtube from '@tiptap/extension-youtube';
 import TipTapImage from '@tiptap/extension-image';
-import ListItem from '@tiptap/extension-list-item';
 import {
 	SeoResult,
 	FinalPost,
@@ -18,9 +17,6 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { fonts, palette } from '@/styles/common';
 import HardBreak from '@tiptap/extension-hard-break';
-import Color from '@tiptap/extension-color';
-import TextStyle from '@tiptap/extension-text-style';
-import Blockquote from '@tiptap/extension-blockquote';
 import EditLink from './Link/EditLink';
 import SEOForm from './SEOForm';
 import ThumbnailSelector from './ThumbnailSelector';
@@ -49,7 +45,7 @@ const Editor: FC<Props> = ({
 		title: '',
 		content: '',
 		meta: '',
-		tags: '',
+		tags: [],
 		slug: '',
 		categoryName: '',
 		authorId: '',
@@ -107,7 +103,7 @@ const Editor: FC<Props> = ({
 			}),
 		],
 		editorProps: {
-			handleClick(view, pos, event) {
+			handleClick(view, pos) {
 				const { state } = view;
 				const selectionRange = getMarkRange(
 					state.doc.resolve(pos),
@@ -175,12 +171,7 @@ const Editor: FC<Props> = ({
 							onChange={updateThumbnail}
 						/>
 						<div className='inline-block'>
-							<Button
-								type='primary'
-								// width='10rem'
-								busy={busy}
-								ifClicked={handleSubmit}
-							>
+							<Button type='primary' busy={busy} ifClicked={handleSubmit}>
 								{btnTitle}
 							</Button>
 						</div>

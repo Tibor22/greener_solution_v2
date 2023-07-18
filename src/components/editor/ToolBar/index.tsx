@@ -7,7 +7,6 @@ import { RiDoubleQuotesL } from 'react-icons/ri';
 import {
 	BsTypeBold,
 	BsTypeStrikethrough,
-	BsBraces,
 	BsCode,
 	BsListOl,
 	BsListUl,
@@ -126,16 +125,9 @@ const ToolBar: FC<Props> = ({
 				>
 					<BsCode />
 				</Button>
-				{/* <Button
-					active={editor.isActive('codeBlock')}
-					onClick={() => getFocusedEditor(editor).toggleCodeBlock().run()}
-				>
-					<BsBraces />
-				</Button> */}
 				<InsertLink visible={visible} setVisible={setVisible}>
 					<LinkForm onSubmit={handleLinkSubmit} visible={visible} />
 				</InsertLink>
-				{/* <InsertLink onSubmit={handleLinkSubmit} /> */}
 				<Button
 					active={editor.isActive('orderedList')}
 					onClick={() => getFocusedEditor(editor).toggleOrderedList().run()}

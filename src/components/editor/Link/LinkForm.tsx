@@ -24,7 +24,6 @@ const defaultLink = {
 const LinkForm: FC<Props> = ({
 	visible,
 	initialState,
-	onRemove,
 	onSubmit,
 }): JSX.Element | null => {
 	const [link, setLink] = useState<linkOption>(defaultLink);

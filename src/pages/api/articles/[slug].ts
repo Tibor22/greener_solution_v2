@@ -43,19 +43,12 @@ const getPost: NextApiHandler = async (req, res) => {
 
 const updatePost: NextApiHandler = async (req, res) => {
 	const slug = req.query.slug as string;
-	console.log('slug', slug);
 	const post = await postModel.findPost('slug', slug);
 	if (!post) return res.status(404).json({ error: 'Post not found!' });
 
 	const { files, body } = await readFile<UpdateObj>(req);
 
 	console.log({ files, body });
-
-	// let tags = [];
-	// let categories: string[] = [];
-	// tags will be in string form so converting to array
-	// if (body.tags) tags = JSON.parse(body.tags as string);
-	// if (body.categories) categories = JSON.parse(body.categories as string);
 
 	let newTags: string[] = [];
 	let oldTags: Tag[] = post.tags;
