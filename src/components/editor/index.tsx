@@ -164,31 +164,30 @@ const Editor: FC<Props> = ({
 	return (
 		<>
 			<EditorContainer>
-				<EditorNav>
-					<ThumbnailContainer>
-						<ThumbnailSelector
-							initialValue={post.thumbnail as string}
-							onChange={updateThumbnail}
-						/>
-						<div className='inline-block'>
-							<Button type='primary' busy={busy} ifClicked={handleSubmit}>
-								{btnTitle}
-							</Button>
-						</div>
-					</ThumbnailContainer>
-					<Title
-						value={post.title}
-						onChange={updateTitle}
-						type='text'
-						placeholder='Title'
+				<ThumbnailContainer>
+					<ThumbnailSelector
+						initialValue={post.thumbnail as string}
+						onChange={updateThumbnail}
 					/>
-					<ToolBar
-						editor={editor}
-						setEditorHeight={setEditorHeight}
-						onOpenImageClick={() => setShowGallery(true)}
-					/>
-					{/* SPACER */}
-				</EditorNav>
+					<div className='inline-block'>
+						<Button type='primary' busy={busy} ifClicked={handleSubmit}>
+							{btnTitle}
+						</Button>
+					</div>
+				</ThumbnailContainer>
+				<Title
+					value={post.title}
+					onChange={updateTitle}
+					type='text'
+					placeholder='Title'
+				/>
+				<ToolBar
+					editor={editor}
+					setEditorHeight={setEditorHeight}
+					onOpenImageClick={() => setShowGallery(true)}
+				/>
+				{/* SPACER */}
+
 				{editor ? <EditLink editor={editor} /> : null}
 				<CEditorContent
 					editorHeight={editorHeight}

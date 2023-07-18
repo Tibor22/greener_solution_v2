@@ -18,7 +18,7 @@ import { LinkOption } from '../../../../types/types';
 import styled from 'styled-components';
 import { palette } from '@/styles/common';
 import InsertLink from '../Link/InsertLink';
-import LinkForm, { linkOption } from '../Link/LinkForm';
+import LinkForm from '../Link/LinkForm';
 import EmbedYoutube from './EmbedYoutube';
 
 interface Props {
@@ -191,6 +191,9 @@ const ToolBarWrapper = styled.div`
 	align-items: center;
 	margin-top: 2rem;
 	margin-bottom: 2rem;
+	position: sticky;
+	top: 10rem;
+	z-index: 8;
 `;
 
 export default ToolBar;
