@@ -122,12 +122,14 @@ class PostModel {
 							},
 						},
 					}),
-					tags: {
-						...(tagsFound.length > 0 && {
+					...(tagsFound.length > 0 && {
+						tags: {
 							disconnect: oldTags.map((tag) => ({ id: tag.id })),
 							connect: tagsFound.map((tag: any) => ({ id: tag.id })),
-						}),
-					},
+						},
+					}),
+					...(typeof obj.hero == 'boolean' && { hero: obj.hero }),
+					...(typeof obj.featured == 'boolean' && { featured: obj.featured }),
 				},
 				include: {
 					tags: true,

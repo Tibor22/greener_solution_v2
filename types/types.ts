@@ -28,6 +28,8 @@ export interface UpdateObj {
 	authorId: number;
 	thumbnailUrl: string;
 	thumbnailId: string;
+	hero: boolean;
+	featured: boolean;
 }
 
 export type UserObject = {
@@ -65,5 +67,5 @@ export type LinkOption = {
 export interface SeoResult {
 	meta: string;
 	slug: string;
-	tags: string;
+	tags: string[] | null;
 }

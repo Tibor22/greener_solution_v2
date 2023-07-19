@@ -48,8 +48,6 @@ const updatePost: NextApiHandler = async (req, res) => {
 
 	const { files, body } = await readFile<UpdateObj>(req);
 
-	console.log({ files, body });
-
 	let newTags: string[] = [];
 	let oldTags: Tag[] = post.tags;
 	// // tags will be in string form so converting to array

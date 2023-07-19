@@ -46,10 +46,23 @@ function Button({
 const handleColorType = (type: string) => {
 	switch (type) {
 		case 'primary':
+			return palette.white;
 		case 'secondary':
 			return palette.white;
 		case 'clear':
-			palette.black;
+			palette.white;
+		default:
+			return palette.black;
+	}
+};
+const handleHoverColorType = (type: string) => {
+	switch (type) {
+		case 'primary':
+			return palette.white;
+		case 'secondary':
+			return palette.white;
+		case 'clear':
+			return palette.white;
 		default:
 			return palette.black;
 	}
@@ -88,7 +101,7 @@ const handleHoverBackgroundType = (type: string) => {
 		case 'secondary':
 			return palette.medium_green;
 		case 'clear':
-			return '#F1F1F1';
+			return '#a6b0b6';
 		default:
 			return palette.medium_green;
 	}
@@ -131,6 +144,7 @@ const Btn = styled.button<any>`
 	transition: all 0.2s;
 	&:hover {
 		background: ${({ type }) => handleHoverBackgroundType(type)};
+		color: ${({ type }) => handleHoverColorType(type)};
 		transition: all 0.2s;
 	}
 `;

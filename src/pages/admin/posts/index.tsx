@@ -6,6 +6,9 @@ import styled from 'styled-components';
 
 export async function getStaticProps() {
 	const posts = await prisma.article.findMany({
+		orderBy: {
+			updatedAt: 'desc',
+		},
 		select: {
 			title: true,
 			slug: true,
@@ -15,6 +18,8 @@ export async function getStaticProps() {
 			id: true,
 			authorId: true,
 			thumbnailUrl: true,
+			hero: true,
+			featured: true,
 		},
 	});
 
@@ -25,6 +30,7 @@ const Index: FC<{ initialPosts: UpdateObj[] }> = ({
 	initialPosts,
 }): JSX.Element => {
 	const [posts, setPosts] = useState(initialPosts);
+
 	return (
 		<Wrapper>
 			<ArticlesContainer>
