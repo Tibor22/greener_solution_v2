@@ -38,6 +38,8 @@ model Article {
   meta         String
   thumbnailUrl String?
   thumbnailId  String?
+  hero         Boolean  @default(false)
+  featured     Boolean  @default(false)
   tags         Tag[]
 }
 
