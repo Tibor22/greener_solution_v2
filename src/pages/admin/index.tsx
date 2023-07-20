@@ -1,14 +1,15 @@
 // import AdminLayout from '@/components/AdminLayout';
 import Button from '@/components/Button';
 import { fonts, palette } from '@/styles/common';
-import { Heading, Text } from '@/styles/sharedStyles';
+import { Container, Heading, Text } from '@/styles/sharedStyles';
 import Link from 'next/link';
-import { ChangeEventHandler, FC, useState } from 'react';
+import { ChangeEventHandler, FC, FormEventHandler, useState } from 'react';
 import { AiOutlineFileAdd } from 'react-icons/ai';
 import styled from 'styled-components';
 import { client } from '../../../clientHelpers/helpers';
 import { API_URL } from '../../../config/config';
 import Loading from '@/components/Loading';
+import InviteForm from '@/components/InviteForm';
 
 interface Props {}
 
@@ -17,7 +18,13 @@ const Admin: FC<Props> = (props): JSX.Element => {
 	const [data, setData] = useState({ category: '', tag: '' });
 	const [error, setError] = useState({ category: null, tag: null });
 	const [added, setAdded] = useState<null | string>(null);
-
+	const [userData, setUserData] = useState({
+		email: '',
+		name: '',
+		password: '',
+		displayName: '',
+		role: 'ADMIN',
+	});
 	const handleAdd = async (name: string) => {
 		let names = name === 'category' ? 'categories' : 'tags';
 		setLoading(true);
@@ -90,6 +97,9 @@ const Admin: FC<Props> = (props): JSX.Element => {
 					</>
 				)}
 			</InputController>
+
+			<InviteForm />
+
 			<CLink href='/admin/post/create'>
 				<AiOutlineFileAdd size={24} />
 			</CLink>
@@ -134,6 +144,7 @@ const Add = styled.div`
 
 const InputController = styled.div`
 	position: relative;
+	height: fit-content;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
@@ -151,8 +162,14 @@ const Input = styled.input`
 	outline: none;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled(Container)`
+	margin-top: 3rem;
 	padding: 1rem;
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-template-rows: auto;
+	align-content: start;
+	gap: 5rem;
 `;
 
 const CLink = styled(Link)`

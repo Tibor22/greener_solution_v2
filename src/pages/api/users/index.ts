@@ -4,6 +4,10 @@ import prisma from '../../../../lib/prisma';
 import userModel from '../../../../models/UserModel';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
+import {
+	userValidationSchema,
+	validateSchema,
+} from '../../../../lib/validators';
 
 const handler: NextApiHandler = async (req, res) => {
 	const { method } = req;
@@ -21,6 +25,17 @@ const handler: NextApiHandler = async (req, res) => {
 
 const createNewUser: NextApiHandler = async (req, res) => {
 	const { name, role, displayName, email, password }: UserObject = req.body;
+
+	const error = validateSchema(userValidationSchema, {
+		name,
+		role,
+		displayName,
+		email,
+		password,
+	});
+	if (error) {
+		return res.status(400).json({ error: error });
+	}
 	const signupResponse = await userModel.signup({
 		name,
 		role,

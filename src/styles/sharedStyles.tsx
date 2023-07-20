@@ -157,14 +157,34 @@ export const Container = styled.div`
 	}
 `;
 
-export const Error = styled(Text)<{ bottom?: string; top?: string }>`
-	position: absolute;
+export const Error = styled(Text)<{
+	bottom?: string;
+	top?: string;
+	position?: string;
+}>`
+	position: ${({ position }) => (position ? position : 'absolute')};
 	bottom: ${({ bottom }) => (bottom ? bottom : '0.5rem')};
 	left: 50%;
 	transform: translateX(-50%);
 	font-size: ${fonts.xsmall};
 	padding: 0.5rem 1rem;
 	background: #ea3223;
+	color: white;
+	text-transform: uppercase;
+	border-radius: 8px;
+`;
+export const Success = styled(Text)<{
+	bottom?: string;
+	top?: string;
+	position?: string;
+}>`
+	position: ${({ position }) => (position ? position : 'absolute')};
+	bottom: ${({ bottom }) => (bottom ? bottom : '0.5rem')};
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: ${fonts.xsmall};
+	padding: 0.5rem 1rem;
+	background: ${palette.light_green};
 	color: white;
 	text-transform: uppercase;
 	border-radius: 8px;
