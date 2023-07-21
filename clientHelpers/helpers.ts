@@ -32,11 +32,17 @@ export const validateUrl = (url: string) => {
 };
 
 export const client = {
-	GET: async (url: string | undefined, source: CancelTokenSource) => {
+	GET: async (
+		url: string | undefined,
+		source: CancelTokenSource | undefined = undefined
+	) => {
 		try {
 			if (!url) throw new Error(`url is required`);
 
-			const data = await axios.get(url, { cancelToken: source.token });
+			const data = await axios.get(
+				url,
+				source && { cancelToken: source.token }
+			);
 			if (data.status === 200) {
 				return data.data;
 			}

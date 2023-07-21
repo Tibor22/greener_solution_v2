@@ -13,6 +13,8 @@ export const palette: any = {
 	grey_light: '#DCDCDC',
 	grey_light2: '#F2F2F2',
 	white: '#ffffff',
+	yellow: '#EBE444',
+	red: '#ea2345',
 
 	shadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
 	shadow2: '0px 4px 4px rgba(0, 0, 0, 0.25)',
@@ -20,6 +22,7 @@ export const palette: any = {
 };
 
 export const fonts = {
+	xxsmall: '1rem',
 	xsmall: '1.2rem',
 	small: '1.4rem',
 	regular: '1.6rem',

@@ -64,6 +64,17 @@ export type LinkOption = {
 	openInNewTab: boolean;
 };
 
+export type HeroType = {
+	slug: string;
+	title: string;
+	thumbnailUrl: string;
+	authorId: number;
+	hero: boolean;
+	category: {
+		id: number;
+		name: string;
+	};
+};
 export interface SeoResult {
 	meta: string;
 	slug: string;

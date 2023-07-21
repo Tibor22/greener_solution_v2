@@ -189,3 +189,13 @@ export const Success = styled(Text)<{
 	text-transform: uppercase;
 	border-radius: 8px;
 `;
+
+export const Label = styled.label<{ color: string }>`
+	padding: 1rem 1.5rem;
+	font-size: ${fonts.xxsmall};
+	text-transform: uppercase;
+	background-color: ${({ color }) => palette[color]};
+	border-radius: 8px;
+	color: white;
+	font-family: ${montserrat.style.fontFamily};
+`;
