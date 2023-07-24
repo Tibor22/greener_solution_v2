@@ -21,6 +21,7 @@ import EditLink from './Link/EditLink';
 import SEOForm from './SEOForm';
 import ThumbnailSelector from './ThumbnailSelector';
 import Button from '../Button';
+import { Text } from '../../styles/sharedStyles';
 
 interface Props {
 	initialValue?: FinalPost;
@@ -49,6 +50,7 @@ const Editor: FC<Props> = ({
 		slug: '',
 		categoryName: '',
 		authorId: '',
+		excerpt: '',
 	});
 	const editorRef = useRef(null);
 
@@ -195,6 +197,18 @@ const Editor: FC<Props> = ({
 					editor={editor}
 				/>
 				{/* SPACER */}
+				<label style={{ marginTop: '3rem', display: 'block' }}>
+					<Text>Excerpt</Text>
+
+					<TextArea
+						onChange={(e) =>
+							setPost((prevPost) => ({ ...prevPost, excerpt: e.target.value }))
+						}
+						value={post.excerpt}
+						name='meta'
+						placeholder='Short description of the article'
+					></TextArea>
+				</label>
 				<SEOForm
 					onChange={updateSEOValue}
 					title={post.title}
@@ -214,7 +228,14 @@ const Editor: FC<Props> = ({
 		</>
 	);
 };
-
+const TextArea = styled.textarea`
+	width: 100%;
+	min-height: 100px;
+	border: 1px dashed ${palette.grey_light};
+	padding: 1rem;
+	outline: none;
+	resize: none;
+`;
 const ThumbnailContainer = styled.div`
 	display: flex;
 	justify-content: space-between;

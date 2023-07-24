@@ -38,6 +38,9 @@ class PostModel {
 					meta: obj.meta,
 					thumbnailUrl: url,
 					thumbnailId: public_id,
+					...(obj.excerpt && {
+						excerpt: obj.excerpt,
+					}),
 					...(categoryFound && {
 						categoryName: obj.categoryName,
 					}),
@@ -70,7 +73,7 @@ class PostModel {
 					tags: true,
 				},
 			});
-			console.log('ARTICLE:', article);
+
 			return article;
 		} catch (e) {
 			return null;
@@ -115,6 +118,9 @@ class PostModel {
 					published: Boolean(obj.published) || false,
 					...(obj.thumbnailUrl && { thumbnailUrl: obj.thumbnailUrl }),
 					...(obj.thumbnailId && { thumbnailId: obj.thumbnailId }),
+					...(obj.excerpt && {
+						excerpt: obj.excerpt,
+					}),
 					...(obj.categoryName && {
 						category: {
 							connect: {

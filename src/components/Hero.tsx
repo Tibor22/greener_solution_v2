@@ -28,12 +28,7 @@ const Hero: FC<Props> = ({ hero }: Props): JSX.Element => {
 					<Label color='red'>{hero.category.name}</Label>
 				</HeadingWrap>
 
-				<Description small>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta,
-					aspernatur necessitatibus ullam obcaecati nesciunt corrupti maxime
-					odit ipsam. Alias facere quis dignissimos neque unde qui velit enim
-					porro quod ipsum?
-				</Description>
+				<Description small>{hero.excerpt}</Description>
 				<Button type='primary'>Read more</Button>
 			</DetailsContainer>
 		</Wrapper>

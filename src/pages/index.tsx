@@ -24,6 +24,7 @@ export async function getStaticProps() {
 				authorId: true,
 				hero: true,
 				category: true,
+				excerpt: true,
 			},
 		});
 		console.log('HERO:', hero);

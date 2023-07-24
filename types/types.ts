@@ -10,6 +10,7 @@ export type PostObject = {
 		image: string;
 		authorId: string;
 		published?: boolean;
+		excerpt?: string;
 	};
 	files: formidable.Files;
 };
@@ -30,6 +31,7 @@ export interface UpdateObj {
 	thumbnailId: string;
 	hero: boolean;
 	featured: boolean;
+	excerpt?: string;
 }
 
 export type UserObject = {
@@ -42,8 +44,9 @@ export type UserObject = {
 
 export interface FinalPost extends SeoResult {
 	title: string;
-	content: String;
-	authorId: String;
+	content: string;
+	authorId: string;
+	excerpt: string;
 	thumbnail?: File | string;
 }
 
@@ -70,6 +73,7 @@ export type HeroType = {
 	thumbnailUrl: string;
 	authorId: number;
 	hero: boolean;
+	excerpt: string;
 	category: {
 		id: number;
 		name: string;
