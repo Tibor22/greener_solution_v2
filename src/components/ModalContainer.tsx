@@ -47,6 +47,8 @@ const ModalContainer: FC<Props> = ({
 };
 
 const Modal = styled.div`
+	z-index: 100000;
+	position: relative;
 	position: fixed;
 	display: grid;
 	place-items: center;

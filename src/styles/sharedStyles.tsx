@@ -43,6 +43,8 @@ const CustomHeading = styled.div<any>`
 	${({ strike }) => strike && 'text-decoration: line-through;'}
 	max-width: ${({ maxWidth }) => maxWidth};
 	text-align: ${({ isCentered }) => (isCentered ? 'center' : 'inherit')};
+	font-family: ${({ family }) =>
+		montserrat.style.fontFamily || playfair_display.style.fontFamily};
 	font-weight: ${({ level, bold }) =>
 		bold
 			? '700'
@@ -130,7 +132,7 @@ export const BoxPlaceHolder = styled.div<{ length: string; height: string }>`
 
 export const Container = styled.div`
 	margin: 0 auto;
-	// padding: 0px 15px;
+
 	@media ${device.mobileS} {
 		max-width: 575px;
 	}
