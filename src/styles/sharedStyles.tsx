@@ -62,10 +62,10 @@ const CustomHeading = styled.div<any>`
 	&:hover {
 		cursor: ${({ isLink }) => (isLink ? 'pointer' : 'inherit')};
 	}
-	&:hover {
-		left: 0.3rem;
-		color: ${palette.RL_red_main};
-	}
+	// &:hover {
+	// 	left: 0.3rem;
+	// 	color: ${palette.RL_red_main};
+	// }
 `;
 
 const handleHeadingFontSize = (level: number, supersize: boolean) => {

@@ -79,6 +79,17 @@ export type HeroType = {
 		name: string;
 	};
 };
+export type FeaturedType = {
+	slug: string;
+	title: string;
+	thumbnailUrl: string;
+	authorId: number;
+	excerpt?: string;
+	category: {
+		id: number;
+		name: string;
+	};
+};
 export interface SeoResult {
 	meta: string;
 	slug: string;
