@@ -5,8 +5,10 @@ import React from 'react';
 import { playfair_display, montserrat, merriweather } from './fonts';
 
 export const Text = styled.p<any>`
-	font-size: ${({ small, medium, xsmall }) =>
-		xsmall
+	font-size: ${({ small, medium, xsmall, xxsmall }) =>
+		xxsmall
+			? fonts.xxsmall
+			: xsmall
 			? fonts.xsmall
 			: small
 			? fonts.small
