@@ -47,6 +47,8 @@ const handleColorType = (type: string) => {
 	switch (type) {
 		case 'primary':
 			return palette.white;
+		case 'primary_light':
+			return palette.white;
 		case 'secondary':
 			return palette.white;
 		case 'clear':
@@ -58,6 +60,8 @@ const handleColorType = (type: string) => {
 const handleHoverColorType = (type: string) => {
 	switch (type) {
 		case 'primary':
+			return palette.white;
+		case 'primary_light':
 			return palette.white;
 		case 'secondary':
 			return palette.white;
@@ -72,6 +76,8 @@ const handleBackgroundType = (type: string) => {
 	switch (type) {
 		case 'primary':
 			return palette.medium_green;
+		case 'primary_light':
+			return palette.light_green;
 		case 'secondary':
 			return palette.dark_green;
 		case 'clear':
@@ -85,6 +91,8 @@ const handleBorderColor = (type: string) => {
 	switch (type) {
 		case 'primary':
 			return palette.medium_green;
+		case 'primary_light':
+			return palette.white;
 		case 'secondary':
 			return palette.dark_green;
 		case 'clear':

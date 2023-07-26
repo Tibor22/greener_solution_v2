@@ -11,6 +11,7 @@ import { Heading } from '@/styles/sharedStyles';
 import Link from 'next/link';
 import { MAIN_URL } from '../../config/config';
 import Featured from '@/components/Featured';
+import Newsletter from '@/components/Newsletter';
 declare type Props = {
 	data: {
 		hero: HeroType;
@@ -123,7 +124,7 @@ export default function Home({ data }: Props) {
 			<FeaturedSection>
 				<CategoriesHeading>
 					<Heading family={'montserrat'} level={2}>
-						CATEGORIES
+						TOP ARTICLES
 					</Heading>
 				</CategoriesHeading>
 				<FeaturedContainer>
@@ -132,9 +133,16 @@ export default function Home({ data }: Props) {
 					))}
 				</FeaturedContainer>
 			</FeaturedSection>
+			<NewsletterSection>
+				<Newsletter />
+			</NewsletterSection>
 		</div>
 	);
 }
+
+const NewsletterSection = styled.section`
+	margin-bottom: 5rem;
+`;
 const FeaturedContainer = styled.div`
 	width: 100%;
 	display: grid;
