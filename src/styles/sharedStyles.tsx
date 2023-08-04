@@ -40,7 +40,7 @@ const CustomHeading = styled.div<any>`
 	text-transform: ${({ level }) => (level === 5 ? 'uppercase' : 'unset')};
 	font-size: ${({ level, supersize, size }) =>
 		size || handleHeadingFontSize(level, supersize)};
-	color: ${({ color }) => palette[color]};
+	color: ${({ color }) => palette[color] || palette['black']};
 	margin: ${({ margin }) => `${margin}`};
 	${({ strike }) => strike && 'text-decoration: line-through;'}
 	max-width: ${({ maxWidth }) => maxWidth};
@@ -202,4 +202,5 @@ export const Label = styled.label<{ color: string }>`
 	border-radius: 8px;
 	color: white;
 	font-family: ${montserrat.style.fontFamily};
+	font-weight: bold;
 `;

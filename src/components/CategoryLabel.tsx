@@ -19,7 +19,7 @@ const CategoryLabel: FC<Props> = ({
 	return (
 		<Label bgColor={bgColor} type={type}>
 			{children}
-			<Heading style={{ textTransform: 'uppercase' }} level={3}>
+			<Heading color='white' style={{ textTransform: 'uppercase' }} level={3}>
 				{name}
 			</Heading>
 		</Label>

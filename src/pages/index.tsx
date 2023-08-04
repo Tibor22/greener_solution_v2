@@ -12,10 +12,12 @@ import Link from 'next/link';
 import { MAIN_URL } from '../../config/config';
 import Featured from '@/components/Featured';
 import Newsletter from '@/components/Newsletter';
+import ArticleUiBox from '@/components/ArticleUiBox';
 declare type Props = {
 	data: {
 		hero: HeroType;
 		featuredArticles: FeaturedType[];
+		articles: FeaturedType[];
 	};
 };
 
@@ -48,8 +50,20 @@ export async function getStaticProps() {
 			},
 		});
 
+		const articles = await prisma.article.findMany({
+			where: { featured: false, hero: false },
+			select: {
+				slug: true,
+				title: true,
+				thumbnailUrl: true,
+				authorId: true,
+				category: true,
+			},
+			take: 5,
+		});
+
 		return {
-			props: { data: { hero: hero[0], featuredArticles } },
+			props: { data: { hero: hero[0], featuredArticles, articles } },
 			revalidate: 1,
 		};
 	} catch (error) {
@@ -60,6 +74,7 @@ export async function getStaticProps() {
 export default function Home({ data }: Props) {
 	console.log('HERO', data.hero);
 	console.log('Featured article', data.featuredArticles);
+	console.log('normal article', data.articles);
 
 	const categories = [
 		{
@@ -136,12 +151,38 @@ export default function Home({ data }: Props) {
 			<NewsletterSection>
 				<Newsletter />
 			</NewsletterSection>
+			<ArticlesSection>
+				<Heading family={'montserrat'} level={2}>
+					RECENT ARTICLES
+				</Heading>
+				<ArticlesContainer>
+					{data.articles.length > 0 &&
+						data.articles.map((article) => {
+							return (
+								<ArticleUiBox
+									article={{ ...article, category: article.category.name }}
+								></ArticleUiBox>
+							);
+						})}
+				</ArticlesContainer>
+			</ArticlesSection>
 		</div>
 	);
 }
 
+const ArticlesContainer = styled.div`
+	margin-top: 3rem;
+	display: grid;
+	grid-auto-rows: 1fr;
+	gap: 3rem;
+`;
+
+const ArticlesSection = styled.section`
+	margin-bottom: 10rem;
+`;
+
 const NewsletterSection = styled.section`
-	margin-bottom: 5rem;
+	margin: 8rem 0rem;
 `;
 const FeaturedContainer = styled.div`
 	width: 100%;

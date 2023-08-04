@@ -90,6 +90,7 @@ export type FeaturedType = {
 		name: string;
 	};
 };
+
 export interface SeoResult {
 	meta: string;
 	slug: string;
