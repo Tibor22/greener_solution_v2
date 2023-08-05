@@ -1,22 +1,19 @@
-import { Heading, Text } from '@/styles/sharedStyles';
 import { FC } from 'react';
-import styled from 'styled-components';
-import Button from './Button';
+import { Heading, Text } from '@/styles/sharedStyles';
 import { FeaturedType } from '../../types/types';
-import Image from 'next/image';
+import styled from 'styled-components';
 import { fonts, palette } from '@/styles/common';
 import Link from 'next/link';
+import Image from 'next/image';
 import { MAIN_URL } from '../../config/config';
-
+import Button from './Button';
 interface Props {
 	article: FeaturedType;
-	index: number;
 }
 
-const Featured: FC<Props> = ({ article, index }): JSX.Element => {
+const FeaturedArticle: FC<Props> = ({ article }): JSX.Element => {
 	return (
-		<CLink index={index} href={`${MAIN_URL}/article/${article.slug}`}>
-			{/* <Container index={index}> */}
+		<CLink href={`${MAIN_URL}/article/${article.slug}`}>
 			<Overlay></Overlay>
 			<Image
 				style={{ objectFit: 'cover' }}
@@ -63,17 +60,17 @@ const Overlay = styled.div`
 
 const InnerWrapper = styled.div`
 	position: relative;
+	margin-top: 5rem;
 `;
 
-const CLink = styled(Link)<{ index: number }>`
+const CLink = styled(Link)`
 	display: flex;
 	flex-direction: column;
 	justify-content: end;
 	position: relative;
 	border-radius: 12px;
 	padding: 1.5rem;
-	grid-column: ${({ index }) =>
-		index === 0 ? '1/3' : index === 3 ? '2/4' : 'auto'};
+
 	& img {
 		border-radius: 12px;
 	}
@@ -100,4 +97,4 @@ const Label = styled.div`
 	font-weight: bold;
 `;
 
-export default Featured;
+export default FeaturedArticle;

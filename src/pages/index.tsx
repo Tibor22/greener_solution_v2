@@ -13,6 +13,7 @@ import { MAIN_URL } from '../../config/config';
 import Featured from '@/components/Featured';
 import Newsletter from '@/components/Newsletter';
 import ArticleUiBox from '@/components/ArticleUiBox';
+import FeaturedArticle from '@/components/FeaturedArticle';
 declare type Props = {
 	data: {
 		hero: HeroType;
@@ -143,7 +144,7 @@ export default function Home({ data }: Props) {
 					</Heading>
 				</CategoriesHeading>
 				<FeaturedContainer>
-					{data.featuredArticles.map((article, i) => (
+					{data.featuredArticles.slice(0, 4).map((article, i) => (
 						<Featured key={article.title} index={i} article={article} />
 					))}
 				</FeaturedContainer>
@@ -152,19 +153,31 @@ export default function Home({ data }: Props) {
 				<Newsletter />
 			</NewsletterSection>
 			<ArticlesSection>
-				<Heading family={'montserrat'} level={2}>
-					RECENT ARTICLES
-				</Heading>
-				<ArticlesContainer>
-					{data.articles.length > 0 &&
-						data.articles.map((article) => {
-							return (
-								<ArticleUiBox
-									article={{ ...article, category: article.category.name }}
-								></ArticleUiBox>
-							);
-						})}
-				</ArticlesContainer>
+				<div>
+					<Heading family={'montserrat'} level={2}>
+						RECENT ARTICLES
+					</Heading>
+					<ArticlesContainer>
+						{data.articles.length > 0 &&
+							data.articles.map((article) => {
+								return (
+									<ArticleUiBox
+										article={{ ...article, category: article.category.name }}
+									></ArticleUiBox>
+								);
+							})}
+					</ArticlesContainer>
+				</div>
+				{data.featuredArticles.length > 0 && (
+					<div>
+						<Heading family={'montserrat'} level={2}>
+							FEATURED
+						</Heading>
+						<FeaturedArticle
+							article={[...data.featuredArticles].pop() as FeaturedType}
+						/>
+					</div>
+				)}
 			</ArticlesSection>
 		</div>
 	);
@@ -179,6 +192,9 @@ const ArticlesContainer = styled.div`
 
 const ArticlesSection = styled.section`
 	margin-bottom: 10rem;
+	display: grid;
+	grid-template-columns: 4fr 2fr;
+	gap: 20%;
 `;
 
 const NewsletterSection = styled.section`
