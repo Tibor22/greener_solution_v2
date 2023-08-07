@@ -7,7 +7,7 @@ interface Props {
 	children: ReactNode;
 }
 const Layout: FC<Props> = ({ children }): JSX.Element => {
-	const { data: session, status, update } = useSession();
+	const { data: session } = useSession();
 	const [navbarHeight, setNavbarHeight] = useState<number>(0);
 	return (
 		<div style={{ minHeight: '100vh' }}>

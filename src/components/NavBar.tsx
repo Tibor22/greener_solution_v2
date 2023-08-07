@@ -30,7 +30,6 @@ const NavBar: FC<Props> = ({ setNavbarHeight }): JSX.Element => {
 	};
 
 	useEffect(() => {
-		console.log('navbar:', navbar);
 		setNavbarHeight(navbar?.current?.clientHeight);
 	}, [navbar]);
 
@@ -53,7 +52,7 @@ const NavBar: FC<Props> = ({ setNavbarHeight }): JSX.Element => {
 					<Link onClick={(e) => handleSlider(e)} href={'/'}>
 						<ListItem>Home</ListItem>
 					</Link>
-					<Link onClick={(e) => handleSlider(e)} href={'/categories'}>
+					<Link onClick={(e) => handleSlider(e)} href={'/categories/all'}>
 						<ListItem>Categories</ListItem>
 					</Link>
 					<Link onClick={(e) => handleSlider(e)} href={'/contact'}>
