@@ -134,31 +134,32 @@ export const BoxPlaceHolder = styled.div<{ length: string; height: string }>`
 
 export const Container = styled.div`
 	margin: 0 auto;
-
-	@media ${device.mobileS} {
-		max-width: 575px;
-	}
-	@media ${device.mobileM} {
-		max-width: 575px;
-	}
-	@media ${device.mobileL} {
-		max-width: 700px;
-	}
-	@media ${device.tablet} {
-		max-width: 1000px;
-	}
-	@media ${device.laptop} {
-		max-width: 1400px;
-	}
-	@media ${device.laptopL} {
-		max-width: 1760px;
-	}
-	@media ${device.desktop} {
-		max-width: 2400px;
-	}
-	@media ${device.desktopL} {
-		max-width: 3000px;
-	}
+	// max-width: 1500px;
+	// padding: 0px 15px;
+	// @media ${device.mobileS} {
+	// 	max-width: 575px;
+	// }
+	// @media ${device.mobileM} {
+	// 	max-width: 575px;
+	// }
+	// @media ${device.mobileL} {
+	// 	max-width: 700px;
+	// }
+	// @media ${device.tablet} {
+	// 	max-width: 1000px;
+	// }
+	// @media ${device.laptop} {
+	// 	max-width: 1400px;
+	// }
+	// @media ${device.laptopL} {
+	// 	max-width: 1760px;
+	// }
+	// @media ${device.desktop} {
+	// 	max-width: 2400px;
+	// }
+	// @media ${device.desktopL} {
+	// 	max-width: 3000px;
+	// }
 `;
 
 export const Error = styled(Text)<{

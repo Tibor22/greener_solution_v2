@@ -70,7 +70,7 @@ const CLink = styled(Link)`
 	position: relative;
 	border-radius: 12px;
 	padding: 1.5rem;
-
+	box-shadow: ${palette.shadow};
 	& img {
 		border-radius: 12px;
 	}
