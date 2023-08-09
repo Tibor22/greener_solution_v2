@@ -127,8 +127,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 		category = slug;
 	}
 
-	console.log('CATEGORY:', category);
-
 	return {
 		props: {
 			...(featuredArticles && { featured: featuredArticles }),
@@ -143,14 +141,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const Category: FC<Props> = ({
 	featured,
 	articles,
-	slug,
 	category,
 }: Props): JSX.Element => {
-	console.log({ featured, articles, slug });
 	return (
 		<Wrapper>
 			<Heading margin='7rem 0rem 3rem 0rem' family={'montserrat'} level={2}>
-				{`FEATURED ARTICLES IN ${category.toUpperCase()} CATEGORY`}
+				{`FEATURED IN ${category.toUpperCase()}`}
 			</Heading>
 			<FeaturedSection>
 				{featured.length > 0 &&
@@ -161,7 +157,7 @@ const Category: FC<Props> = ({
 			<ArticlesSection>
 				<div>
 					<Heading margin='7rem 0rem 3rem 0rem' family={'montserrat'} level={2}>
-						{`RECENT ARTICLES IN ${category.toUpperCase()} CATEGORY`}
+						{`MORE FROM  ${category.toUpperCase()}`}
 					</Heading>
 					<ArticlesContainer>
 						{articles.length > 0 &&
