@@ -90,13 +90,23 @@ export const getStaticProps: GetStaticProps = async (context) => {
 			},
 			take: 8,
 		});
-		if (articles) {
+		console.log('ARTICLES:', articles);
+		if (articles.length > 0) {
 			articles = articles[0].article;
 			category = articles[0].category?.name;
 		}
-		if (featuredArticles) {
+		if (featuredArticles.length > 0) {
 			featuredArticles = featuredArticles[0].article;
 			category = featuredArticles[0].category?.name;
+		}
+
+		if (featuredArticles.length === 0) {
+			return {
+				redirect: {
+					permanent: false,
+					destination: '/categories/all',
+				},
+			};
 		}
 	} else {
 		featuredArticles = await prisma.article.findMany({
