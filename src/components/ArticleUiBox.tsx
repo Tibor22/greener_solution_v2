@@ -16,7 +16,7 @@ interface Props {
 
 const ArticleUiBox: FC<Props> = ({ article }): JSX.Element => {
 	return (
-		<Wrapper href={`${MAIN_URL}/articles/${article.slug}`}>
+		<Wrapper href={`${MAIN_URL}/article/${article.slug}`}>
 			<ImageWrapper>
 				<Image
 					style={{ objectFit: 'cover' }}
