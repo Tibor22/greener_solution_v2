@@ -73,9 +73,9 @@ export async function getStaticProps() {
 }
 
 export default function Home({ data }: Props) {
-	console.log('HERO', data.hero);
-	console.log('Featured article', data.featuredArticles);
-	console.log('normal article', data.articles);
+	// console.log('HERO', data.hero);
+	// console.log('Featured article', data.featuredArticles);
+	// console.log('normal article', data.articles);
 
 	const categories = [
 		{

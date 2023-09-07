@@ -51,7 +51,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 				},
 			},
 			include: {
-				article: {
+				articles: {
 					where: { featured: true },
 					select: {
 						slug: true,
@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 				},
 			},
 			include: {
-				article: {
+				articles: {
 					where: {
 						featured: false,
 						hero: false,
@@ -90,13 +90,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
 			},
 			take: 8,
 		});
-		console.log('ARTICLES:', articles);
+
 		if (articles.length > 0) {
-			articles = articles[0].article;
+			articles = articles[0].articles;
 			category = articles[0].category?.name;
 		}
 		if (featuredArticles.length > 0) {
-			featuredArticles = featuredArticles[0].article;
+			featuredArticles = featuredArticles[0].articles;
 			category = featuredArticles[0].category?.name;
 		}
 

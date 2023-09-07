@@ -21,6 +21,7 @@ const UpdatePost: FC<Props> = (props): JSX.Element => {
 	);
 
 	const handleSubmit = async (post: FinalPost) => {
+		delete post.category;
 		setCreating(true);
 		try {
 			// we have to generate FormData

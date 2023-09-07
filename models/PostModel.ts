@@ -55,7 +55,6 @@ class PostModel {
 					tags: true,
 				},
 			});
-			console.log('ARTICLE CREATED:', articleCreated);
 			return articleCreated;
 		} else {
 			throw new Error('Missing thumbnail');
@@ -86,6 +85,7 @@ class PostModel {
 		tags: string[],
 		oldTags: Tag[]
 	) {
+		console.log('FISR ENTRY:', obj);
 		if (thumbnail) {
 			const { secure_url: url, public_id } = await cloudinary.uploader.upload(
 				thumbnail.filepath,
@@ -99,11 +99,7 @@ class PostModel {
 			obj.thumbnailUrl = url;
 		}
 
-		const tagsFound: Tag[] = await prisma.tag.findMany({
-			where: {
-				OR: tags.map((tagName) => ({ name: tagName })),
-			},
-		});
+		const tagsFound = await checkTags(tags);
 
 		try {
 			const updateArticle = await prisma.article.update({
@@ -128,12 +124,13 @@ class PostModel {
 							},
 						},
 					}),
-					...(tagsFound.length > 0 && {
-						tags: {
-							disconnect: oldTags.map((tag) => ({ id: tag.id })),
-							connect: tagsFound.map((tag: any) => ({ id: tag.id })),
-						},
-					}),
+					...(tagsFound &&
+						tagsFound?.length > 0 && {
+							tags: {
+								disconnect: oldTags.map((tag) => ({ id: tag.id })),
+								connect: tagsFound?.map((tag: any) => ({ id: tag.id })),
+							},
+						}),
 					...(typeof obj.hero == 'boolean' && { hero: obj.hero }),
 					...(typeof obj.featured == 'boolean' && { featured: obj.featured }),
 				},
@@ -160,6 +157,20 @@ class PostModel {
 		return deletedPost;
 	}
 }
+
+const checkTags = async function (tags: string[]) {
+	try {
+		const tagsFound = await prisma.tag.findMany({
+			where: {
+				OR: tags.map((tagName) => ({ name: tagName })),
+			},
+		});
+
+		return tagsFound;
+	} catch (e) {
+		console.log(e.message);
+	}
+};
 
 const postModel = new PostModel();
 
