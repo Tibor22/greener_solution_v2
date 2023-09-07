@@ -63,9 +63,9 @@ const NavBar: FC<Props> = ({ setNavbarHeight }): JSX.Element => {
 					</Link>
 				</ListContainer>
 
-				<SearchContainer>
+				{/* <SearchContainer>
 					<input type='text' />
-				</SearchContainer>
+				</SearchContainer> */}
 
 				<Slider xcoordinates={coordinates.x} />
 			</InnerContainer>

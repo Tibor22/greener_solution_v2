@@ -4,14 +4,16 @@ import Image from 'next/image';
 import { Heading, Label, Text } from '@/styles/sharedStyles';
 import Button from './Button';
 import { HeroType } from '../../types/types';
-import { palette } from '@/styles/common';
+import { useRouter } from 'next/router';
+
+import { MAIN_URL } from '../../config/config';
 
 interface Props {
 	hero: HeroType;
 }
 
 const Hero: FC<Props> = ({ hero }: Props): JSX.Element => {
-	console.log('HERO IN COMPONENT:', hero);
+	const router = useRouter();
 	return (
 		<Wrapper>
 			<Image
@@ -29,7 +31,13 @@ const Hero: FC<Props> = ({ hero }: Props): JSX.Element => {
 				</HeadingWrap>
 
 				<Description small>{hero.excerpt}</Description>
-				<Button type='primary'>Read more</Button>
+
+				<Button
+					ifClicked={() => router.push(`${MAIN_URL}/article/${hero.slug}`)}
+					type='primary'
+				>
+					Read more
+				</Button>
 			</DetailsContainer>
 		</Wrapper>
 	);

@@ -91,13 +91,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
 			take: 8,
 		});
 
-		if (articles.length > 0) {
+		if (articles[0].articles.length > 0) {
 			articles = articles[0].articles;
 			category = articles[0].category?.name;
 		}
 		if (featuredArticles.length > 0) {
 			featuredArticles = featuredArticles[0].articles;
-			category = featuredArticles[0].category?.name;
+			category = featuredArticles[0]?.category?.name;
 		}
 
 		if (featuredArticles.length === 0) {
@@ -158,7 +158,7 @@ const Category: FC<Props> = ({
 			<Heading margin='7rem 0rem 3rem 0rem' family={'montserrat'} level={2}>
 				{`FEATURED IN ${category.toUpperCase()}`}
 			</Heading>
-			<FeaturedSection>
+			<FeaturedSection length={featured.length}>
 				{featured.length > 0 &&
 					featured.map((f) => {
 						return <FeaturedArticle article={f} />;
@@ -170,10 +170,12 @@ const Category: FC<Props> = ({
 						{`MORE FROM  ${category.toUpperCase()}`}
 					</Heading>
 					<ArticlesContainer>
-						{articles.length > 0 &&
+						{articles &&
+							articles.length > 0 &&
 							articles.map((article) => {
 								return (
 									<ArticleUiBox
+										key={article.slug}
 										article={{ ...article, category: article.category.name }}
 									></ArticleUiBox>
 								);
@@ -199,11 +201,11 @@ const ArticlesSection = styled.section`
 	gap: 20%;
 `;
 
-const FeaturedSection = styled.section`
+const FeaturedSection = styled.section<{ length: number }>`
 	display: grid;
 	width: 100%;
-	grid-template-columns: 1fr 1fr;
-	gap: 10vw;
+	grid-template-columns: ${({ length }) => (length === 1 ? '1fr' : '1fr 1fr')};
+	gap: 5vw;
 	height: 50vh;
 `;
 
