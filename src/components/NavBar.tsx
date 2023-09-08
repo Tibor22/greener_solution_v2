@@ -6,11 +6,14 @@ import {
 	useRef,
 	useState,
 } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { GiHamburgerMenu } from 'react-icons/gi';
 import { Container } from '@/styles/sharedStyles';
 import styled from 'styled-components';
 import { palette } from '@/styles/common';
 import Link from 'next/link';
 import Image from 'next/image';
+import { device } from '@/styles/device';
 interface Props {
 	setNavbarHeight: Dispatch<SetStateAction<number>>;
 }
@@ -20,6 +23,8 @@ const NavBar: FC<Props> = ({ setNavbarHeight }): JSX.Element => {
 		x: 0,
 		y: 0,
 	});
+
+	const [close, setClose] = useState<boolean>(true);
 
 	const navbar: any = useRef(null);
 	const handleSlider = (e: any) => {
@@ -34,11 +39,13 @@ const NavBar: FC<Props> = ({ setNavbarHeight }): JSX.Element => {
 	}, [navbar]);
 
 	return (
-		<Container
-			ref={navbar}
-			style={{ width: '100%', position: 'sticky', top: 0, zIndex: 100 }}
-			as={`header`}
-		>
+		<CContainer ref={navbar} as={`header`} close={close}>
+			<SwitchBtn
+				close={close}
+				onClick={() => setClose((prevClose) => !prevClose)}
+			>
+				{close ? <GiHamburgerMenu /> : <AiOutlineClose />}
+			</SwitchBtn>
 			<InnerContainer>
 				<LogoContainer>
 					<Image
@@ -69,9 +76,79 @@ const NavBar: FC<Props> = ({ setNavbarHeight }): JSX.Element => {
 
 				<Slider xcoordinates={coordinates.x} />
 			</InnerContainer>
-		</Container>
+		</CContainer>
 	);
 };
+
+const SwitchBtn = styled.div<{ close: boolean }>`
+	position: absolute;
+	top: 2rem;
+	padding: 3rem;
+	background-color: ${palette.light_brown};
+	${({ close }) => (close ? 'left:-8rem' : 'right:2rem')};
+	z-index: 10;
+	color: white;
+	font-size: 28px;
+	border-radius: 50%;
+	cursor: pointer;
+	& svg {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+`;
+
+const CContainer = styled(Container)<{ close: boolean }>`
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 100vh;
+	width: 50vw;
+	z-index: 9;
+	margin: unset;
+	transform: ${({ close }) => (close ? 'translateX(100%)' : 'translateX(0%)')};
+	transition: transform 0.3s ease-out;
+	${device.laptop} {
+		position: sticky;
+		height: auto;
+		margin: 0 auto;
+		width: 100%;
+		transform: translateX(0px);
+	}
+`;
+
+const InnerContainer = styled.nav`
+	position: relative;
+	background-color: ${palette.light_brown};
+	height: 100%;
+	z-index: 9;
+	${device.laptop} {
+		height: unset;
+		display: grid;
+		justify-content: center;
+		align-items: center;
+		grid-template-columns: auto 1fr auto;
+		padding: 0rem 4rem 0rem 1rem;
+	}
+`;
+
+const ListContainer = styled.ul`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 3rem;
+	margin-top: 5rem;
+	list-style: none;
+	${device.laptop} {
+		margin-top: 0rem;
+		display: flex;
+		justify-content: center;
+		flex-direction: row;
+		gap: 8rem;
+		padding: 0.5rem 0rem;
+	}
+`;
 
 const Slider = styled.div<{ xcoordinates: number }>`
 	width: 0;
@@ -87,29 +164,16 @@ const Slider = styled.div<{ xcoordinates: number }>`
 	opacity: ${({ xcoordinates }) => `${xcoordinates === 0 ? 0 : 1}`};
 `;
 
-const InnerContainer = styled.nav`
-	position: relative;
-	display: grid;
-	justify-content: center;
-	align-items: center;
-	background-color: ${palette.light_brown};
-	grid-template-columns: auto 1fr auto;
-	padding: 0rem 4rem 0rem 1rem;
-`;
-const ListContainer = styled.ul`
-	display: flex;
-	justify-content: center;
-	gap: 8rem;
-	list-style: none;
-	padding: 0.5rem 0rem;
-`;
 const SearchContainer = styled.div`
 	display: flex;
 	justify-content: center;
 `;
 const LogoContainer = styled.div`
 	background-color: ${palette.light_brown};
-	margin-top: 2px;
+	padding-top: 1rem;
+	${device.laptop} {
+		padding-top: 2px;
+	}
 `;
 
 const ListItem = styled.li`
@@ -117,12 +181,16 @@ const ListItem = styled.li`
 	font-weight: 500;
 	color: ${palette.white};
 	letter-spacing: 0.85px;
-	font-size: 1.8rem;
+
 	cursor: pointer;
 	transition: color 0.2s;
 	&:hover {
 		color: ${palette.light_green};
 		transition: color 0.2s;
+	}
+	font-size: 2rem;
+	${device.laptop} {
+		font-size: 1.8rem;
 	}
 `;
 

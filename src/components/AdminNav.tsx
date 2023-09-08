@@ -10,6 +10,7 @@ import {
 import { ImStatsBars2 } from 'react-icons/im';
 import styled, { keyframes, css } from 'styled-components';
 import { palette, fonts } from '@/styles/common';
+import { device } from '@/styles/device';
 
 const navItems = [
 	{ href: '/admin', icon: AiOutlineDashboard, label: 'Dashboard' },
@@ -101,11 +102,15 @@ const Nav = styled.nav<{ visible: boolean; navbarHeight: number }>`
 	width: ${({ visible }) => (visible ? 16 : 3.5)}rem;
 	position: sticky;
 	left: 0;
-	top: ${({ navbarHeight }) => (navbarHeight ? `${navbarHeight}px` : '80px')};
-	height: calc(
-		100vh -
-			${({ navbarHeight }) => (navbarHeight ? `${navbarHeight}px` : '80px')}
-	);
+	top: 0;
+	height: 100vh;
+	${device.laptop} {
+		top: ${({ navbarHeight }) => (navbarHeight ? `${navbarHeight}px` : '80px')};
+		height: calc(
+			100vh -
+				${({ navbarHeight }) => (navbarHeight ? `${navbarHeight}px` : '80px')}
+		);
+	}
 `;
 
 const LinkContainer = styled.ul`
