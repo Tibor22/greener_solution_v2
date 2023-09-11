@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { Heading } from '@/styles/sharedStyles';
 import { palette } from '@/styles/common';
+import { device } from '@/styles/device';
 interface Props {
 	type: string; //row or column
 	children: React.ReactNode;
@@ -31,8 +32,8 @@ const Label = styled.div<{ type: string; bgColor: string }>`
 	flex-direction: ${({ type }) => type};
 	align-items: center;
 	justify-content: center;
-	width: 15vw;
-	height: 15vw;
+	width: 35vw;
+	height: 35vw;
 	border-radius: 50%;
 	background-color: ${({ bgColor }) => bgColor};
 	color: white;
@@ -40,6 +41,16 @@ const Label = styled.div<{ type: string; bgColor: string }>`
 	transition: transform 0.25s ease-out;
 	&:hover {
 		transform: translateY(-3px);
+	}
+
+	${device.tablet} {
+		width: 25vw;
+		height: 25vw;
+	}
+
+	${device.laptop} {
+		width: 15vw;
+		height: 15vw;
 	}
 `;
 

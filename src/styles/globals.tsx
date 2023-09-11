@@ -1,10 +1,30 @@
 import { createGlobalStyle } from 'styled-components';
 import { playfair_display, montserrat, merriweather } from './fonts';
+import { device } from '@/styles/device';
 
 export default createGlobalStyle`
+${device.mobileS} {
+  html {
+    font-size: 50%;
+  }
+}
+${device.mobileL} {
+  html {
+    font-size: 52.5%;
+  }
+}
+${device.tablet} {
+  html {
+    font-size: 57.5%;
+  }
+}
+
+
+${device.laptop} {
   html {
     font-size: 62.5%;
   }
+}
 
   html, body {
     box-sizing: border-box;
@@ -13,6 +33,9 @@ export default createGlobalStyle`
     min-height: 100vh;
     min-height: fill-available;
     min-height: -webkit-fill-available;
+
+   
+
 
     a {
       text-decoration: none;

@@ -14,6 +14,7 @@ import Featured from '@/components/Featured';
 import Newsletter from '@/components/Newsletter';
 import ArticleUiBox from '@/components/ArticleUiBox';
 import FeaturedArticle from '@/components/FeaturedArticle';
+import { device } from '@/styles/device';
 declare type Props = {
 	data: {
 		hero: HeroType;
@@ -123,6 +124,7 @@ export default function Home({ data }: Props) {
 				<Labels>
 					{categories.map((category) => (
 						<Link
+							style={{ justifySelf: 'center' }}
 							key={category.name}
 							href={`${MAIN_URL}/categories/${category.name.toLowerCase()}`}
 						>
@@ -169,19 +171,26 @@ export default function Home({ data }: Props) {
 					</ArticlesContainer>
 				</div>
 				{data.featuredArticles.length > 0 && (
-					<div>
+					<FeaturedC>
 						<Heading family={'montserrat'} level={2}>
 							FEATURED
 						</Heading>
 						<FeaturedArticle
 							article={[...data.featuredArticles].pop() as FeaturedType}
 						/>
-					</div>
+					</FeaturedC>
 				)}
 			</ArticlesSection>
 		</div>
 	);
 }
+
+const FeaturedC = styled.div`
+	display: none;
+	${device.tablet} {
+		display: unset;
+	}
+`;
 
 const ArticlesContainer = styled.div`
 	margin-top: 3rem;
@@ -191,10 +200,13 @@ const ArticlesContainer = styled.div`
 `;
 
 const ArticlesSection = styled.section`
-	margin-bottom: 10rem;
-	display: grid;
-	grid-template-columns: 4fr 2fr;
-	gap: 20%;
+	margin-bottom: 5rem;
+	${device.tablet} {
+		margin-bottom: 10rem;
+		display: grid;
+		grid-template-columns: 4fr 2fr;
+		gap: 20%;
+	}
 `;
 
 const NewsletterSection = styled.section`
@@ -212,8 +224,18 @@ const FeaturedContainer = styled.div`
 const FeaturedSection = styled.div``;
 
 const Labels = styled.div`
-	display: flex;
-	justify-content: space-around;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 3rem;
+
+	${device.tablet} {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	${device.laptop} {
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+		gap: 0rem;
+	}
 `;
 
 const CategoriesHeading = styled.div`

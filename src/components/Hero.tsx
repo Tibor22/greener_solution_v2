@@ -5,6 +5,7 @@ import { Heading, Label, Text } from '@/styles/sharedStyles';
 import Button from './Button';
 import { HeroType } from '../../types/types';
 import { useRouter } from 'next/router';
+import { device } from '@/styles/device';
 
 import { MAIN_URL } from '../../config/config';
 
@@ -52,25 +53,31 @@ const HeadingWrap = styled.div`
 
 const DetailsContainer = styled.div`
 	position: relative;
-	width: 50rem;
-	margin-left: 15vw;
+
+	${device.tablet} {
+		width: 50rem;
+		margin-left: 15vw;
+	}
+
 	background: white;
 	padding: 3rem;
 	border-radius: 8px 8px 0px 0px;
 	z-index: 2;
 	transform: translateY(1px);
 
-	&::after {
-		content: '';
-		z-index: -1;
-		position: absolute;
-		background: white;
-		opacity: 0.7;
-		width: 100%;
-		height: 100%;
-		top: -18%;
-		border-radius: 8px;
-		transform: rotateZ(25deg);
+	${device.tablet} {
+		&::after {
+			content: '';
+			z-index: -1;
+			position: absolute;
+			background: white;
+			opacity: 0.7;
+			width: 100%;
+			height: 100%;
+			top: -18%;
+			border-radius: 8px;
+			transform: rotateZ(25deg);
+		}
 	}
 `;
 const Description = styled(Text)`

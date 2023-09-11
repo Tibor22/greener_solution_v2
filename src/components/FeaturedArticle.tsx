@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { MAIN_URL } from '../../config/config';
 import Button from './Button';
+import { device } from '@/styles/device';
 interface Props {
 	article: FeaturedType;
 }
