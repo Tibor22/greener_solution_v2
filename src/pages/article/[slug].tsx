@@ -1,15 +1,14 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { FC } from 'react';
 import prisma from '../../../lib/prisma';
-import { generateHTML, generateJSON } from '@tiptap/html';
-import React, { useMemo } from 'react';
-import Document from '@tiptap/extension-document';
-import Paragraph from '@tiptap/extension-paragraph';
-import Bold from '@tiptap/extension-bold';
-import Text from '@tiptap/extension-text';
+import React from 'react';
 import parse from 'html-react-parser';
 import styled from 'styled-components';
 import { fonts } from '@/styles/common';
+import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { Container } from '@/styles/sharedStyles';
+import { useRouter } from 'next/router';
+import { device } from '@/styles/device';
 
 interface Props {
 	article: {
@@ -67,15 +66,44 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 const Article: FC<Props> = ({ article, slug }: Props): JSX.Element => {
-	return <RichText>{parse(article.content)}</RichText>;
+	const router = useRouter();
+	return (
+		<div style={{ position: 'relative', width: '100%' }}>
+			<BackButton role='button' onClick={() => router.back()}>
+				<AiOutlineArrowLeft />
+			</BackButton>
+			<RichText>{parse(article.content)}</RichText>
+		</div>
+	);
 };
 
+const BackButton = styled.div`
+	font-size: 3rem;
+	left: 2rem;
+	${device.laptop} {
+		font-size: 3rem;
+		left: 2rem;
+	}
+	position: absolute;
+	top: 3rem;
+
+	cursor: pointer;
+`;
+
 const RichText = styled.div`
-	margin: 0 auto;
+	margin: 4rem auto;
+	${device.laptop} {
+		margin: 0 auto;
+		max-width: 60%;
+	}
+
 	padding: 15px;
-	max-width: 60%;
+
 	& h1 {
 		font-size: 3.693rem;
+	}
+	& h2 {
+		font-size: 2.8rem;
 	}
 
 	p {
