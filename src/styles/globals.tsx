@@ -6,6 +6,7 @@ export default createGlobalStyle`
 ${device.mobileS} {
   html {
     font-size: 50%;
+
   }
 }
 ${device.mobileL} {

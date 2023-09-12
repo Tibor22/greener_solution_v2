@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { Container, Heading } from '@/styles/sharedStyles';
 import FeaturedArticle from '@/components/FeaturedArticle';
 import ArticleUiBox from '@/components/ArticleUiBox';
+import { device } from '@/styles/device';
 
 interface Props {
 	featured: FeaturedType[];
@@ -204,9 +205,14 @@ const ArticlesSection = styled.section`
 const FeaturedSection = styled.section<{ length: number }>`
 	display: grid;
 	width: 100%;
-	grid-template-columns: ${({ length }) => (length === 1 ? '1fr' : '1fr 1fr')};
+	grid-template-columns: 1fr;
 	gap: 5vw;
-	height: 50vh;
+	min-height: 25vh;
+	${device.laptop} {
+		height: 40vh;
+		grid-template-columns: ${({ length }) =>
+			length === 1 ? '1fr' : '1fr 1fr'};
+	}
 `;
 
 const Wrapper = styled.div`
