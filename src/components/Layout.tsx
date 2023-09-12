@@ -2,6 +2,7 @@ import { FC, ReactNode, useState } from 'react';
 import NavBar from './NavBar';
 import AdminNav from './AdminNav';
 import { useSession } from 'next-auth/react';
+import Footer from './Footer';
 
 interface Props {
 	children: ReactNode;
@@ -23,7 +24,7 @@ const Layout: FC<Props> = ({ children }): JSX.Element => {
 				{session && <AdminNav navbarHeight={navbarHeight} />}
 				{children}
 			</main>
-			{/* <Footer /> */}
+			<Footer />
 		</div>
 	);
 };

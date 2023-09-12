@@ -119,7 +119,7 @@ const LineBreak = styled.div`
 	width: 100%;
 	height: 2px;
 	background: ${palette.grey_light};
-	margin: 1rem auto;
+	margin: 3rem auto;
 	z-index: 1;
 `;
 

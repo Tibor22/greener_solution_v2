@@ -19,6 +19,7 @@ function Button({
 	stretchDesktop,
 	inline,
 	padding,
+	height,
 	busy = false,
 }: any) {
 	return (
@@ -37,6 +38,7 @@ function Button({
 			inline={inline}
 			hasLabel={!!(label || children)}
 			padding={padding}
+			height={height}
 		>
 			{busy ? <BiLoader className='animate-spin' size={20} /> : children}
 		</Btn>
@@ -129,8 +131,8 @@ const Btn = styled.button<any>`
 				? '0.5rem 1rem'
 				: '1.6rem 1.8rem'
 			: '0.5rem')};
-	height: ${({ large, hasLabel }) =>
-		hasLabel ? (large ? `3.7rem` : '3.08rem') : 'auto'};
+	height: ${({ large, hasLabel, height }) =>
+		hasLabel ? (large ? `3.7rem` : '3.08rem') : height};
 	color: ${({ type }) => handleColorType(type)};
 	background: ${({ type }) => handleBackgroundType(type)};
 	box-shadow: ${({ hasShadow }) =>

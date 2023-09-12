@@ -2,6 +2,7 @@ import {
 	Dispatch,
 	FC,
 	SetStateAction,
+	memo,
 	useEffect,
 	useRef,
 	useState,
@@ -14,11 +15,12 @@ import { palette } from '@/styles/common';
 import Link from 'next/link';
 import Image from 'next/image';
 import { device } from '@/styles/device';
+import { MAIN_URL } from '../../config/config';
 interface Props {
 	setNavbarHeight: Dispatch<SetStateAction<number>>;
 }
 
-const NavBar: FC<Props> = ({ setNavbarHeight }): JSX.Element => {
+const NavBar: FC<Props> = memo(({ setNavbarHeight }): JSX.Element => {
 	const [coordinates, setCoordinates] = useState<{ x: number; y: number }>({
 		x: 0,
 		y: 0,
@@ -47,7 +49,7 @@ const NavBar: FC<Props> = ({ setNavbarHeight }): JSX.Element => {
 				{close ? <GiHamburgerMenu /> : <AiOutlineClose />}
 			</SwitchBtn>
 			<InnerContainer>
-				<LogoContainer>
+				<LogoContainer href={`${MAIN_URL}`}>
 					<Image
 						alt='greener solution logo'
 						height={75}
@@ -78,7 +80,7 @@ const NavBar: FC<Props> = ({ setNavbarHeight }): JSX.Element => {
 			</InnerContainer>
 		</CContainer>
 	);
-};
+});
 
 const SwitchBtn = styled.div<{ close: boolean }>`
 	position: absolute;
@@ -168,7 +170,7 @@ const SearchContainer = styled.div`
 	display: flex;
 	justify-content: center;
 `;
-const LogoContainer = styled.div`
+const LogoContainer = styled(Link)`
 	background-color: ${palette.light_brown};
 	padding-top: 1rem;
 	${device.laptop} {

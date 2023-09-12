@@ -11,7 +11,7 @@ import { ImStatsBars2 } from 'react-icons/im';
 import styled, { keyframes, css } from 'styled-components';
 import { palette, fonts } from '@/styles/common';
 import { device } from '@/styles/device';
-
+import { memo } from 'react';
 const navItems = [
 	{ href: '/admin', icon: AiOutlineDashboard, label: 'Dashboard' },
 	{ href: '/admin/posts', icon: AiOutlineContainer, label: 'Posts' },
@@ -23,7 +23,7 @@ interface Props {
 	navbarHeight: number;
 }
 
-const AdminNav: FC<Props> = ({ navbarHeight }): JSX.Element => {
+const AdminNav: FC<Props> = memo(({ navbarHeight }): JSX.Element => {
 	const [visible, setVisible] = useState<boolean | null>(null);
 	const [delayedVisible, setDelayedVisible] = useState<boolean | null>(null);
 
@@ -80,7 +80,7 @@ const AdminNav: FC<Props> = ({ navbarHeight }): JSX.Element => {
 			)}
 		</>
 	);
-};
+});
 
 const Button = styled.button`
 	background: none;
