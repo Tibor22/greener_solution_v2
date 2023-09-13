@@ -43,7 +43,7 @@ const Content = styled.div`
 	width: 90%;
 	display: flex;
 	flex-direction: column;
-	gap: 2rem;
+	gap: 2.2rem;
 
 	${device.laptop} {
 		height: 100%;

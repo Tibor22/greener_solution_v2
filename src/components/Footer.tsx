@@ -27,13 +27,13 @@ const Footer: FC<Props> = memo((props: Props): JSX.Element => {
 				<Heading level={3} color='white'>
 					Subscribe to our news letter !
 				</Heading>
-				<div style={{ display: 'flex', gap: '1rem' }}>
+				<SubscribeWrap>
 					{' '}
 					<Input type='text'></Input>
 					<Button large type='primary'>
 						Subscribe
 					</Button>
-				</div>
+				</SubscribeWrap>
 			</Subscribe>
 			<Links>
 				<ListItem>
@@ -49,6 +49,23 @@ const Footer: FC<Props> = memo((props: Props): JSX.Element => {
 		</FooterWrapper>
 	);
 });
+
+const SubscribeWrap = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	& button {
+		width: 100%;
+	}
+	${device.tablet} {
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+		& button {
+			width: fit-content;
+		}
+	}
+`;
 
 const ListItem = styled.li`
 	list-style-type: none;

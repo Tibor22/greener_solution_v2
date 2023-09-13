@@ -224,17 +224,20 @@ const NewsletterSection = styled.section`
 const FeaturedContainer = styled.div`
 	width: 100%;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-columns: 1fr;
 	grid-auto-rows: 1fr;
 	gap: 5rem;
 	margin: 0rem 0rem 3rem 0rem;
+	${device.tablet} {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
 `;
 
 const FeaturedSection = styled.div``;
 
 const Labels = styled.div`
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: 1fr 1fr;
 	gap: 3rem;
 
 	${device.tablet} {

@@ -53,6 +53,8 @@ const HeadingWrap = styled.div`
 
 const DetailsContainer = styled.div`
 	position: relative;
+	width: calc(100% - 60px);
+	margin: 0 auto;
 
 	${device.tablet} {
 		width: 50rem;

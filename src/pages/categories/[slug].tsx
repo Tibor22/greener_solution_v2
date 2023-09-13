@@ -14,6 +14,7 @@ import { Text } from '@/styles/sharedStyles';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import Link from 'next/link';
 import { MAIN_URL } from '../../../config/config';
+import slugify from 'slugify';
 
 interface Props {
 	featured: FeaturedType[];
@@ -242,7 +243,11 @@ const Category: FC<Props> = ({
 						{allCategories &&
 							allCategories.map((c) => (
 								<TopicContainer key={c} xsmall active={c === category}>
-									<Link href={`${MAIN_URL}/categories/${c}`}>{c}</Link>
+									<Link
+										href={`${MAIN_URL}/categories/${slugify(c.toLowerCase())}`}
+									>
+										{c}
+									</Link>
 								</TopicContainer>
 							))}
 					</TopicsSlider>
@@ -306,7 +311,11 @@ const SliderOuterWrapper = styled.div`
 	background: white;
 	margin: 0px -15px;
 	padding: 0px 15px;
-	font-size: 2rem;
+	font-size: 4rem;
+
+	${device.laptop} {
+		font-size: 2rem;
+	}
 `;
 
 const TopicContainer = styled(Text)<{ active: boolean }>`
@@ -352,8 +361,12 @@ const ArticlesContainer = styled.div`
 const ArticlesSection = styled.section`
 	margin-bottom: 10rem;
 	display: grid;
-	grid-template-columns: 4fr 2fr;
+	grid-template-columns: 1fr;
 	gap: 20%;
+
+	${device.laptop} {
+		grid-template-columns: 4fr 2fr;
+	}
 `;
 
 const FeaturedSection = styled.section<{ length: number }>`

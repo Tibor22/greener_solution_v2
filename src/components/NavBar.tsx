@@ -41,46 +41,75 @@ const NavBar: FC<Props> = memo(({ setNavbarHeight }): JSX.Element => {
 	}, [navbar]);
 
 	return (
-		<CContainer ref={navbar} as={`header`} close={close}>
-			<SwitchBtn
-				close={close}
-				onClick={() => setClose((prevClose) => !prevClose)}
-			>
-				{close ? <GiHamburgerMenu /> : <AiOutlineClose />}
-			</SwitchBtn>
-			<InnerContainer>
-				<LogoContainer href={`${MAIN_URL}`}>
+		<>
+			<Outer>
+				<LogoContainerOuter href={`${MAIN_URL}`}>
 					<Image
 						alt='greener solution logo'
 						height={75}
 						width={200}
 						src='/logo/logo.png'
 					/>
-				</LogoContainer>
-				<ListContainer>
-					<Link onClick={(e) => handleSlider(e)} href={'/'}>
-						<ListItem>Home</ListItem>
-					</Link>
-					<Link onClick={(e) => handleSlider(e)} href={'/categories/all'}>
-						<ListItem>Categories</ListItem>
-					</Link>
-					<Link onClick={(e) => handleSlider(e)} href={'/contact'}>
-						<ListItem>Contact</ListItem>
-					</Link>
-					<Link onClick={(e) => handleSlider(e)} href={'/subscribe'}>
-						<ListItem>Subscribe</ListItem>
-					</Link>
-				</ListContainer>
+				</LogoContainerOuter>
+				<CContainer ref={navbar} as={`header`} close={close}>
+					<SwitchBtn
+						close={close}
+						onClick={() => setClose((prevClose) => !prevClose)}
+					>
+						{close ? <GiHamburgerMenu /> : <AiOutlineClose />}
+					</SwitchBtn>
+					<InnerContainer>
+						<LogoContainer href={`${MAIN_URL}`}>
+							<Image
+								alt='greener solution logo'
+								height={75}
+								width={200}
+								src='/logo/logo.png'
+							/>
+						</LogoContainer>
+						<ListContainer>
+							<Link onClick={(e) => handleSlider(e)} href={'/'}>
+								<ListItem>Home</ListItem>
+							</Link>
+							<Link onClick={(e) => handleSlider(e)} href={'/categories/all'}>
+								<ListItem>Categories</ListItem>
+							</Link>
+							<Link onClick={(e) => handleSlider(e)} href={'/contact'}>
+								<ListItem>Contact</ListItem>
+							</Link>
+							<Link onClick={(e) => handleSlider(e)} href={'/subscribe'}>
+								<ListItem>Subscribe</ListItem>
+							</Link>
+						</ListContainer>
 
-				{/* <SearchContainer>
+						{/* <SearchContainer>
 					<input type='text' />
 				</SearchContainer> */}
 
-				<Slider xcoordinates={coordinates.x} />
-			</InnerContainer>
-		</CContainer>
+						<Slider xcoordinates={coordinates.x} />
+					</InnerContainer>
+				</CContainer>
+			</Outer>
+			{close && <Margin close={close}></Margin>}
+		</>
 	);
 });
+
+const Margin = styled.div<{ close: boolean }>`
+	margin-top: ${({ close }) => (close ? '81px' : '0px')};
+`;
+
+const Outer = styled.div`
+	position: fixed;
+	height: auto;
+	margin: 0 auto;
+	width: 100%;
+	z-index: 20;
+	height: 81px;
+	// width: 100vw;
+	background: white;
+	top: 0;
+`;
 
 const SwitchBtn = styled.div<{ close: boolean }>`
 	position: absolute;
@@ -106,11 +135,14 @@ const CContainer = styled(Container)<{ close: boolean }>`
 	top: 0;
 	right: 0;
 	height: 100vh;
-	width: 50vw;
-	z-index: 9;
+	width: 80vw;
+	z-index: 19;
 	margin: unset;
 	transform: ${({ close }) => (close ? 'translateX(100%)' : 'translateX(0%)')};
 	transition: transform 0.3s ease-out;
+	${device.tablet} {
+		width: 50vw;
+	}
 	${device.laptop} {
 		position: sticky;
 		height: auto;
@@ -154,17 +186,19 @@ const ListContainer = styled.ul`
 `;
 
 const Slider = styled.div<{ xcoordinates: number }>`
-	width: 0;
-	height: 0;
-	border-left: 7.5px solid transparent;
-	border-right: 7.5px solid transparent;
-	border-bottom: 15px solid #fff;
-	z-index: 1;
-	position: absolute;
-	bottom: -0px;
-	left: ${({ xcoordinates }) => `${xcoordinates - 7.5}px;`};
-	transition: all 0.2s;
-	opacity: ${({ xcoordinates }) => `${xcoordinates === 0 ? 0 : 1}`};
+	${device.laptop} {
+		width: 0;
+		height: 0;
+		border-left: 7.5px solid transparent;
+		border-right: 7.5px solid transparent;
+		border-bottom: 15px solid #fff;
+		z-index: 1;
+		position: absolute;
+		bottom: -0px;
+		left: ${({ xcoordinates }) => `${xcoordinates - 7.5}px;`};
+		transition: all 0.2s;
+		opacity: ${({ xcoordinates }) => `${xcoordinates === 0 ? 0 : 1}`};
+	}
 `;
 
 const SearchContainer = styled.div`
@@ -176,6 +210,11 @@ const LogoContainer = styled(Link)`
 	padding-top: 1rem;
 	${device.laptop} {
 		padding-top: 2px;
+	}
+`;
+const LogoContainerOuter = styled(Link)`
+	${device.laptop} {
+		display: none;
 	}
 `;
 
@@ -191,7 +230,8 @@ const ListItem = styled.li`
 		color: ${palette.light_green};
 		transition: color 0.2s;
 	}
-	font-size: 2rem;
+	font-size: 1.8rem;
+
 	${device.laptop} {
 		font-size: 1.8rem;
 	}
