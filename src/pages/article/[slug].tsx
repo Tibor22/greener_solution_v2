@@ -5,7 +5,7 @@ import React from 'react';
 import parse from 'html-react-parser';
 import styled from 'styled-components';
 import { fonts, palette } from '@/styles/common';
-import { AiOutlineArrowLeft } from 'react-icons/ai';
+
 import { Container, Heading } from '@/styles/sharedStyles';
 import { useRouter } from 'next/router';
 import { device } from '@/styles/device';
@@ -131,7 +131,7 @@ const ReadMore = styled.div`
 		max-width: 60%;
 	}
 	margin: 3rem auto;
-	background: ${palette.light_gradient};
+	background: ${palette.white};
 	padding: 3rem 3rem 3rem 3rem;
 	box-shadow: ${palette.shadow};
 	border-radius: ${palette.radius};

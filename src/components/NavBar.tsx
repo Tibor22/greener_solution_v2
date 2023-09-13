@@ -132,6 +132,7 @@ const InnerContainer = styled.nav`
 		align-items: center;
 		grid-template-columns: auto 1fr auto;
 		padding: 0rem 4rem 0rem 1rem;
+		// min-width: 100vw;
 	}
 `;
 

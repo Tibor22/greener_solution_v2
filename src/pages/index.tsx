@@ -15,6 +15,7 @@ import Newsletter from '@/components/Newsletter';
 import ArticleUiBox from '@/components/ArticleUiBox';
 import FeaturedArticle from '@/components/FeaturedArticle';
 import { device } from '@/styles/device';
+import { palette } from '@/styles/common';
 declare type Props = {
 	data: {
 		hero: HeroType;
@@ -101,7 +102,7 @@ export default function Home({ data }: Props) {
 		},
 	];
 	return (
-		<div
+		<Wrapper
 			style={{
 				width: '100%',
 				padding: '0px 15px',
@@ -181,9 +182,17 @@ export default function Home({ data }: Props) {
 					</FeaturedC>
 				)}
 			</ArticlesSection>
-		</div>
+		</Wrapper>
 	);
 }
+
+const Wrapper = styled.div`
+	width: 100%;
+	padding: 0px 15px;
+	max-width: 1500px;
+	margin: 0 auto;
+	background: ${palette.light_gradient};
+`;
 
 const FeaturedC = styled.div`
 	display: none;

@@ -51,7 +51,7 @@ const Wrapper = styled(Link)`
 	position: relative;
 	display: flex;
 	min-height: 16rem;
-
+	background: white;
 	gap: 3rem;
 	box-shadow: ${palette.shadow};
 	border-radius: ${palette.radius};
