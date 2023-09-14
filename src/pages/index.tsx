@@ -102,14 +102,7 @@ export default function Home({ data }: Props) {
 		},
 	];
 	return (
-		<Wrapper
-			style={{
-				width: '100%',
-				padding: '0px 15px',
-				maxWidth: '1500px',
-				margin: '0 auto',
-			}}
-		>
+		<Wrapper>
 			<HeroSection>
 				<Hero hero={data.hero} />
 			</HeroSection>
@@ -188,9 +181,9 @@ export default function Home({ data }: Props) {
 
 const Wrapper = styled.div`
 	width: 100%;
-	padding: 0px 15px;
 	max-width: 1500px;
 	margin: 0 auto;
+	padding: 0px 15px;
 	background: ${palette.light_gradient};
 `;
 

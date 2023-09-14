@@ -229,7 +229,7 @@ const Category: FC<Props> = ({
 				</div>
 			</SliderOuterWrapper>
 
-			<Heading margin='7rem 0rem 3rem 0rem' family={'montserrat'} level={2}>
+			<Heading margin='10rem 0rem 3rem 0rem' family={'montserrat'} level={2}>
 				{`FEATURED IN ${category.toUpperCase()}`}
 			</Heading>
 			<FeaturedSection length={featuredMemo.length}>

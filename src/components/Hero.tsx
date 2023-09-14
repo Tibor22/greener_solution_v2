@@ -88,6 +88,10 @@ const Description = styled(Text)`
 `;
 
 const Wrapper = styled.div`
+	margin: 0 -15px;
+	${device.laptop} {
+		margin: 0;
+	}
 	position: relative;
 	height: 100%;
 	display: flex;

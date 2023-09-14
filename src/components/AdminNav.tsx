@@ -100,7 +100,7 @@ const Nav = styled.nav<{ visible: boolean; navbarHeight: number }>`
 	padding: 0rem ${({ visible }) => (visible ? 3 : 1)}rem 0rem 1rem;
 	position: relative;
 	transition: width 0.3s;
-	width: ${({ visible }) => (visible ? 16 : 3.5)}rem;
+	width: ${({ visible }) => (visible ? 20 : 5)}rem;
 	position: fixed;
 	z-index: 99;
 	left: 0;

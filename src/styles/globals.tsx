@@ -3,6 +3,9 @@ import { playfair_display, montserrat, merriweather } from './fonts';
 import { device } from '@/styles/device';
 
 export default createGlobalStyle`
+
+
+
 ${device.mobileS} {
   html {
     font-size: 50%;
@@ -36,7 +39,9 @@ ${device.laptop} {
     min-height: -webkit-fill-available;
 
    
-
+    & * {
+      box-sizing: border-box;
+    }
 
     a {
       text-decoration: none;

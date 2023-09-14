@@ -222,6 +222,8 @@ const LogoContainer = styled(Link)`
 const LogoContainerOuter = styled(Link)`
 	${device.laptop} {
 		display: none;
+		height: 75px;
+		width: 200px;
 	}
 `;
 
