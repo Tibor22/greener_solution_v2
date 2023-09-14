@@ -3,6 +3,7 @@ import NavBar from './NavBar';
 import AdminNav from './AdminNav';
 import { useSession } from 'next-auth/react';
 import Footer from './Footer';
+import { palette } from '@/styles/common';
 
 interface Props {
 	children: ReactNode;
@@ -19,6 +20,7 @@ const Layout: FC<Props> = ({ children }): JSX.Element => {
 					flex: 1,
 					position: 'relative',
 					height: '100%',
+					background: `${palette.light_gradient}`,
 				}}
 			>
 				{session && <AdminNav navbarHeight={navbarHeight} />}

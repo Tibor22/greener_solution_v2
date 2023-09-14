@@ -98,6 +98,7 @@ const Article: FC<Props> = ({
 				width: '100%',
 				background: `${palette.light_gradient}`,
 				padding: '15px',
+				marginTop: '81px',
 			}}
 		>
 			{/* <BackButton role='button' onClick={() => router.back()}>

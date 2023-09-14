@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import Image from 'next/image';
 import { Heading, Label, Text } from '@/styles/sharedStyles';
 import styled from 'styled-components';
@@ -14,7 +14,7 @@ interface Props {
 	};
 }
 
-const ArticleUiBox: FC<Props> = ({ article }): JSX.Element => {
+const ArticleUiBox: FC<Props> = memo(({ article }): JSX.Element => {
 	return (
 		<Wrapper href={`${MAIN_URL}/article/${article.slug}`}>
 			<ImageWrapper>
@@ -34,7 +34,7 @@ const ArticleUiBox: FC<Props> = ({ article }): JSX.Element => {
 			</Desc>
 		</Wrapper>
 	);
-};
+});
 const LabelWrapper = styled.div`
 	position: absolute;
 	top: 2rem;

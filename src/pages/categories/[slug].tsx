@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useCallback, useMemo, useRef, useState } from 'react';
 
 import type { GetStaticProps, GetStaticPaths } from 'next';
 import { client } from '../../../clientHelpers/helpers';
@@ -167,7 +167,6 @@ const Category: FC<Props> = ({
 	category,
 	allCategories,
 }: Props): JSX.Element => {
-	console.log('ALL CATEGORIES:', allCategories);
 	const [scrollEnd, setScrollEnd] = useState<{
 		right: boolean;
 		left: boolean;
@@ -177,69 +176,42 @@ const Category: FC<Props> = ({
 	});
 
 	const slider = useRef<HTMLDivElement>(null);
-	let isDown = false;
-	let startX: number;
-	let scrollLeft: number;
+	const featuredMemo = useMemo(() => featured, []);
+	const articlesMemo = useMemo(() => articles, []);
 	const slideBy: number = 200;
-	const handleMouseDown = (e: MouseEvent): any => {
-		isDown = true;
-		startX = e.pageX - slider.current!.offsetLeft;
-		scrollLeft = slider.current!.scrollLeft;
-	};
 
-	const handleMouseLeave = () => {
-		isDown = false;
-	};
+	const handleLeft = useCallback(() => {
+		slider.current!.scrollLeft -= slideBy;
+		setScrollEnd({
+			left: !(slider.current!.scrollLeft - slideBy <= 0),
+			right:
+				slider.current!.scrollLeft - slideBy + slider.current!.clientWidth <=
+				slider.current!.scrollWidth,
+		});
+	}, [slideBy]);
+	const handleRight = useCallback(() => {
+		{
+			slider.current!.scrollLeft += slideBy;
+			setScrollEnd({
+				left: !(slider.current!.scrollLeft + slideBy <= 0),
+				right:
+					slider.current!.scrollLeft +
+						slideBy +
+						30 + // width of the arrow
+						slider.current!.clientWidth <=
+					slider.current!.scrollWidth,
+			});
+		}
+	}, [slideBy]);
 
-	const handleMouseUp = () => {
-		isDown = false;
-	};
-
-	const handleMouseMove = (e: MouseEvent) => {
-		if (!isDown) return;
-		e.preventDefault();
-		const x = e.pageX - slider.current!.offsetLeft;
-		const walk = x - startX;
-		slider.current!.scrollLeft = scrollLeft - walk;
-
-		setTimeout(
-			() =>
-				setScrollEnd({
-					left: !(scrollLeft - walk <= 0),
-					right:
-						scrollLeft - walk + slider.current!.clientWidth <=
-						slider.current!.scrollWidth,
-				}),
-			300
-		);
-	};
 	return (
 		<Wrapper>
 			<SliderOuterWrapper>
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					{scrollEnd.left && (
-						<AiOutlineArrowLeft
-							// size={32}
-							onClick={() => {
-								slider.current!.scrollLeft -= slideBy;
-								setScrollEnd({
-									left: !(slider.current!.scrollLeft - slideBy <= 0),
-									right:
-										slider.current!.scrollLeft -
-											slideBy +
-											slider.current!.clientWidth <=
-										slider.current!.scrollWidth,
-								});
-							}}
-						/>
+						<AiOutlineArrowLeft onClick={() => handleLeft()} />
 					)}
-					<TopicsSlider
-						onMouseLeave={handleMouseLeave}
-						onMouseDown={handleMouseDown}
-						onMouseUp={handleMouseUp}
-						onMouseMove={handleMouseMove}
-						ref={slider}
-					>
+					<TopicsSlider ref={slider}>
 						{allCategories &&
 							allCategories.map((c) => (
 								<TopicContainer key={c} xsmall active={c === category}>
@@ -252,21 +224,7 @@ const Category: FC<Props> = ({
 							))}
 					</TopicsSlider>
 					{scrollEnd.right && (
-						<AiOutlineArrowRight
-							// size={32}
-							onClick={() => {
-								slider.current!.scrollLeft += slideBy;
-								setScrollEnd({
-									left: !(slider.current!.scrollLeft + slideBy <= 0),
-									right:
-										slider.current!.scrollLeft +
-											slideBy +
-											30 + // width of the arrow
-											slider.current!.clientWidth <=
-										slider.current!.scrollWidth,
-								});
-							}}
-						/>
+						<AiOutlineArrowRight onClick={() => handleRight()} />
 					)}
 				</div>
 			</SliderOuterWrapper>
@@ -274,9 +232,9 @@ const Category: FC<Props> = ({
 			<Heading margin='7rem 0rem 3rem 0rem' family={'montserrat'} level={2}>
 				{`FEATURED IN ${category.toUpperCase()}`}
 			</Heading>
-			<FeaturedSection length={featured.length}>
-				{featured.length > 0 &&
-					featured.map((f) => {
+			<FeaturedSection length={featuredMemo.length}>
+				{featuredMemo.length > 0 &&
+					featuredMemo.map((f) => {
 						return <FeaturedArticle article={f} />;
 					})}
 			</FeaturedSection>
@@ -286,9 +244,9 @@ const Category: FC<Props> = ({
 						{`MORE FROM  ${category.toUpperCase()}`}
 					</Heading>
 					<ArticlesContainer>
-						{articles &&
-							articles.length > 0 &&
-							articles.map((article) => {
+						{articlesMemo &&
+							articlesMemo.length > 0 &&
+							articlesMemo.map((article) => {
 								return (
 									<ArticleUiBox
 										key={article.slug}

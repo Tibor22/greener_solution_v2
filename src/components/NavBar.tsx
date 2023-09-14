@@ -51,46 +51,47 @@ const NavBar: FC<Props> = memo(({ setNavbarHeight }): JSX.Element => {
 						src='/logo/logo.png'
 					/>
 				</LogoContainerOuter>
-				<CContainer ref={navbar} as={`header`} close={close}>
-					<SwitchBtn
-						close={close}
-						onClick={() => setClose((prevClose) => !prevClose)}
-					>
-						{close ? <GiHamburgerMenu /> : <AiOutlineClose />}
-					</SwitchBtn>
-					<InnerContainer>
-						<LogoContainer href={`${MAIN_URL}`}>
-							<Image
-								alt='greener solution logo'
-								height={75}
-								width={200}
-								src='/logo/logo.png'
-							/>
-						</LogoContainer>
-						<ListContainer>
-							<Link onClick={(e) => handleSlider(e)} href={'/'}>
-								<ListItem>Home</ListItem>
-							</Link>
-							<Link onClick={(e) => handleSlider(e)} href={'/categories/all'}>
-								<ListItem>Categories</ListItem>
-							</Link>
-							<Link onClick={(e) => handleSlider(e)} href={'/contact'}>
-								<ListItem>Contact</ListItem>
-							</Link>
-							<Link onClick={(e) => handleSlider(e)} href={'/subscribe'}>
-								<ListItem>Subscribe</ListItem>
-							</Link>
-						</ListContainer>
+			</Outer>
+			<CContainer ref={navbar} as={`header`} close={close}>
+				<SwitchBtn
+					close={close}
+					onClick={() => setClose((prevClose) => !prevClose)}
+				>
+					{close ? <GiHamburgerMenu /> : <AiOutlineClose />}
+				</SwitchBtn>
+				<InnerContainer>
+					<LogoContainer href={`${MAIN_URL}`}>
+						<Image
+							alt='greener solution logo'
+							height={75}
+							width={200}
+							src='/logo/logo.png'
+						/>
+					</LogoContainer>
+					<ListContainer>
+						<Link onClick={(e) => handleSlider(e)} href={'/'}>
+							<ListItem>Home</ListItem>
+						</Link>
+						<Link onClick={(e) => handleSlider(e)} href={'/categories/all'}>
+							<ListItem>Categories</ListItem>
+						</Link>
+						<Link onClick={(e) => handleSlider(e)} href={'/contact'}>
+							<ListItem>Contact</ListItem>
+						</Link>
+						<Link onClick={(e) => handleSlider(e)} href={'/subscribe'}>
+							<ListItem>Subscribe</ListItem>
+						</Link>
+					</ListContainer>
 
-						{/* <SearchContainer>
+					{/* <SearchContainer>
 					<input type='text' />
 				</SearchContainer> */}
 
-						<Slider xcoordinates={coordinates.x} />
-					</InnerContainer>
-				</CContainer>
-			</Outer>
-			{close && <Margin close={close}></Margin>}
+					<Slider xcoordinates={coordinates.x} />
+				</InnerContainer>
+			</CContainer>
+
+			{/* {close && <Margin close={close}></Margin>} */}
 		</>
 	);
 });
@@ -100,24 +101,26 @@ const Margin = styled.div<{ close: boolean }>`
 `;
 
 const Outer = styled.div`
+	background: rgba(0, 0, 0, 0.4);
+	backdrop-filter: saturate(180%) blur(10px);
 	position: fixed;
+	top: 0;
+	z-index: 20;
 	height: auto;
 	margin: 0 auto;
 	width: 100%;
-	z-index: 20;
-	height: 81px;
-	// width: 100vw;
-	background: white;
-	top: 0;
+	transform: translateX(0px);
+	${device.laptop} {
+		display: none;
+	}
 `;
 
 const SwitchBtn = styled.div<{ close: boolean }>`
 	position: absolute;
-	top: 2rem;
+	top: 1.5rem;
 	padding: 3rem;
-	background-color: ${palette.light_brown};
 	${({ close }) => (close ? 'left:-8rem' : 'right:2rem')};
-	z-index: 10;
+	z-index: 999;
 	color: white;
 	font-size: 28px;
 	border-radius: 50%;
@@ -136,15 +139,16 @@ const CContainer = styled(Container)<{ close: boolean }>`
 	right: 0;
 	height: 100vh;
 	width: 80vw;
-	z-index: 19;
+	z-index: 22;
 	margin: unset;
 	transform: ${({ close }) => (close ? 'translateX(100%)' : 'translateX(0%)')};
 	transition: transform 0.3s ease-out;
+
 	${device.tablet} {
 		width: 50vw;
 	}
 	${device.laptop} {
-		position: sticky;
+		position: fixed;
 		height: auto;
 		margin: 0 auto;
 		width: 100%;
@@ -154,7 +158,8 @@ const CContainer = styled(Container)<{ close: boolean }>`
 
 const InnerContainer = styled.nav`
 	position: relative;
-	background-color: ${palette.light_brown};
+	background: rgba(0, 0, 0, 0.4);
+	backdrop-filter: saturate(180%) blur(10px);
 	height: 100%;
 	z-index: 9;
 	${device.laptop} {
@@ -206,7 +211,9 @@ const SearchContainer = styled.div`
 	justify-content: center;
 `;
 const LogoContainer = styled(Link)`
-	background-color: ${palette.light_brown};
+	// background-color: ${palette.light_brown};
+	// background: rgba(0, 0, 0, 0.3);
+	// backdrop-filter: saturate(180%) blur(10px);
 	padding-top: 1rem;
 	${device.laptop} {
 		padding-top: 2px;

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { Heading, Text } from '@/styles/sharedStyles';
 import { FeaturedType } from '../../types/types';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ interface Props {
 	article: FeaturedType;
 }
 
-const FeaturedArticle: FC<Props> = ({ article }): JSX.Element => {
+const FeaturedArticle: FC<Props> = memo(({ article }): JSX.Element => {
 	return (
 		<CLink href={`${MAIN_URL}/article/${article.slug}`}>
 			<Overlay></Overlay>
@@ -43,7 +43,7 @@ const FeaturedArticle: FC<Props> = ({ article }): JSX.Element => {
 			{/* </Container> */}
 		</CLink>
 	);
-};
+});
 
 const Overlay = styled.div`
 	position: absolute;
