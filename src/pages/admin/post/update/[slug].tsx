@@ -60,4 +60,5 @@ export default UpdatePost;
 
 const CContainer = styled(Container)`
 	margin-bottom: 20rem;
+	margin-top: 100px;
 `;

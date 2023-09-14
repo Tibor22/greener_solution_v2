@@ -163,7 +163,7 @@ const Input = styled.input`
 `;
 
 const Wrapper = styled(Container)`
-	margin-top: 3rem;
+	margin-top: 100px;
 	padding: 1rem;
 	display: grid;
 	grid-template-columns: auto auto;

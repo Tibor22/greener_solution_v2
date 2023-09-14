@@ -95,12 +95,14 @@ const Button = styled.button`
 `;
 
 const Nav = styled.nav<{ visible: boolean; navbarHeight: number }>`
-	background-color: ${palette.light_brown};
+	background: rgba(0, 0, 0, 0.4);
+	backdrop-filter: saturate(180%) blur(10px);
 	padding: 0rem ${({ visible }) => (visible ? 3 : 1)}rem 0rem 1rem;
 	position: relative;
 	transition: width 0.3s;
 	width: ${({ visible }) => (visible ? 16 : 3.5)}rem;
-	position: sticky;
+	position: fixed;
+	z-index: 99;
 	left: 0;
 	top: 0;
 	height: 100vh;

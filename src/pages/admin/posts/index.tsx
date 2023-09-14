@@ -49,6 +49,7 @@ const Wrapper = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: center;
+	margin-top: 100px;
 `;
 
 const ArticlesContainer = styled.div`

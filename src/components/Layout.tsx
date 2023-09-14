@@ -12,7 +12,15 @@ const Layout: FC<Props> = ({ children }): JSX.Element => {
 	const { data: session } = useSession();
 	const [navbarHeight, setNavbarHeight] = useState<number>(0);
 	return (
-		<div style={{ minHeight: '100vh' }}>
+		<div
+			style={{
+				minHeight: '100vh',
+				position: 'relative',
+				display: 'flex',
+				flexDirection: 'column',
+			}}
+		>
+			{session && <AdminNav navbarHeight={navbarHeight} />}
 			<NavBar setNavbarHeight={setNavbarHeight} />
 			<main
 				style={{
@@ -23,7 +31,6 @@ const Layout: FC<Props> = ({ children }): JSX.Element => {
 					background: `${palette.light_gradient}`,
 				}}
 			>
-				{session && <AdminNav navbarHeight={navbarHeight} />}
 				{children}
 			</main>
 			<Footer />
