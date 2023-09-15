@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { device } from '@/styles/device';
 
 import { MAIN_URL } from '../../config/config';
+import { palette } from '@/styles/common';
 
 interface Props {
 	hero: HeroType;
@@ -89,14 +90,18 @@ const Description = styled(Text)`
 
 const Wrapper = styled.div`
 	margin: 0 -15px;
-	${device.laptop} {
-		margin: 0;
-	}
 	position: relative;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
+	${device.laptop} {
+		border-radius: 0px 0px 8px 8px;
+		shadow: ${palette.shadow};
+		& img {
+			border-radius: 0px 0px 8px 8px;
+		}
+	}
 `;
 
 export default Hero;

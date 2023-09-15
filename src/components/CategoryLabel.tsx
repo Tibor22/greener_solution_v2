@@ -52,6 +52,12 @@ const Label = styled.div<{ type: string; bgColor: string }>`
 		width: 15vw;
 		height: 15vw;
 	}
+	${device.laptopL} {
+		width: 15vw;
+		height: 15vw;
+		max-width: 300px;
+		max-height: 300px;
+	}
 `;
 
 export default CategoryLabel;

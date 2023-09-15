@@ -262,14 +262,38 @@ const Category: FC<Props> = ({
 	);
 };
 
+const SliderSpread = styled.div`
+	// 	z-index: 9;
+	// 	position: sticky;
+	// 	top: 80px;
+	// 	background: white;
+	// 	width: 100vw;
+	//
+`;
+
 const SliderOuterWrapper = styled.div`
 	z-index: 10;
 	position: sticky;
-	top: 80px;
+	top: 77px;
 	background: white;
 	margin: 0px -15px;
 	padding: 0px 15px;
 	font-size: 4rem;
+
+	${device.laptop} {
+		top: 80px;
+	}
+
+	&::before {
+		z-index: -1;
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 200%;
+		height: 100%;
+		background: white;
+	}
 
 	${device.laptop} {
 		font-size: 2rem;
