@@ -205,74 +205,94 @@ const Category: FC<Props> = ({
 	}, [slideBy]);
 
 	return (
-		<Wrapper>
-			<SliderOuterWrapper>
-				<div style={{ display: 'flex', alignItems: 'center' }}>
-					{scrollEnd.left && (
-						<AiOutlineArrowLeft onClick={() => handleLeft()} />
-					)}
-					<TopicsSlider ref={slider}>
-						{allCategories &&
-							allCategories.map((c) => (
-								<TopicContainer key={c} xsmall active={c === category}>
-									<Link
-										href={`${MAIN_URL}/categories/${slugify(c.toLowerCase())}`}
-									>
-										{c}
-									</Link>
-								</TopicContainer>
-							))}
-					</TopicsSlider>
-					{scrollEnd.right && (
-						<AiOutlineArrowRight onClick={() => handleRight()} />
-					)}
-				</div>
-			</SliderOuterWrapper>
+		<div
+			style={{
+				width: '100%',
+				margin: '0 auto',
+			}}
+		>
+			<SliderSpread></SliderSpread>
+			<Wrapper>
+				<SliderOuterWrapper>
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
+					>
+						{scrollEnd.left && (
+							<AiOutlineArrowLeft onClick={() => handleLeft()} />
+						)}
+						<TopicsSlider ref={slider}>
+							{allCategories &&
+								allCategories.map((c) => (
+									<TopicContainer key={c} xsmall active={c === category}>
+										<Link
+											href={`${MAIN_URL}/categories/${slugify(
+												c.toLowerCase()
+											)}`}
+										>
+											{c}
+										</Link>
+									</TopicContainer>
+								))}
+						</TopicsSlider>
+						{scrollEnd.right && (
+							<AiOutlineArrowRight onClick={() => handleRight()} />
+						)}
+					</div>
+				</SliderOuterWrapper>
 
-			<Heading margin='10rem 0rem 3rem 0rem' family={'montserrat'} level={2}>
-				{`FEATURED IN ${category.toUpperCase()}`}
-			</Heading>
-			<FeaturedSection length={featuredMemo.length}>
-				{featuredMemo.length > 0 &&
-					featuredMemo.map((f) => {
-						return <FeaturedArticle article={f} />;
-					})}
-			</FeaturedSection>
-			<ArticlesSection>
-				<div>
-					<Heading margin='7rem 0rem 3rem 0rem' family={'montserrat'} level={2}>
-						{`MORE FROM  ${category.toUpperCase()}`}
-					</Heading>
-					<ArticlesContainer>
-						{articlesMemo &&
-							articlesMemo.length > 0 &&
-							articlesMemo.map((article) => {
-								return (
-									<ArticleUiBox
-										key={article.slug}
-										article={{ ...article, category: article.category.name }}
-									></ArticleUiBox>
-								);
-							})}
-					</ArticlesContainer>
-				</div>
-				<div></div>
-			</ArticlesSection>
-		</Wrapper>
+				<Heading margin='10rem 0rem 3rem 0rem' family={'montserrat'} level={2}>
+					{`FEATURED IN ${category.toUpperCase()}`}
+				</Heading>
+				<FeaturedSection length={featuredMemo.length}>
+					{featuredMemo.length > 0 &&
+						featuredMemo.map((f) => {
+							return <FeaturedArticle article={f} />;
+						})}
+				</FeaturedSection>
+				<ArticlesSection>
+					<div>
+						<Heading
+							margin='7rem 0rem 3rem 0rem'
+							family={'montserrat'}
+							level={2}
+						>
+							{`MORE FROM  ${category.toUpperCase()}`}
+						</Heading>
+						<ArticlesContainer>
+							{articlesMemo &&
+								articlesMemo.length > 0 &&
+								articlesMemo.map((article) => {
+									return (
+										<ArticleUiBox
+											key={article.slug}
+											article={{ ...article, category: article.category.name }}
+										></ArticleUiBox>
+									);
+								})}
+						</ArticlesContainer>
+					</div>
+					<div></div>
+				</ArticlesSection>
+			</Wrapper>
+		</div>
 	);
 };
 
 const SliderSpread = styled.div`
-	// 	z-index: 9;
-	// 	position: sticky;
-	// 	top: 80px;
-	// 	background: white;
-	// 	width: 100vw;
-	//
+	z-index: 9;
+	position: fixed;
+	top: 80px;
+	background: white;
+	width: 100vw;
+	height: 58px;
 `;
 
 const SliderOuterWrapper = styled.div`
-	z-index: 10;
+	z-index: 50;
 	position: sticky;
 	top: 77px;
 	background: white;
@@ -282,17 +302,6 @@ const SliderOuterWrapper = styled.div`
 
 	${device.laptop} {
 		top: 80px;
-	}
-
-	&::before {
-		z-index: -1;
-		content: '';
-		position: absolute;
-		top: 0;
-		left: -100%;
-		width: 200%;
-		height: 100%;
-		background: white;
 	}
 
 	${device.laptop} {
