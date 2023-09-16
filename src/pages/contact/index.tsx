@@ -3,12 +3,33 @@ import { palette } from '@/styles/common';
 import { device } from '@/styles/device';
 import { Heading, Text } from '@/styles/sharedStyles';
 import Image from 'next/image';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
+import { client } from '../../../clientHelpers/helpers';
+import { API_URL } from '../../../config/config';
 
 interface Props {}
 
 const Index: FC<Props> = (props): JSX.Element => {
+	const [formData, setFormData] = useState({
+		name: '',
+		email: '',
+		message: '',
+	});
+
+	const handleChange = (e: any) => {
+		const { name, value } = e.target;
+		setFormData((prevForm) => ({ ...prevForm, [name]: value }));
+	};
+
+	const handleSubmit = async () => {
+		// TODO: send form data to server
+		console.log('sending...');
+		console.log(formData);
+		const res = await client.POST(`${API_URL}/email`, { ...formData });
+		console.log('res:', res);
+	};
+
 	return (
 		<div
 			style={{
@@ -50,10 +71,28 @@ const Index: FC<Props> = (props): JSX.Element => {
 					</Text>
 				</PitchText>
 				<ContactForm>
-					<Input type='text' placeholder='Name' />
-					<Input type='email' placeholder='Enter your email' />
-					<TextArea placeholder='Your message' rows={4} cols={50} />
-					<Button type='primary'>Send</Button>
+					<Input
+						name='name'
+						onChange={(e) => handleChange(e)}
+						type='text'
+						placeholder='Name'
+					/>
+					<Input
+						name='email'
+						onChange={(e) => handleChange(e)}
+						type='email'
+						placeholder='Enter your email'
+					/>
+					<TextArea
+						onChange={(e) => handleChange(e)}
+						name='message'
+						placeholder='Your message'
+						rows={4}
+						cols={50}
+					/>
+					<Button ifClicked={handleSubmit} type='primary'>
+						Send
+					</Button>
 				</ContactForm>
 			</TextWrapper>
 		</div>

@@ -5,19 +5,19 @@ import {
 } from '../../../../lib/validators';
 import { readFile } from '../../../../utils/utils';
 import formidable from 'formidable';
-import cloudinary from '../../../../lib/cloudinary';
+
 import prisma from '../../../../lib/prisma';
 import { PostObject } from '../../../../types/types';
 import postModel from '../../../../models/PostModel';
 import Cors from 'cors';
-
+import { API_URL } from '../../../../config/config';
 export const config = {
 	api: { bodyParser: false },
 };
 
 const cors = Cors({
 	methods: ['GET'],
-	origin: 'http://localhost:3000',
+	origin: API_URL,
 });
 
 // Helper method to wait for a middleware to execute before continuing

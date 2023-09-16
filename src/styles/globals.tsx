@@ -70,6 +70,11 @@ ${device.laptop} {
       // font-family: ${montserrat.style.fontFamily}, serif;
       font-family: ${merriweather.style.fontFamily}, serif;
     }
+    textarea {
+      &::placeholder {
+        font-family: ${montserrat.style.fontFamily}, serif;
+      }
+    }
 
     b {
       font-weight: bold;

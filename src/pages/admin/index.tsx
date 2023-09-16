@@ -18,13 +18,7 @@ const Admin: FC<Props> = (props): JSX.Element => {
 	const [data, setData] = useState({ category: '', tag: '' });
 	const [error, setError] = useState({ category: null, tag: null });
 	const [added, setAdded] = useState<null | string>(null);
-	const [userData, setUserData] = useState({
-		email: '',
-		name: '',
-		password: '',
-		displayName: '',
-		role: 'ADMIN',
-	});
+
 	const handleAdd = async (name: string) => {
 		let names = name === 'category' ? 'categories' : 'tags';
 		setLoading(true);
