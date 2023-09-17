@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { fonts, palette } from '@/styles/common';
 import Link from 'next/link';
 import { MAIN_URL } from '../../config/config';
+import { device } from '@/styles/device';
 
 interface Props {
 	article: FeaturedType;
@@ -16,7 +17,6 @@ interface Props {
 const Featured: FC<Props> = ({ article, index }): JSX.Element => {
 	return (
 		<CLink index={index} href={`${MAIN_URL}/article/${article.slug}`}>
-			{/* <Container index={index}> */}
 			<Overlay></Overlay>
 			<Image
 				style={{ objectFit: 'cover' }}
@@ -42,7 +42,6 @@ const Featured: FC<Props> = ({ article, index }): JSX.Element => {
 					<Button type='primary'>Read More</Button>
 				</InnerWrapper>
 			</div>
-			{/* </Container> */}
 		</CLink>
 	);
 };
@@ -72,8 +71,12 @@ const CLink = styled(Link)<{ index: number }>`
 	position: relative;
 	border-radius: 12px;
 	padding: 1.5rem;
-	grid-column: ${({ index }) =>
-		index === 0 ? '1/3' : index === 3 ? '2/4' : 'auto'};
+	grid-column: 1fr;
+	${device.tablet} {
+		grid-column: ${({ index }) =>
+			index === 0 ? '1/3' : index === 3 ? '2/4' : 'auto'};
+	}
+
 	& img {
 		border-radius: 12px;
 	}
@@ -82,6 +85,7 @@ const CLink = styled(Link)<{ index: number }>`
 	&:hover {
 		transform: translateY(-5px);
 	}
+	padding-top: 6rem;
 `;
 
 const Label = styled.div`
