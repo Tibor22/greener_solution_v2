@@ -1,15 +1,29 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { MAIN_URL } from '../../config/config';
+import { API_URL, MAIN_URL } from '../../config/config';
 import { Heading, Text } from '@/styles/sharedStyles';
 import Button from './Button';
 import { palette } from '@/styles/common';
 import { device } from '@/styles/device';
+import { client } from '../../clientHelpers/helpers';
 
 interface Props {}
 
 const Newsletter: FC<Props> = (props): JSX.Element => {
+	const [email, setEmail] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [thankYouText, setThankYouText] = useState(false);
+
+	const onSubmit = async () => {
+		setLoading(true);
+		const res = await client.POST(`${API_URL}/email/signup`, {
+			email,
+		});
+		setLoading(false);
+		setThankYouText(true);
+		console.log('res:', res);
+	};
 	return (
 		<Container>
 			<ImageWrapper>
@@ -21,16 +35,38 @@ const Newsletter: FC<Props> = (props): JSX.Element => {
 				/>
 			</ImageWrapper>
 			<Content>
-				<Heading level={1}>Want to help change the world?</Heading>
-				<Text margin='-3rem 0rem 4rem 0rem'>
-					Be an Earth Hero: Stay Informed with Our Eco-Friendly Newsletter!
-				</Text>
-				<Input type='email' placeholder='Enter your email' />
-				{/* <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}> */}
-				<Button padding='2.5rem' stretchMobile type='primary'>
-					I'M IN
-				</Button>
-				{/* </div> */}
+				{thankYouText === false ? (
+					<>
+						<Heading level={1}>Want to help change the world?</Heading>
+						<Text margin='-3rem 0rem 4rem 0rem'>
+							Be an Earth Hero: Stay Informed with Our Eco-Friendly Newsletter!
+						</Text>
+						<Input
+							onChange={(e) => setEmail(e.target.value)}
+							type='email'
+							placeholder='Enter your email'
+						/>
+
+						<Button
+							busy={loading}
+							ifClicked={() => onSubmit()}
+							padding='2.5rem'
+							stretchMobile
+							type='primary'
+						>
+							I'M IN
+						</Button>
+					</>
+				) : (
+					<>
+						<Heading level={1}>
+							Thank you for subscribing to our newsletter!
+						</Heading>
+						<Text margin='-3rem 0rem 4rem 0rem'>
+							You gonna receive an email shortly!
+						</Text>
+					</>
+				)}
 			</Content>
 		</Container>
 	);

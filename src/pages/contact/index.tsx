@@ -16,6 +16,8 @@ const Index: FC<Props> = (props): JSX.Element => {
 		email: '',
 		message: '',
 	});
+	const [loading, setLoading] = useState(false);
+	const [thankYouMessage, setThankYouMessage] = useState(false);
 
 	const handleChange = (e: any) => {
 		const { name, value } = e.target;
@@ -24,10 +26,14 @@ const Index: FC<Props> = (props): JSX.Element => {
 
 	const handleSubmit = async () => {
 		// TODO: send form data to server
-		console.log('sending...');
-		console.log(formData);
-		const res = await client.POST(`${API_URL}/email`, { ...formData });
-		console.log('res:', res);
+		setLoading(true);
+		try {
+			const res = await client.POST(`${API_URL}/email`, { ...formData });
+			setLoading(false);
+			setThankYouMessage(true);
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	return (
@@ -56,45 +62,59 @@ const Index: FC<Props> = (props): JSX.Element => {
 					We would love to hear from <span style={{ color: 'red' }}>you!</span>
 				</Heading>
 			</HeadingWrapper>
-			<TextWrapper>
-				<PitchText>
-					<Heading level={2}>Join Our Environmental Community</Heading>
-					<Text small>
-						At <b>Greener Solution</b>, we are passionate about environmental
-						news, sustainability, and making a positive impact on our planet. We
-						invite you to be a part of our community!
+			{thankYouMessage === false ? (
+				<TextWrapper>
+					<PitchText>
+						<Heading level={2}>Join Our Environmental Community</Heading>
+						<Text small>
+							At <b>Greener Solution</b>, we are passionate about environmental
+							news, sustainability, and making a positive impact on our planet.
+							We invite you to be a part of our community!
+						</Text>
+						<Text small>
+							Whether you have a unique idea, product, or just want to share
+							your thoughts, we would love to hear from you! Together, we can
+							spread awareness and take action for a greener future.
+						</Text>
+					</PitchText>
+					<ContactForm>
+						<Input
+							name='name'
+							onChange={(e) => handleChange(e)}
+							type='text'
+							placeholder='Name'
+						/>
+						<Input
+							name='email'
+							onChange={(e) => handleChange(e)}
+							type='email'
+							placeholder='Enter your email'
+						/>
+						<TextArea
+							onChange={(e) => handleChange(e)}
+							name='message'
+							placeholder='Your message'
+							rows={4}
+							cols={50}
+						/>
+						<Button busy={loading} ifClicked={handleSubmit} type='primary'>
+							Send
+						</Button>
+					</ContactForm>
+				</TextWrapper>
+			) : (
+				<div
+					style={{ background: 'white', padding: '2rem', borderRadius: '8px' }}
+				>
+					<Heading level={2}>Thank you for contacting Us</Heading>
+					{/* <Text></Text> */}
+
+					<Text>
+						Thank you for reaching out to us. We appreciate your interest and
+						will make every effort to assist you promptly.
 					</Text>
-					<Text small>
-						Whether you have a unique idea, product, or just want to share your
-						thoughts, we would love to hear from you! Together, we can spread
-						awareness and take action for a greener future.
-					</Text>
-				</PitchText>
-				<ContactForm>
-					<Input
-						name='name'
-						onChange={(e) => handleChange(e)}
-						type='text'
-						placeholder='Name'
-					/>
-					<Input
-						name='email'
-						onChange={(e) => handleChange(e)}
-						type='email'
-						placeholder='Enter your email'
-					/>
-					<TextArea
-						onChange={(e) => handleChange(e)}
-						name='message'
-						placeholder='Your message'
-						rows={4}
-						cols={50}
-					/>
-					<Button ifClicked={handleSubmit} type='primary'>
-						Send
-					</Button>
-				</ContactForm>
-			</TextWrapper>
+				</div>
+			)}
 		</div>
 	);
 };

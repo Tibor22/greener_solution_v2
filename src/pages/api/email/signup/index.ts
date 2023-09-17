@@ -1,7 +1,7 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 import Cors from 'cors';
-import { API_URL } from '../../../../config/config';
+import { API_URL } from '../../../../../config/config';
 
 const cors = Cors({
 	methods: ['GET'],
@@ -70,7 +70,7 @@ const generateEmailContent = (data: any, inject = false) => {
 
 const sendNewEmail = async (req: NextApiRequest, res: NextApiResponse) => {
 	const data = req.body;
-	if (!data.name || !data.email || !data.message) {
+	if (!data.email) {
 		return res.status(400).send({ message: 'Bad request' });
 	}
 
@@ -78,14 +78,28 @@ const sendNewEmail = async (req: NextApiRequest, res: NextApiResponse) => {
 		await transporter.sendMail({
 			...mailOptions,
 			subject: 'eco-solution',
-			...generateEmailContent(data),
+			...generateEmailContent(
+				`<h3  style="font-weight:bold;margin-bottom:10px;" class="form-heading" align="left">NEw Subscription</h3><p class="form-answer" align="left">Email: ${data.email}</p>`,
+				true
+			),
 		});
 		await transporter.sendMail({
 			from: process.env.EMAIL,
 			to: data.email,
 			subject: 'no-reply',
 			...generateEmailContent(
-				`<h3 style="font-weight:bold;margin-bottom:10px;" class="form-heading" align="left">Thank you ${data.name} for contacting Greener Solution!</h3><p class="form-answer" align="left">We will come back to you shortly!</p><p class="form-answer" align="left">Aim to respond within 48 hours</p>`,
+				`<h3  style="font-weight:bold;margin-bottom:10px;" class="form-heading" align="left">Thank You for Subscribing!</h3>
+
+        <p class="form-answer" align="left">Dear environmental friend!</p>
+
+        <p class="form-answer" align="left">We are thrilled to have you join our environmentally friendly news community. Your subscription means a lot to us, and together, we can make a positive impact on the planet.</p>
+
+        <p class="form-answer" align="left">Stay tuned for the latest updates, insightful articles, and tips on how to live a more eco-conscious life. We're committed to bringing you the most relevant and engaging content on environmental issues.</p>
+
+        <p class="form-answer" align="left">If you ever have questions or suggestions, please feel free to reach out to us. Your feedback is valuable to us as we work to make our world a better place.</p>
+
+        <p class="form-answer" align="left">Thank you once again for subscribing to our newsletter!</p>
+`,
 				true
 			),
 		});
