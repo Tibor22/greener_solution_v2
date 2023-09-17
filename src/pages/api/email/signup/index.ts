@@ -2,6 +2,7 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 import Cors from 'cors';
 import { API_URL } from '../../../../../config/config';
+import prisma from '../../../../../lib/prisma';
 
 const cors = Cors({
 	methods: ['GET'],
@@ -75,6 +76,11 @@ const sendNewEmail = async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 
 	try {
+		await prisma.email.create({
+			data: {
+				name: data.email,
+			},
+		});
 		await transporter.sendMail({
 			...mailOptions,
 			subject: 'eco-solution',

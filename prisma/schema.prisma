@@ -55,6 +55,11 @@ model Tag {
   articles Article[]
 }
 
+model Email {
+  id       Int    @id @default(autoincrement())
+  name String @unique
+}
+
 
 
 enum Role {
