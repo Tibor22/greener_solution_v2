@@ -81,6 +81,7 @@ const createNewPost: NextApiHandler = async (req, res) => {
 	}
 };
 const getAllPost: NextApiHandler = async (req, res) => {
+	console.log('all posts');
 	try {
 		const allPosts = await prisma.article.findMany();
 		res.status(200).json(allPosts);
