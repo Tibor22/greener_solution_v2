@@ -1,11 +1,10 @@
 import { FC, useCallback, useMemo, useRef, useState } from 'react';
 
 import type { GetStaticProps, GetStaticPaths } from 'next';
-import { client } from '../../../clientHelpers/helpers';
 import prisma from '../../../lib/prisma';
 import { FeaturedType } from '../../../types/types';
 import styled from 'styled-components';
-import { Container, Heading } from '@/styles/sharedStyles';
+import { Heading } from '@/styles/sharedStyles';
 import FeaturedArticle from '@/components/FeaturedArticle';
 import ArticleUiBox from '@/components/ArticleUiBox';
 import { device } from '@/styles/device';
@@ -99,22 +98,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
 			take: 8,
 		});
 
-		if (articles[0].article.length > 0) {
+		if (articles[0].article.length > 0 || articles.length > 0) {
 			articles = articles[0].article;
-			category = articles[0].category?.name;
+			category = articles[0]?.category?.name;
 		}
 		if (featuredArticles.length > 0) {
 			featuredArticles = featuredArticles[0].article;
-			category = featuredArticles[0]?.category?.name;
-		}
-
-		if (featuredArticles.length === 0) {
-			return {
-				redirect: {
-					permanent: false,
-					destination: '/categories/all',
-				},
-			};
+			category = category || featuredArticles[0]?.category?.name;
 		}
 	} else {
 		featuredArticles = await prisma.article.findMany({
@@ -147,7 +137,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 	const allCategories = await prisma.category.findMany({});
 
-	console.log(allCategories);
+	if (articles.length === 0 && featuredArticles.length === 0) {
+		return {
+			notFound: true,
+		};
+	}
 
 	return {
 		props: {
@@ -167,6 +161,7 @@ const Category: FC<Props> = ({
 	category,
 	allCategories,
 }: Props): JSX.Element => {
+	console.log({ featured, articles, category, allCategories });
 	const [scrollEnd, setScrollEnd] = useState<{
 		right: boolean;
 		left: boolean;
@@ -176,8 +171,8 @@ const Category: FC<Props> = ({
 	});
 
 	const slider = useRef<HTMLDivElement>(null);
-	const featuredMemo = useMemo(() => featured, []);
-	const articlesMemo = useMemo(() => articles, []);
+	const featuredMemo = useMemo(() => featured, [category]);
+	const articlesMemo = useMemo(() => articles, [category]);
 	const slideBy: number = 200;
 
 	const handleLeft = useCallback(() => {

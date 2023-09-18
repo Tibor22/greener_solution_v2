@@ -5,9 +5,7 @@ import React from 'react';
 import parse from 'html-react-parser';
 import styled from 'styled-components';
 import { fonts, palette } from '@/styles/common';
-
-import { Container, Heading } from '@/styles/sharedStyles';
-import { useRouter } from 'next/router';
+import { Heading } from '@/styles/sharedStyles';
 import { device } from '@/styles/device';
 import FeaturedArticle from '@/components/FeaturedArticle';
 import { FeaturedType } from '../../../types/types';
@@ -87,10 +85,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const Article: FC<Props> = ({
 	article,
-	slug,
+
 	readNext,
 }: Props): JSX.Element => {
-	const router = useRouter();
 	return (
 		<div
 			style={{
@@ -101,9 +98,6 @@ const Article: FC<Props> = ({
 				marginTop: '81px',
 			}}
 		>
-			{/* <BackButton role='button' onClick={() => router.back()}>
-				<AiOutlineArrowLeft />
-			</BackButton> */}
 			<RichText>{parse(article.content)}</RichText>
 			<LineBreak></LineBreak>
 			<ReadMore>

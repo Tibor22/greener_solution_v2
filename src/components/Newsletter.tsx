@@ -22,7 +22,6 @@ const Newsletter: FC<Props> = (props): JSX.Element => {
 		});
 		setLoading(false);
 		setThankYouText(true);
-		console.log('res:', res);
 	};
 	return (
 		<Container>

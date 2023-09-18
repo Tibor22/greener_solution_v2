@@ -1,7 +1,7 @@
 import { Article, Tag } from '@prisma/client';
 import cloudinary from '../lib/cloudinary';
 import prisma from '../lib/prisma';
-import { PostObject } from '../types/types';
+import { PostObject, UpdateObj } from '../types/types';
 import formidable from 'formidable';
 
 class PostModel {
@@ -80,12 +80,11 @@ class PostModel {
 	}
 	async updatePost(
 		thumbnail: formidable.File,
-		obj: Article,
+		obj: UpdateObj,
 		slug: string,
 		tags: string[],
 		oldTags: Tag[]
 	) {
-		console.log('FISR ENTRY:', obj);
 		if (thumbnail) {
 			const { secure_url: url, public_id } = await cloudinary.uploader.upload(
 				thumbnail.filepath,
@@ -167,7 +166,7 @@ const checkTags = async function (tags: string[]) {
 		});
 
 		return tagsFound;
-	} catch (e) {
+	} catch (e: any) {
 		console.log(e.message);
 	}
 };

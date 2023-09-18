@@ -1,5 +1,5 @@
 import { Container } from '@/styles/sharedStyles';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 import { client, generateFormData } from '../../../../../clientHelpers/helpers';
 import { API_URL } from '../../../../../config/config';

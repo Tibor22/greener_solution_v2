@@ -47,6 +47,7 @@ export interface FinalPost extends SeoResult {
 	content: string;
 	authorId: string;
 	excerpt: string;
+	category?: string;
 	thumbnail?: File | string;
 }
 

@@ -11,7 +11,7 @@ export const config = {
 
 const handler: NextApiHandler = async (req, res) => {
 	const { method } = req;
-	console.log('METHOD:', method);
+
 	switch (method) {
 		case 'GET':
 			return getPost(req, res);
