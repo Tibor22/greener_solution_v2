@@ -25,7 +25,6 @@ const Gallery: FC<Props> = ({
 				</div>
 			)}
 			{images.map(({ src }, index) => {
-				console.log(selectedImage === src);
 				return (
 					<div key={index}>
 						<Image

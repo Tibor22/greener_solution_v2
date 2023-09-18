@@ -161,7 +161,6 @@ const Category: FC<Props> = ({
 	category,
 	allCategories,
 }: Props): JSX.Element => {
-	console.log({ featured, articles, category, allCategories });
 	const [scrollEnd, setScrollEnd] = useState<{
 		right: boolean;
 		left: boolean;
