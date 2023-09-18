@@ -22,6 +22,7 @@ const ArticleBox = ({ post, setPosts }: Props): JSX.Element => {
 	const router = useRouter();
 
 	const handleDelete = async () => {
+		console.log('DELETE:', `${API_URL}/articles/${post.slug}`);
 		setDeleting(true);
 		const deletedObj = await client.DELETE(`${API_URL}/articles/${post.slug}`);
 		setPosts((prevPosts) => {
