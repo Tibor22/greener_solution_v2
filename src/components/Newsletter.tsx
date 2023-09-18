@@ -30,7 +30,7 @@ const Newsletter: FC<Props> = (props): JSX.Element => {
 					style={{ objectFit: 'cover' }}
 					alt='newsletter'
 					fill
-					src={`${MAIN_URL}/newsletter2.jpg`}
+					src={`/newsletter2.jpg`}
 				/>
 			</ImageWrapper>
 			<Content>
