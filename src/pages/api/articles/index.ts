@@ -86,7 +86,8 @@ const getAllPost: NextApiHandler = async (req, res) => {
 		const allPosts = await prisma.article.findMany();
 		res.status(200).json(allPosts);
 	} catch (err: any) {
-		res.status(500).json({ error: err.message });
+		res.status(200).json({ ms: 'still hitting the right path' });
+		// res.status(500).json({ error: err.message });
 	}
 };
 
