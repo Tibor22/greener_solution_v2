@@ -23,8 +23,6 @@ export async function getStaticProps() {
 		},
 	});
 
-	await prisma.$disconnect();
-
 	return { props: { initialPosts: posts } };
 }
 

@@ -144,8 +144,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 		};
 	}
 
-	await prisma.$disconnect();
-
 	return {
 		props: {
 			...(featuredArticles && { featured: featuredArticles }),
