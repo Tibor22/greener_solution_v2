@@ -144,7 +144,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 		};
 	}
 
-	prisma.$disconnect();
+	await prisma.$disconnect();
 
 	return {
 		props: {
