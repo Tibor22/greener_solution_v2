@@ -4,7 +4,7 @@ import prisma from '../../../../lib/prisma';
 import ArticleBox from '@/components/ArticleBox';
 import styled from 'styled-components';
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
 	const posts = await prisma.article.findMany({
 		orderBy: {
 			updatedAt: 'desc',

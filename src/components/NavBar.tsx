@@ -178,7 +178,8 @@ const ListContainer = styled.ul`
 	flex-direction: column;
 	align-items: center;
 	gap: 3rem;
-	margin-top: 5rem;
+
+	padding: 5rem 0rem 0rem 0rem;
 	list-style: none;
 	${device.laptop} {
 		margin-top: 0rem;
@@ -211,12 +212,15 @@ const SearchContainer = styled.div`
 	justify-content: center;
 `;
 const LogoContainer = styled(Link)`
-	// background-color: ${palette.light_brown};
-	// background: rgba(0, 0, 0, 0.3);
-	// backdrop-filter: saturate(180%) blur(10px);
 	padding-top: 1rem;
+	& img {
+		display: none;
+	}
 	${device.laptop} {
 		padding-top: 2px;
+		& img {
+			display: unset;
+		}
 	}
 `;
 const LogoContainerOuter = styled(Link)`
