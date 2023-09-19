@@ -14,6 +14,7 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import Link from 'next/link';
 import { MAIN_URL } from '../../../config/config';
 import slugify from 'slugify';
+import { PrismaClient } from '@prisma/client';
 
 interface Props {
 	featured: FeaturedType[];
@@ -142,6 +143,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 			notFound: true,
 		};
 	}
+
+	prisma.$disconnect();
 
 	return {
 		props: {
