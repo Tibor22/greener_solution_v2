@@ -64,7 +64,7 @@ export async function getStaticProps() {
 			},
 			take: 5,
 		});
-
+		console.log('LOGS:', { hero: hero[0], featuredArticles, articles });
 		return {
 			props: { data: { hero: hero[0], featuredArticles, articles } },
 			revalidate: 1,

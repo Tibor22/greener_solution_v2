@@ -10,14 +10,14 @@ import prisma from '../../../../lib/prisma';
 import { PostObject } from '../../../../types/types';
 import postModel from '../../../../models/PostModel';
 import Cors from 'cors';
-import { API_URL } from '../../../../config/config';
+import { MAIN_URL } from '../../../../config/config';
 export const config = {
 	api: { bodyParser: false },
 };
 
 const cors = Cors({
 	methods: ['GET', 'POST'],
-	origin: API_URL,
+	origin: MAIN_URL,
 });
 
 // Helper method to wait for a middleware to execute before continuing
@@ -86,8 +86,7 @@ const getAllPost: NextApiHandler = async (req, res) => {
 		const allPosts = await prisma.article.findMany();
 		res.status(200).json(allPosts);
 	} catch (err: any) {
-		res.status(200).json({ ms: 'still hitting the right path' });
-		// res.status(500).json({ error: err.message });
+		res.status(500).json({ error: err.message });
 	}
 };
 
