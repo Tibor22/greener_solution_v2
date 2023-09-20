@@ -16,7 +16,7 @@ export const config = {
 };
 
 const cors = Cors({
-	methods: ['GET'],
+	methods: ['GET', 'POST'],
 	origin: API_URL,
 });
 

@@ -23,7 +23,7 @@ export async function getStaticProps() {
 		},
 	});
 
-	return { props: { initialPosts: posts } };
+	return { props: { initialPosts: posts }, revalidate: 5 };
 }
 
 const Index: FC<{ initialPosts: UpdateObj[] }> = ({
