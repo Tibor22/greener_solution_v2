@@ -1,35 +1,23 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { UpdateObj } from '../../../../types/types';
-import prisma from '../../../../lib/prisma';
 import ArticleBox from '@/components/ArticleBox';
 import styled from 'styled-components';
-
-export async function getStaticProps() {
-	const posts = await prisma.article.findMany({
-		orderBy: {
-			updatedAt: 'desc',
-		},
-		select: {
-			title: true,
-			slug: true,
-			published: true,
-			tags: true,
-			categoryName: true,
-			id: true,
-			authorId: true,
-			thumbnailUrl: true,
-			hero: true,
-			featured: true,
-		},
-	});
-
-	return { props: { initialPosts: posts }, revalidate: 5 };
-}
+import { client } from '../../../../clientHelpers/helpers';
+import { API_URL } from '../../../../config/config';
 
 const Index: FC<{ initialPosts: UpdateObj[] }> = ({
 	initialPosts,
 }): JSX.Element => {
 	const [posts, setPosts] = useState(initialPosts);
+
+	useEffect(() => {
+		const getPosts = async () => {
+			const data = await client.GET(`${API_URL}/fetchers/article`);
+
+			setPosts(data.posts);
+		};
+		getPosts();
+	}, [posts]);
 
 	return (
 		<Wrapper>
