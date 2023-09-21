@@ -1,12 +1,12 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 import Cors from 'cors';
-import { API_URL } from '../../../../../config/config';
+import { MAIN_URL } from '../../../../../config/config';
 import prisma from '../../../../../lib/prisma';
 
 const cors = Cors({
-	methods: ['GET'],
-	origin: API_URL,
+	methods: ['GET', 'POST'],
+	origin: MAIN_URL,
 });
 
 // Helper method to wait for a middleware to execute before continuing

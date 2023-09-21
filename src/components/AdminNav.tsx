@@ -9,7 +9,7 @@ import {
 } from 'react-icons/ai';
 import { ImStatsBars2 } from 'react-icons/im';
 import styled, { keyframes, css } from 'styled-components';
-import { palette, fonts } from '@/styles/common';
+import { fonts } from '@/styles/common';
 import { device } from '@/styles/device';
 import { memo } from 'react';
 const navItems = [
@@ -19,11 +19,9 @@ const navItems = [
 	{ href: '/admin/statistics', icon: ImStatsBars2, label: 'Statistics' },
 ];
 
-interface Props {
-	navbarHeight: number;
-}
+interface Props {}
 
-const AdminNav: FC<Props> = memo(({ navbarHeight }): JSX.Element => {
+const AdminNav: FC<Props> = memo(({}): JSX.Element => {
 	const [visible, setVisible] = useState<boolean | null>(null);
 	const [delayedVisible, setDelayedVisible] = useState<boolean | null>(null);
 
@@ -44,7 +42,7 @@ const AdminNav: FC<Props> = memo(({ navbarHeight }): JSX.Element => {
 	return (
 		<>
 			{visible !== null && (
-				<Nav navbarHeight={navbarHeight} visible={visible}>
+				<Nav visible={visible}>
 					<LinkContainer>
 						{navItems.map((item) => {
 							return (
@@ -103,7 +101,7 @@ const Button = styled.button<{ visible: boolean }>`
 	}
 `;
 
-const Nav = styled.nav<{ visible: boolean; navbarHeight: number }>`
+const Nav = styled.nav<{ visible: boolean }>`
 	background: rgba(0, 0, 0, 0.4);
 	backdrop-filter: saturate(180%) blur(10px);
 	padding: 0rem ${({ visible }) => (visible ? 3 : 1)}rem 0rem 1rem;
@@ -112,16 +110,17 @@ const Nav = styled.nav<{ visible: boolean; navbarHeight: number }>`
 	width: ${({ visible }) => (visible ? 20 : 6)}rem;
 	position: fixed;
 	z-index: 99;
-
+	top: 77px;
+	height: calc(100vh - 77px);
 	left: ${({ visible }) => (visible ? 0 : '-6')}rem;
-	top: 0;
-	height: 100vh;
+
 	${device.laptop} {
-		top: ${({ navbarHeight }) => (navbarHeight ? `${navbarHeight}px` : '80px')};
-		height: calc(
-			100vh -
-				${({ navbarHeight }) => (navbarHeight ? `${navbarHeight}px` : '80px')}
-		);
+		top: 80px;
+		height: calc(100vh - 80px);
+	}
+	${device.laptopL} {
+		top: 79px;
+		height: calc(100vh - 79px);
 	}
 `;
 
