@@ -57,7 +57,7 @@ const AdminNav: FC<Props> = memo(({ navbarHeight }): JSX.Element => {
 							);
 						})}
 					</LinkContainer>
-					<Button>
+					<Button visible={visible}>
 						{visible ? (
 							<RiMenuFoldFill
 								onClick={() => {
@@ -82,16 +82,25 @@ const AdminNav: FC<Props> = memo(({ navbarHeight }): JSX.Element => {
 	);
 });
 
-const Button = styled.button`
-	background: none;
+const Button = styled.button<{ visible: boolean }>`
+	background: ${({ visible }) => (visible ? 'none' : 'rgba(0, 0, 0, 0.4)')};
+	backdrop-filter: ${({ visible }) =>
+		visible ? 'none' : 'saturate(180%) blur(10px)'};
 	outline: none;
 	color: white;
 	border: none;
 	cursor: pointer;
 	align-self: flex-end;
 	position: absolute;
-	bottom: 1rem;
-	right: 1rem;
+	bottom: 0;
+	padding: 1rem;
+	right: ${({ visible }) => (visible ? 0 : '-5')}rem;
+	${device.tablet} {
+		right: ${({ visible }) => (visible ? 0 : '-4.6')}rem;
+	}
+	${device.laptop} {
+		right: ${({ visible }) => (visible ? 0 : '-3.8')}rem;
+	}
 `;
 
 const Nav = styled.nav<{ visible: boolean; navbarHeight: number }>`
@@ -100,10 +109,11 @@ const Nav = styled.nav<{ visible: boolean; navbarHeight: number }>`
 	padding: 0rem ${({ visible }) => (visible ? 3 : 1)}rem 0rem 1rem;
 	position: relative;
 	transition: width 0.3s;
-	width: ${({ visible }) => (visible ? 20 : 5)}rem;
+	width: ${({ visible }) => (visible ? 20 : 6)}rem;
 	position: fixed;
 	z-index: 99;
-	left: 0;
+
+	left: ${({ visible }) => (visible ? 0 : '-6')}rem;
 	top: 0;
 	height: 100vh;
 	${device.laptop} {

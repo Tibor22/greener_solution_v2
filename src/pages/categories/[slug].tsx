@@ -239,7 +239,7 @@ const Category: FC<Props> = ({
 					</div>
 				</SliderOuterWrapper>
 
-				<Heading margin='10rem 0rem 3rem 0rem' family={'montserrat'} level={2}>
+				<Heading margin='12rem 0rem 3rem 0rem' family={'montserrat'} level={2}>
 					{`FEATURED IN ${category.toUpperCase()}`}
 				</Heading>
 				<FeaturedSection length={featuredMemo.length}>
@@ -287,7 +287,7 @@ const SliderSpread = styled.div`
 `;
 
 const SliderOuterWrapper = styled.div`
-	z-index: 50;
+	z-index: 16;
 	position: sticky;
 	top: 77px;
 	background: white;

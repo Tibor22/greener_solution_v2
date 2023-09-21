@@ -90,15 +90,9 @@ const NavBar: FC<Props> = memo(({ setNavbarHeight }): JSX.Element => {
 					<Slider xcoordinates={coordinates.x} />
 				</InnerContainer>
 			</CContainer>
-
-			{/* {close && <Margin close={close}></Margin>} */}
 		</>
 	);
 });
-
-const Margin = styled.div<{ close: boolean }>`
-	margin-top: ${({ close }) => (close ? '81px' : '0px')};
-`;
 
 const Outer = styled.div`
 	background: rgba(0, 0, 0, 0.4);
@@ -177,9 +171,12 @@ const ListContainer = styled.ul`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 3rem;
-
-	padding: 5rem 0rem 0rem 0rem;
+	gap: 4rem;
+	justify-content: center;
+	& li {
+		font-size: 2.1rem;
+	}
+	padding: 15rem 0rem 0rem 0rem;
 	list-style: none;
 	${device.laptop} {
 		margin-top: 0rem;
@@ -188,6 +185,9 @@ const ListContainer = styled.ul`
 		flex-direction: row;
 		gap: 8rem;
 		padding: 0.5rem 0rem;
+		& li {
+			font-size: 1.8rem;
+		}
 	}
 `;
 

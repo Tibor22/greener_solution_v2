@@ -104,7 +104,7 @@ const Article: FC<Props> = ({
 				<Heading style={{ margin: '0 0 3rem 0' }} level={2}>
 					What to read next
 				</Heading>
-				<FeaturedArticle article={readNext} />
+				{readNext && <FeaturedArticle article={readNext} />}
 			</ReadMore>
 		</div>
 	);
