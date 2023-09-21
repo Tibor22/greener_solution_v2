@@ -91,7 +91,7 @@ const Button = styled.button<{ visible: boolean }>`
 	border: none;
 	cursor: pointer;
 	align-self: flex-end;
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	padding: 1rem;
 	right: ${({ visible }) => (visible ? 0 : '-5')}rem;
