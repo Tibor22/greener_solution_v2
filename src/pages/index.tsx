@@ -18,60 +18,62 @@ import { device } from '@/styles/device';
 import { palette } from '@/styles/common';
 declare type Props = {
 	data: {
-		hero: HeroType;
-		featuredArticles: FeaturedType[];
-		articles: FeaturedType[];
+		hero: HeroType | null;
+		featuredArticles: FeaturedType[] | [];
+		articles: FeaturedType[] | [];
 	};
 };
 
 export async function getStaticProps() {
-	try {
-		const hero = await prisma.article.findMany({
-			where: {
-				hero: true,
-			},
-			select: {
-				slug: true,
-				title: true,
-				thumbnailUrl: true,
-				authorId: true,
-				hero: true,
-				category: true,
-				excerpt: true,
-			},
-		});
+	const hero = await prisma.article.findMany({
+		where: {
+			hero: true,
+		},
+		select: {
+			slug: true,
+			title: true,
+			thumbnailUrl: true,
+			authorId: true,
+			hero: true,
+			category: true,
+			excerpt: true,
+		},
+	});
 
-		const featuredArticles = await prisma.article.findMany({
-			where: { featured: true },
-			select: {
-				slug: true,
-				title: true,
-				thumbnailUrl: true,
-				authorId: true,
-				category: true,
-				excerpt: true,
-			},
-		});
+	const featuredArticles = await prisma.article.findMany({
+		where: { featured: true },
+		select: {
+			slug: true,
+			title: true,
+			thumbnailUrl: true,
+			authorId: true,
+			category: true,
+			excerpt: true,
+		},
+	});
 
-		const articles = await prisma.article.findMany({
-			where: { featured: false, hero: false },
-			select: {
-				slug: true,
-				title: true,
-				thumbnailUrl: true,
-				authorId: true,
-				category: true,
+	const articles = await prisma.article.findMany({
+		where: { featured: false, hero: false },
+		select: {
+			slug: true,
+			title: true,
+			thumbnailUrl: true,
+			authorId: true,
+			category: true,
+		},
+		take: 5,
+	});
+
+	return {
+		props: {
+			data: {
+				hero: hero[0] ? hero[0] : null,
+				featuredArticles: featuredArticles || [],
+				articles: articles || [],
 			},
-			take: 5,
-		});
-		console.log('LOGS:', { hero: hero[0], featuredArticles, articles });
-		return {
-			props: { data: { hero: hero[0], featuredArticles, articles } },
-			revalidate: 1,
-		};
-	} catch (error) {
-		console.log(error);
-	}
+		},
+		revalidate: 1,
+	};
 }
 
 export default function Home({ data }: Props) {
@@ -99,9 +101,7 @@ export default function Home({ data }: Props) {
 	];
 	return (
 		<Wrapper>
-			<HeroSection>
-				<Hero hero={data.hero} />
-			</HeroSection>
+			<HeroSection>{data.hero && <Hero hero={data.hero} />}</HeroSection>
 			<CategoriesSection>
 				<CategoriesHeading>
 					<Heading family={'montserrat'} level={2}>
@@ -135,11 +135,13 @@ export default function Home({ data }: Props) {
 						TOP ARTICLES
 					</Heading>
 				</CategoriesHeading>
-				<FeaturedContainer>
-					{data.featuredArticles.slice(0, 4).map((article, i) => (
-						<Featured key={article.title} index={i} article={article} />
-					))}
-				</FeaturedContainer>
+				{data.featuredArticles.length > 0 && (
+					<FeaturedContainer>
+						{data.featuredArticles.slice(0, 4).map((article, i) => (
+							<Featured key={article.title} index={i} article={article} />
+						))}
+					</FeaturedContainer>
+				)}
 			</FeaturedSection>
 			<NewsletterSection>
 				<Newsletter />
@@ -149,16 +151,18 @@ export default function Home({ data }: Props) {
 					<Heading family={'montserrat'} level={2}>
 						RECENT ARTICLES
 					</Heading>
-					<ArticlesContainer>
-						{data.articles.length > 0 &&
-							data.articles.map((article) => {
-								return (
-									<ArticleUiBox
-										article={{ ...article, category: article.category.name }}
-									></ArticleUiBox>
-								);
-							})}
-					</ArticlesContainer>
+					{data.articles.length > 0 && (
+						<ArticlesContainer>
+							{data.articles.length > 0 &&
+								data.articles.map((article) => {
+									return (
+										<ArticleUiBox
+											article={{ ...article, category: article.category.name }}
+										></ArticleUiBox>
+									);
+								})}
+						</ArticlesContainer>
+					)}
 				</div>
 				{data.featuredArticles.length > 0 && (
 					<FeaturedC>
