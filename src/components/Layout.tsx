@@ -10,7 +10,7 @@ interface Props {
 }
 const Layout: FC<Props> = ({ children }): JSX.Element => {
 	const { data: session } = useSession();
-	const [navbarHeight, setNavbarHeight] = useState<number>(0);
+
 	return (
 		<div
 			style={{
@@ -20,8 +20,8 @@ const Layout: FC<Props> = ({ children }): JSX.Element => {
 				flexDirection: 'column',
 			}}
 		>
-			{session && <AdminNav navbarHeight={navbarHeight} />}
-			<NavBar setNavbarHeight={setNavbarHeight} />
+			{session && <AdminNav />}
+			<NavBar />
 			<main
 				style={{
 					display: 'flex',
