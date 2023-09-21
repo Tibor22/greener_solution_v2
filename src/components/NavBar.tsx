@@ -1,12 +1,4 @@
-import {
-	Dispatch,
-	FC,
-	SetStateAction,
-	memo,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import { memo, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { Container } from '@/styles/sharedStyles';
@@ -16,11 +8,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { device } from '@/styles/device';
 import { MAIN_URL } from '../../config/config';
-interface Props {
-	setNavbarHeight: Dispatch<SetStateAction<number>>;
-}
 
-const NavBar: FC<Props> = memo(({ setNavbarHeight }): JSX.Element => {
+const NavBar = memo((): JSX.Element => {
 	const [coordinates, setCoordinates] = useState<{ x: number; y: number }>({
 		x: 0,
 		y: 0,
@@ -28,17 +17,12 @@ const NavBar: FC<Props> = memo(({ setNavbarHeight }): JSX.Element => {
 
 	const [close, setClose] = useState<boolean>(true);
 
-	const navbar: any = useRef(null);
 	const handleSlider = (e: any) => {
 		setCoordinates({
 			x: e.target.offsetLeft + e.target.clientWidth / 2,
 			y: e.clientY,
 		});
 	};
-
-	useEffect(() => {
-		setNavbarHeight(navbar?.current?.clientHeight);
-	}, [navbar]);
 
 	return (
 		<>
@@ -52,7 +36,7 @@ const NavBar: FC<Props> = memo(({ setNavbarHeight }): JSX.Element => {
 					/>
 				</LogoContainerOuter>
 			</Outer>
-			<CContainer ref={navbar} as={`header`} close={close}>
+			<CContainer as={`header`} close={close}>
 				<SwitchBtn
 					close={close}
 					onClick={() => setClose((prevClose) => !prevClose)}
