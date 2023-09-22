@@ -100,8 +100,9 @@ const sendNewEmail = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const transporter = nodemailer.createTransport({
-	service: 'gmail',
-	host: 'smtp.gmail.com',
+	// service: 'gmail',
+	// host: 'smtp.gmail.com',
+	host: 'smtp.zoho.eu',
 	port: 465,
 	secure: true,
 	auth: {
