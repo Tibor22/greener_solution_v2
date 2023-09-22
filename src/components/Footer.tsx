@@ -1,13 +1,28 @@
 import { palette } from '@/styles/common';
-import { FC, memo } from 'react';
+import { FC, memo, useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { Heading, Text } from '@/styles/sharedStyles';
 import Button from './Button';
 import { device } from '@/styles/device';
+import { client } from '../../clientHelpers/helpers';
+import { API_URL, MAIN_URL } from '../../config/config';
+import Link from 'next/link';
 interface Props {}
 
 const Footer: FC<Props> = memo((props: Props): JSX.Element => {
+	const [email, setEmail] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [thankYouText, setThankYouText] = useState(false);
+
+	const onSubmit = async () => {
+		setLoading(true);
+		const res = await client.POST(`${API_URL}/email/signup`, {
+			email,
+		});
+		setLoading(false);
+		setThankYouText(true);
+	};
 	return (
 		<FooterWrapper>
 			<div>
@@ -28,19 +43,37 @@ const Footer: FC<Props> = memo((props: Props): JSX.Element => {
 					Subscribe to our news letter !
 				</Heading>
 				<SubscribeWrap>
-					{' '}
-					<Input type='text'></Input>
-					<Button large type='primary'>
-						Subscribe
-					</Button>
+					{thankYouText ? (
+						<>
+							<Heading style={{ marginBottom: '1rem' }} level={3} color='white'>
+								Thank you!
+							</Heading>
+							<Text color='white'>You will receive our email soon!</Text>
+						</>
+					) : (
+						<>
+							<Input
+								onChange={(e) => setEmail(e.target.value)}
+								type='email'
+								placeholder='Enter your email'
+							></Input>
+							<Button ifClicked={onSubmit} busy={loading} large type='primary'>
+								Subscribe
+							</Button>
+						</>
+					)}
 				</SubscribeWrap>
 			</Subscribe>
 			<Links>
 				<ListItem>
-					<Text>Terms of use</Text>
+					<Link href={`${MAIN_URL}/terms`}>
+						<Text color='white'>Terms of use</Text>
+					</Link>
 				</ListItem>
 				<ListItem>
-					<Text>Privacy Policy</Text>
+					<Link href={`${MAIN_URL}/privacy`}>
+						<Text color='white'>Privacy Policy</Text>
+					</Link>
 				</ListItem>
 				<ListItem>
 					<Text>Partnership</Text>
