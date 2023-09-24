@@ -155,12 +155,22 @@ const RichText = styled.div`
 		margin: 0 auto;
 		max-width: 60%;
 	}
+	${device.laptopL} {
+		margin: 0 auto;
+		max-width: 45%;
+	}
 
 	& h1 {
 		font-size: 3.693rem;
 	}
 	& h2 {
 		font-size: 2.8rem;
+	}
+	& h3 {
+		font-size: 2.3rem;
+	}
+	& h3 {
+		font-size: 2rem;
 	}
 
 	p {
