@@ -152,7 +152,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 			category,
 			allCategories: allCategories.map((category) => category.name),
 		},
-		revalidate: 10,
+		revalidate: 1,
 	};
 };
 
