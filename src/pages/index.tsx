@@ -16,6 +16,7 @@ import ArticleUiBox from '@/components/ArticleUiBox';
 import FeaturedArticle from '@/components/FeaturedArticle';
 import { device } from '@/styles/device';
 import { palette } from '@/styles/common';
+import { NextSeo } from 'next-seo';
 declare type Props = {
 	data: {
 		hero: HeroType | null;
@@ -101,6 +102,19 @@ export default function Home({ data }: Props) {
 	];
 	return (
 		<Wrapper>
+			<NextSeo
+				title='Climate Change & Energy News | Your Source for Environmental Updates'
+				description='Stay informed about the latest developments in climate change and energy on our environmental news platform.'
+				openGraph={{
+					images: [
+						{
+							url: `/newsletter2.jpg`,
+							width: 1200,
+							height: 627,
+						},
+					],
+				}}
+			/>
 			<HeroSection>{data.hero && <Hero hero={data.hero} />}</HeroSection>
 			<CategoriesSection>
 				<CategoriesHeading>

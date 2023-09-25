@@ -57,6 +57,7 @@ ${device.laptop} {
 			font-family: ${montserrat.style.fontFamily}, serif;
 	
 		}
+
 		input {
 			font-family: ${merriweather.style.fontFamily}, serif;
 			list-style-type: none;

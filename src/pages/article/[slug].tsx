@@ -9,12 +9,14 @@ import { Heading } from '@/styles/sharedStyles';
 import { device } from '@/styles/device';
 import FeaturedArticle from '@/components/FeaturedArticle';
 import { FeaturedType } from '../../../types/types';
+import { NextSeo } from 'next-seo';
 
 interface Props {
 	article: {
 		content: string;
 		title: string;
 		meta: string;
+		thumbnailUrl: string;
 	};
 	readNext: FeaturedType;
 	slug: string;
@@ -55,6 +57,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 			content: true,
 			title: true,
 			meta: true,
+			thumbnailUrl: true,
 		},
 	});
 
@@ -89,26 +92,44 @@ const Article: FC<Props> = ({
 	readNext,
 }: Props): JSX.Element => {
 	return (
-		<div
-			style={{
-				position: 'relative',
-				width: '100%',
-				background: `${palette.light_gradient}`,
-				padding: '15px',
-				marginTop: '81px',
-			}}
-		>
-			<RichText>{parse(article.content)}</RichText>
-			<LineBreak></LineBreak>
-			<ReadMore>
-				<Heading style={{ margin: '0 0 3rem 0' }} level={2}>
-					What to read next
-				</Heading>
-				{readNext && <FeaturedArticle article={readNext} />}
-			</ReadMore>
-		</div>
+		<>
+			<NextSeo
+				title={article.title}
+				description={article.meta}
+				openGraph={{
+					images: [
+						{
+							url: article.thumbnailUrl,
+							width: 1200,
+							height: 627,
+						},
+					],
+				}}
+			/>
+			<Wrapper>
+				<RichText>{parse(article.content)}</RichText>
+				<LineBreak></LineBreak>
+				<ReadMore>
+					<Heading style={{ margin: '0 0 3rem 0' }} level={2}>
+						What to read next
+					</Heading>
+					{readNext && <FeaturedArticle article={readNext} />}
+				</ReadMore>
+			</Wrapper>
+		</>
 	);
 };
+
+const Wrapper = styled.div`
+	position: relative;
+	width: 100%;
+	background: ${palette.light_gradient};
+	padding: 15px;
+	margin-top: 61px;
+	${device.laptop} {
+		margin-top: 81px;
+	}
+`;
 
 const LineBreak = styled.div`
 	width: 100%;

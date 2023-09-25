@@ -14,7 +14,7 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import Link from 'next/link';
 import { MAIN_URL } from '../../../config/config';
 import slugify from 'slugify';
-import { PrismaClient } from '@prisma/client';
+import { NextSeo } from 'next-seo';
 
 interface Props {
 	featured: FeaturedType[];
@@ -206,6 +206,23 @@ const Category: FC<Props> = ({
 				margin: '0 auto',
 			}}
 		>
+			<NextSeo
+				title={`${
+					category === 'all' ? 'Environmental' : category
+				} News | Environmental Updates`}
+				description={`Explore the latest ${
+					category === 'all' ? 'Environmental' : category
+				} news and updates on climate change and energy on our environmental news platform.`}
+				openGraph={{
+					images: [
+						{
+							url: `/newsletter2.jpg`,
+							width: 1200,
+							height: 627,
+						},
+					],
+				}}
+			/>
 			<SliderSpread></SliderSpread>
 			<Wrapper>
 				<SliderOuterWrapper>
@@ -283,7 +300,6 @@ const SliderSpread = styled.div`
 	top: 80px;
 	background: white;
 	width: 100vw;
-	height: 58px;
 `;
 
 const SliderOuterWrapper = styled.div`
@@ -297,10 +313,11 @@ const SliderOuterWrapper = styled.div`
 
 	${device.laptop} {
 		top: 80px;
+		font-size: 2rem;
 	}
 
-	${device.laptop} {
-		font-size: 2rem;
+	${device.laptopL} {
+		top: 79px;
 	}
 `;
 
