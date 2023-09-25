@@ -10,6 +10,7 @@ import { device } from '@/styles/device';
 import FeaturedArticle from '@/components/FeaturedArticle';
 import { FeaturedType } from '../../../types/types';
 import { NextSeo } from 'next-seo';
+import Image from 'next/image';
 
 interface Props {
 	article: {
@@ -107,7 +108,35 @@ const Article: FC<Props> = ({
 				}}
 			/>
 			<Wrapper>
-				<RichText>{parse(article.content)}</RichText>
+				<RichText>
+					{' '}
+					{parse(article.content)?.length > 0
+						? parse(article.content).map((node: React.ReactElement) => {
+								if (node.type === 'img') {
+									return (
+										<div
+											style={{
+												width: '100%',
+												height: 'auto',
+												aspectRatio: '16/9',
+												position: 'relative',
+											}}
+										>
+											<Image
+												key={node.key}
+												src={node.props.src}
+												alt={node.props.alt}
+												fill
+												style={{ borderRadius: '8px' }}
+											/>
+										</div>
+									);
+								}
+
+								return node;
+						  })
+						: parse(article.content)}
+				</RichText>
 				<LineBreak></LineBreak>
 				<ReadMore>
 					<Heading style={{ margin: '0 0 3rem 0' }} level={2}>
@@ -172,6 +201,10 @@ const ReadMore = styled.div`
 
 const RichText = styled.div`
 	margin: 4rem auto;
+	${device.tablet} {
+		margin: 0 auto;
+		max-width: 80%;
+	}
 	${device.laptop} {
 		margin: 0 auto;
 		max-width: 60%;
@@ -185,17 +218,35 @@ const RichText = styled.div`
 		font-size: 3.693rem;
 	}
 	& h2 {
-		font-size: 2.8rem;
+		font-size: 3rem;
 	}
 	& h3 {
-		font-size: 2.3rem;
-	}
-	& h3 {
-		font-size: 2rem;
+		font-size: 2.6rem;
 	}
 
 	p {
-		font-size: ${fonts.regular};
+		font-size: ${fonts.medium};
+		line-height: 2.6rem;
+	}
+
+	${device.laptop} {
+		& h1 {
+			font-size: 3.693rem;
+		}
+		& h2 {
+			font-size: 2.8rem;
+		}
+		& h3 {
+			font-size: 2.3rem;
+		}
+		& h3 {
+			font-size: 2rem;
+		}
+
+		p {
+			font-size: ${fonts.regular};
+			line-height: 2.3rem;
+		}
 	}
 
 	img {
