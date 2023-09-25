@@ -110,31 +110,33 @@ const Article: FC<Props> = ({
 			<Wrapper>
 				<RichText>
 					{' '}
-					{parse(article.content)?.length > 0
-						? parse(article.content).map((node: React.ReactElement) => {
-								if (node.type === 'img') {
-									return (
-										<div
-											style={{
-												width: '100%',
-												height: 'auto',
-												aspectRatio: '16/9',
-												position: 'relative',
-											}}
-										>
-											<Image
-												key={node.key}
-												src={node.props.src}
-												alt={node.props.alt}
-												fill
-												style={{ borderRadius: '8px' }}
-											/>
-										</div>
-									);
-								}
+					{(parse(article.content) as any)?.length > 0
+						? (parse(article.content) as any).map(
+								(node: React.ReactElement) => {
+									if (node.type === 'img') {
+										return (
+											<div
+												style={{
+													width: '100%',
+													height: 'auto',
+													aspectRatio: '16/9',
+													position: 'relative',
+												}}
+											>
+												<Image
+													key={node.key}
+													src={node.props.src}
+													alt={node.props.alt}
+													fill
+													style={{ borderRadius: '8px' }}
+												/>
+											</div>
+										);
+									}
 
-								return node;
-						  })
+									return node;
+								}
+						  )
 						: parse(article.content)}
 				</RichText>
 				<LineBreak></LineBreak>
