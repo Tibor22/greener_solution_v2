@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react';
 import GlobalCSS from '../styles/globals';
 import Layout from '../components/Layout';
+
 interface Props {
 	children: ReactNode;
 }

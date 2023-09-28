@@ -36,7 +36,9 @@ const Newsletter: FC<Props> = (props): JSX.Element => {
 			<Content>
 				{thankYouText === false ? (
 					<>
-						<Heading level={1}>Want to help change the world?</Heading>
+						<Heading level={2} looksLike={1}>
+							Want to help change the world?
+						</Heading>
 						<Text margin='-3rem 0rem 4rem 0rem'>
 							Be an Earth Hero: Stay Informed with Our Eco-Friendly Newsletter!
 						</Text>
