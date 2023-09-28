@@ -57,16 +57,18 @@ const DetailsContainer = styled.div`
 	width: calc(100% - 60px);
 	margin: 0 auto;
 
-	${device.tablet} {
-		width: 50rem;
-		margin-left: 15vw;
-	}
-
 	background: white;
-	padding: 3rem;
+	padding: 2rem;
+	padding-top: 4.5rem;
 	border-radius: 8px 8px 0px 0px;
 	z-index: 2;
 	transform: translateY(1px);
+	${device.tablet} {
+		padding: 3rem;
+		padding-top: 4.5rem;
+		width: 50rem;
+		margin-left: 15vw;
+	}
 
 	${device.tablet} {
 		&::after {

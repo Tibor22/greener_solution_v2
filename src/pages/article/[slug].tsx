@@ -121,6 +121,7 @@ const Article: FC<Props> = ({
 													height: 'auto',
 													aspectRatio: '16/9',
 													position: 'relative',
+													marginBottom: '3rem',
 												}}
 											>
 												<Image

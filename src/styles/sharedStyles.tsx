@@ -204,4 +204,7 @@ export const Label = styled.label<{ color: string }>`
 	color: white;
 	font-family: ${montserrat.style.fontFamily};
 	font-weight: bold;
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
 `;
