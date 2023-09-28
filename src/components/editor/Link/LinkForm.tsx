@@ -35,6 +35,7 @@ const LinkForm: FC<Props> = ({
 
 	const handleSubmit = (e: any) => {
 		validateUrl(link.url);
+
 		onSubmit({ ...link, url: validateUrl(link.url) });
 		setLink(defaultLink);
 	};

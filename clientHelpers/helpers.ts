@@ -28,7 +28,7 @@ export const validateUrl = (url: string) => {
 		finalUrl = new URL('https://' + url);
 	}
 
-	return finalUrl.origin;
+	return finalUrl.href;
 };
 
 export const client = {
