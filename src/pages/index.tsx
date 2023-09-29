@@ -104,6 +104,11 @@ export default function Home({ data }: Props) {
 		},
 	];
 
+	const getWeather = async () => {
+		const res = await client.GET(`${API_URL}/weather`);
+		const lines = res.split('\n').filter((line: any) => line.trim() !== '');
+		console.log('LINES:', lines);
+	};
 	return (
 		<Wrapper>
 			<NextSeo
@@ -120,7 +125,7 @@ export default function Home({ data }: Props) {
 				}}
 			/>
 			<HeroSection>{data.hero && <Hero hero={data.hero} />}</HeroSection>
-
+			<Button ifClicked={getWeather}>CLICK FOR WARTHER DATA</Button>
 			<CategoriesSection>
 				<CategoriesHeading>
 					<Heading family={'montserrat'} level={2}>
