@@ -1,15 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import puppeteer from 'puppeteer';
-import prisma from '../../../lib/prisma';
+// import prisma from '../../../lib/prisma';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		// Launch a headless browser
-		// const browser = await puppeteer.launch();
-		const browser = await puppeteer.connect({
-			browserWSEndpoint:
-				'wss://chrome.browserless.io?token=6d75fbea-8637-400b-8336-a48998b86a71',
-		});
+		const browser = await puppeteer.launch();
+		// const browser = await puppeteer.connect({
+		// 	browserWSEndpoint:
+		// 		'wss://chrome.browserless.io?token=6d75fbea-8637-400b-8336-a48998b86a71',
+		// });
 
 		// Open a new page
 		const page = await browser.newPage();
@@ -36,12 +36,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			temperature: lines && lines[3].trim(),
 		};
 
-		const weather = await prisma.weather.create({
-			data: {
-				location: data.location || 'Death Valley',
-				temperature: data.temperature || '53',
-			},
-		});
+		// const weather = await prisma.weather.create({
+		// 	data: {
+		// 		location: data.location || 'Death Valley',
+		// 		temperature: data.temperature || '53',
+		// 	},
+		// });
 
 		// Send the extracted text as the response
 		res.status(200).json(data);
