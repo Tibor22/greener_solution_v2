@@ -9,7 +9,7 @@ import { RiRecycleFill } from 'react-icons/ri';
 import { FaThermometerThreeQuarters } from 'react-icons/fa';
 import { Heading } from '@/styles/sharedStyles';
 import Link from 'next/link';
-import { MAIN_URL } from '../../config/config';
+import { API_URL, MAIN_URL } from '../../config/config';
 import Featured from '@/components/Featured';
 import Newsletter from '@/components/Newsletter';
 import ArticleUiBox from '@/components/ArticleUiBox';
@@ -17,6 +17,9 @@ import FeaturedArticle from '@/components/FeaturedArticle';
 import { device } from '@/styles/device';
 import { palette } from '@/styles/common';
 import { NextSeo } from 'next-seo';
+import Button from '@/components/Button';
+import getWeatherData from './api/weather';
+import { client } from '../../clientHelpers/helpers';
 declare type Props = {
 	data: {
 		hero: HeroType | null;
@@ -100,6 +103,7 @@ export default function Home({ data }: Props) {
 			bgColor: '#77C1C6',
 		},
 	];
+
 	return (
 		<Wrapper>
 			<NextSeo
@@ -116,6 +120,7 @@ export default function Home({ data }: Props) {
 				}}
 			/>
 			<HeroSection>{data.hero && <Hero hero={data.hero} />}</HeroSection>
+
 			<CategoriesSection>
 				<CategoriesHeading>
 					<Heading family={'montserrat'} level={2}>
