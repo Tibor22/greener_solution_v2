@@ -1,9 +1,31 @@
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import cheerio from 'cheerio';
+import Cors from 'cors';
+import { MAIN_URL } from '../../../config/config';
 // import prisma from '../../../lib/prisma';
 
+const cors = Cors({
+	methods: ['GET', 'POST'],
+	origin: MAIN_URL,
+});
+function runMiddleware(
+	req: NextApiRequest,
+	res: NextApiResponse,
+	fn: Function
+) {
+	return new Promise((resolve, reject) => {
+		fn(req, res, (result: any) => {
+			if (result instanceof Error) {
+				return reject(result);
+			}
+
+			return resolve(result);
+		});
+	});
+}
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+	await runMiddleware(req, res, cors);
 	try {
 		const resp = await axios(
 			'https://www.eldoradoweather.com/climate/world-extremes/world-temp-rainfall-extremes.php'
