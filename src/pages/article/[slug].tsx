@@ -217,6 +217,20 @@ const RichText = styled.div`
 		max-width: 45%;
 	}
 
+	& li {
+		margin-left: 5rem;
+		list-style-type: none;
+		position: relative;
+		&::before {
+			content: '➼';
+			font-size: 2.5rem;
+			color: ${palette.light_brown};
+			left: -4rem;
+			top: -0.5rem;
+			position: absolute;
+		}
+	}
+
 	& h1 {
 		font-size: 3.693rem;
 	}
@@ -250,8 +264,13 @@ const RichText = styled.div`
 			font-size: ${fonts.regular};
 			line-height: 2.3rem;
 		}
-	}
 
+		& li {
+			&::before {
+				top: -0.7rem;
+			}
+		}
+	
 	img {
 		margin-bottom: 3rem;
 	}
