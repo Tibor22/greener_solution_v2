@@ -20,6 +20,7 @@ import { NextSeo } from 'next-seo';
 import Button from '@/components/Button';
 import getWeatherData from './api/weather';
 import { client } from '../../clientHelpers/helpers';
+import { useState } from 'react';
 declare type Props = {
 	data: {
 		hero: HeroType | null;
@@ -81,6 +82,10 @@ export async function getStaticProps() {
 }
 
 export default function Home({ data }: Props) {
+	const [weatherData, setWeatherData] = useState<null | {
+		temperature: string;
+		location: string;
+	}>(null);
 	const categories = [
 		{
 			icon: <MdEnergySavingsLeaf color='white' size={'50%'} />,
@@ -104,6 +109,11 @@ export default function Home({ data }: Props) {
 		},
 	];
 
+	const getWeather = async () => {
+		const res = await client.GET(`${API_URL}/weather`);
+
+		setWeatherData(res);
+	};
 	return (
 		<Wrapper>
 			<NextSeo
@@ -120,7 +130,12 @@ export default function Home({ data }: Props) {
 				}}
 			/>
 			<HeroSection>{data.hero && <Hero hero={data.hero} />}</HeroSection>
-
+			<Button ifClicked={getWeather}>CLICK FOR WARTHER DATA</Button>
+			{weatherData && (
+				<h1>
+					location:{weatherData.location} temperature:{weatherData.temperature}
+				</h1>
+			)}
 			<CategoriesSection>
 				<CategoriesHeading>
 					<Heading family={'montserrat'} level={2}>

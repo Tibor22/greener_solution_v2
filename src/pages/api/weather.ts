@@ -1,50 +1,61 @@
+import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-import puppeteer from 'puppeteer';
-// import prisma from '../../../lib/prisma';
+import cheerio from 'cheerio';
+import Cors from 'cors';
+import { MAIN_URL } from '../../../config/config';
+import prisma from '../../../lib/prisma';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-	try {
-		// Launch a headless browser
-		const browser = await puppeteer.launch();
-		// const browser = await puppeteer.connect({
-		// 	browserWSEndpoint:
-		// 		'wss://chrome.browserless.io?token=6d75fbea-8637-400b-8336-a48998b86a71',
-		// });
-
-		// Open a new page
-		const page = await browser.newPage();
-
-		// Navigate to the target page
-		await page.goto(
-			'https://www.eldoradoweather.com/climate/world-extremes/world-temp-rainfall-extremes.php',
-			{
-				waitUntil: 'domcontentloaded',
+const cors = Cors({
+	methods: ['GET', 'POST'],
+	origin: MAIN_URL,
+});
+function runMiddleware(
+	req: NextApiRequest,
+	res: NextApiResponse,
+	fn: Function
+) {
+	return new Promise((resolve, reject) => {
+		fn(req, res, (result: any) => {
+			if (result instanceof Error) {
+				return reject(result);
 			}
+
+			return resolve(result);
+		});
+	});
+}
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+	await runMiddleware(req, res, cors);
+	try {
+		const resp = await axios(
+			'https://www.eldoradoweather.com/climate/world-extremes/world-temp-rainfall-extremes.php'
 		);
-
-		// Extract the desired text
-
+		const data = await resp.data;
+		const $ = cheerio.load(data);
 		const selector =
 			'body table tbody tr td table tbody tr td table tbody tr td div div table tbody:nth-child(2) tr:nth-child(2)';
-		const text = await page.$eval(selector, (element) => element.textContent);
+		const weather = $(selector).text();
 
-		// Close the browser
-		await browser.close();
-		const lines = text?.split('\n').filter((line: any) => line.trim() !== '');
-		const data = {
+		const lines = weather
+			?.split('\n')
+			.filter((line: any) => line.trim() !== '');
+		const weatherData = {
 			location: lines && lines[1].trim(),
 			temperature: lines && lines[3].trim(),
 		};
-
-		// const weather = await prisma.weather.create({
-		// 	data: {
-		// 		location: data.location || 'Death Valley',
-		// 		temperature: data.temperature || '53',
-		// 	},
-		// });
-
-		// Send the extracted text as the response
-		res.status(200).json(data);
+		if (lines) {
+			await prisma.weather.update({
+				where: {
+					id: 1,
+				},
+				data: {
+					location: weatherData.location,
+					temperature: weatherData.temperature,
+				},
+			});
+		}
+		console.log('DATA:', weatherData);
+		res.status(200).send(weatherData);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'An error occurred' });
