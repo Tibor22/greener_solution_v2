@@ -109,11 +109,6 @@ export default function Home({ data }: Props) {
 		},
 	];
 
-	const getWeather = async () => {
-		const res = await client.GET(`${API_URL}/weather`);
-
-		setWeatherData(res);
-	};
 	return (
 		<Wrapper>
 			<NextSeo
@@ -130,12 +125,7 @@ export default function Home({ data }: Props) {
 				}}
 			/>
 			<HeroSection>{data.hero && <Hero hero={data.hero} />}</HeroSection>
-			<Button ifClicked={getWeather}>CLICK FOR WARTHER DATA</Button>
-			{weatherData && (
-				<h1>
-					location:{weatherData.location} temperature:{weatherData.temperature}
-				</h1>
-			)}
+
 			<CategoriesSection>
 				<CategoriesHeading>
 					<Heading family={'montserrat'} level={2}>
