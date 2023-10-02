@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import cheerio from 'cheerio';
 import Cors from 'cors';
 import { MAIN_URL } from '../../../config/config';
-// import prisma from '../../../lib/prisma';
+import prisma from '../../../lib/prisma';
 
 const cors = Cors({
 	methods: ['GET', 'POST'],
@@ -43,6 +43,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			location: lines && lines[1].trim(),
 			temperature: lines && lines[3].trim(),
 		};
+		if (lines) {
+			await prisma.weather.update({
+				where: {
+					id: 1,
+				},
+				data: {
+					location: weatherData.location,
+					temperature: weatherData.temperature,
+				},
+			});
+		}
 		console.log('DATA:', weatherData);
 		res.status(200).send(weatherData);
 	} catch (error) {
