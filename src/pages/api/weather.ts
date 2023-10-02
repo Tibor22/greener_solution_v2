@@ -44,11 +44,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			temperature: lines && lines[3].trim(),
 		};
 		if (lines) {
-			await prisma.weather.update({
+			await prisma.weather.upsert({
 				where: {
 					id: 1,
 				},
-				data: {
+				update: {
+					location: weatherData.location,
+					temperature: weatherData.temperature,
+				},
+				create: {
 					location: weatherData.location,
 					temperature: weatherData.temperature,
 				},
