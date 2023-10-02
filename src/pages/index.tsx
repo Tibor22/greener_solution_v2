@@ -2,7 +2,12 @@ import Hero from '@/components/Hero';
 import { Text } from '@/styles/sharedStyles';
 import styled from 'styled-components';
 import CategoryLabel from '@/components/CategoryLabel';
-import { FeaturedType, HeroType, WeatherData } from '../../types/types';
+import {
+	FeaturedType,
+	HeroType,
+	PollutionData,
+	WeatherData,
+} from '../../types/types';
 import prisma from '../../lib/prisma';
 import { MdEnergySavingsLeaf, MdSavings } from 'react-icons/md';
 import { RiRecycleFill } from 'react-icons/ri';
@@ -17,13 +22,16 @@ import FeaturedArticle from '@/components/FeaturedArticle';
 import { device } from '@/styles/device';
 import { palette } from '@/styles/common';
 import { NextSeo } from 'next-seo';
+import Widget from '@/components/Widget';
 
 declare type Props = {
 	data: {
 		hero: HeroType | null;
 		featuredArticles: FeaturedType[] | [];
 		articles: FeaturedType[] | [];
+		worldNews: FeaturedType;
 		weather: WeatherData;
+		pollution: PollutionData;
 	};
 };
 
@@ -53,6 +61,7 @@ export async function getStaticProps() {
 			category: true,
 			excerpt: true,
 		},
+		take: 4,
 	});
 
 	const articles = await prisma.article.findMany({
@@ -66,6 +75,22 @@ export async function getStaticProps() {
 		},
 		take: 5,
 	});
+	const worldNews = await prisma.article.findFirst({
+		where: {
+			category: {
+				is: {
+					name: 'world',
+				},
+			},
+		},
+		select: {
+			slug: true,
+			title: true,
+			thumbnailUrl: true,
+			authorId: true,
+			category: true,
+		},
+	});
 
 	const weather = await prisma.weather.findUnique({
 		where: {
@@ -76,6 +101,15 @@ export async function getStaticProps() {
 			temperature: true,
 		},
 	});
+	const pollution = await prisma.pollution.findUnique({
+		where: {
+			id: 1,
+		},
+		select: {
+			location: true,
+			data: true,
+		},
+	});
 
 	return {
 		props: {
@@ -84,6 +118,8 @@ export async function getStaticProps() {
 				featuredArticles: featuredArticles || [],
 				articles: articles || [],
 				weather: weather ? weather : null,
+				pollution: pollution ? pollution : null,
+				worldNews: worldNews || [],
 			},
 		},
 		revalidate: 1,
@@ -140,7 +176,7 @@ export default function Home({ data }: Props) {
 						<Text color='black'>VIEW ALL</Text>
 					</Link>
 				</CategoriesHeading>
-				<WorldSection></WorldSection>
+
 				<Labels>
 					{categories.map((category) => (
 						<Link
@@ -159,6 +195,36 @@ export default function Home({ data }: Props) {
 					))}
 				</Labels>
 			</CategoriesSection>
+			{data.worldNews && data.weather && data.pollution && (
+				<WorldSection>
+					<Heading family={'montserrat'} level={2}>
+						FROM AROUND THE WORLD
+					</Heading>
+					<WorldSectionWrapper>
+						<FeaturedWrapper>
+							{data.worldNews && (
+								<Featured
+									article={{
+										...data.worldNews,
+									}}
+									index={2}
+								></Featured>
+							)}
+						</FeaturedWrapper>
+						<Widget
+							type='temperature'
+							data={data.weather.temperature}
+							location={data.weather.location}
+						/>
+
+						<Widget
+							type='pollution'
+							data={`${data.pollution.data} AQI`}
+							location={data.pollution.location}
+						/>
+					</WorldSectionWrapper>
+				</WorldSection>
+			)}
 			<FeaturedSection>
 				<CategoriesHeading>
 					<Heading family={'montserrat'} level={2}>
@@ -217,7 +283,31 @@ const Wrapper = styled.div`
 	background: ${palette.light_gradient};
 `;
 
-const WorldSection = styled.section``;
+const WorldSectionWrapper = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: auto auto;
+	justify-items: center;
+	${device.tablet} {
+	}
+	${device.laptop} {
+		grid-template-columns: 1fr 30rem 30rem;
+	}
+	gap: 6rem;
+`;
+
+const FeaturedWrapper = styled.div`
+	grid-column: 1 / -1;
+	justify-self: stretch;
+
+	${device.laptop} {
+		grid-column: 1 / 2;
+	}
+`;
+
+const WorldSection = styled.section`
+	margin: 6rem 0rem 4rem 0rem;
+`;
 
 const FeaturedC = styled.div`
 	display: none;

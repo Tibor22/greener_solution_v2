@@ -65,6 +65,7 @@ const InnerWrapper = styled.div`
 `;
 
 const CLink = styled(Link)<{ index: number }>`
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: end;

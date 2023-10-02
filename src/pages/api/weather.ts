@@ -30,6 +30,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		const resp = await axios(
 			'https://www.eldoradoweather.com/climate/world-extremes/world-temp-rainfall-extremes.php'
 		);
+		const resp2 = await axios(
+			'https://www.iqair.com/gb/world-air-quality-ranking'
+		);
+		const data2 = await resp2.data;
+
+		const $$ = cheerio.load(data2);
+		const selector2 = '.table-wrapper.over-x-auto table tbody tr:nth-child(1)';
+		const pollution = $$(selector2).text();
+		console.log('POLLUTION:', pollution);
 		const data = await resp.data;
 		const $ = cheerio.load(data);
 		const selector =
@@ -38,11 +47,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 		const lines = weather
 			?.split('\n')
-			.filter((line: any) => line.trim() !== '');
+			?.filter((line: any) => line?.trim() !== '');
 		const weatherData = {
-			location: lines && lines[1].trim(),
-			temperature: lines && lines[3].trim(),
+			location: lines && lines[1]?.trim(),
+			temperature: lines && lines[3]?.trim(),
 		};
+		const lines2 = pollution
+			?.split(' ')
+			?.filter((line: any) => line?.trim() !== '');
+		const pollutionData = {
+			location:
+				lines2 &&
+				`${lines2[1]?.trim()} ${lines2[2]
+					?.trim()
+					?.slice(0, -1)} (${lines2[3]?.trim()})`,
+			data: lines2 && lines2[4]?.trim(),
+		};
+		console.log('POLLUTION DATA:', pollutionData);
 		if (lines) {
 			await prisma.weather.upsert({
 				where: {
@@ -58,8 +79,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 				},
 			});
 		}
+		if (lines2) {
+			await prisma.pollution.upsert({
+				where: {
+					id: 1,
+				},
+				update: {
+					location: pollutionData.location,
+					data: pollutionData.data,
+				},
+				create: {
+					location: pollutionData.location,
+					data: pollutionData.data,
+				},
+			});
+		}
 		console.log('DATA:', weatherData);
-		res.status(200).send(weatherData);
+		res.status(200).send({ weatherData, pollutionData });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'An error occurred' });

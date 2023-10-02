@@ -65,6 +65,11 @@ model Weather {
   location String 
   temperature String
 }
+model Pollution {
+  id       Int    @id @default(autoincrement())
+  location String 
+  data String
+}
 
 
 

@@ -102,3 +102,7 @@ export type WeatherData = {
 	location: string;
 	temperature: string;
 };
+export type PollutionData = {
+	location: string;
+	data: string;
+};
