@@ -61,7 +61,6 @@ export async function getStaticProps() {
 			category: true,
 			excerpt: true,
 		},
-		take: 4,
 	});
 
 	const articles = await prisma.article.findMany({
