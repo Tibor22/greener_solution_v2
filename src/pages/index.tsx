@@ -2,14 +2,14 @@ import Hero from '@/components/Hero';
 import { Text } from '@/styles/sharedStyles';
 import styled from 'styled-components';
 import CategoryLabel from '@/components/CategoryLabel';
-import { FeaturedType, HeroType } from '../../types/types';
+import { FeaturedType, HeroType, WeatherData } from '../../types/types';
 import prisma from '../../lib/prisma';
 import { MdEnergySavingsLeaf, MdSavings } from 'react-icons/md';
 import { RiRecycleFill } from 'react-icons/ri';
 import { FaThermometerThreeQuarters } from 'react-icons/fa';
 import { Heading } from '@/styles/sharedStyles';
 import Link from 'next/link';
-import { API_URL, MAIN_URL } from '../../config/config';
+import { MAIN_URL } from '../../config/config';
 import Featured from '@/components/Featured';
 import Newsletter from '@/components/Newsletter';
 import ArticleUiBox from '@/components/ArticleUiBox';
@@ -23,6 +23,7 @@ declare type Props = {
 		hero: HeroType | null;
 		featuredArticles: FeaturedType[] | [];
 		articles: FeaturedType[] | [];
+		weather: WeatherData;
 	};
 };
 
@@ -66,12 +67,23 @@ export async function getStaticProps() {
 		take: 5,
 	});
 
+	const weather = await prisma.weather.findUnique({
+		where: {
+			id: 1,
+		},
+		select: {
+			location: true,
+			temperature: true,
+		},
+	});
+
 	return {
 		props: {
 			data: {
 				hero: hero[0] ? hero[0] : null,
 				featuredArticles: featuredArticles || [],
 				articles: articles || [],
+				weather: weather ? weather : null,
 			},
 		},
 		revalidate: 1,
@@ -128,6 +140,7 @@ export default function Home({ data }: Props) {
 						<Text color='black'>VIEW ALL</Text>
 					</Link>
 				</CategoriesHeading>
+				<WorldSection></WorldSection>
 				<Labels>
 					{categories.map((category) => (
 						<Link
@@ -203,6 +216,8 @@ const Wrapper = styled.div`
 	padding: 0px 15px;
 	background: ${palette.light_gradient};
 `;
+
+const WorldSection = styled.section``;
 
 const FeaturedC = styled.div`
 	display: none;

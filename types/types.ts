@@ -97,3 +97,8 @@ export interface SeoResult {
 	slug: string;
 	tags: string[] | null;
 }
+
+export type WeatherData = {
+	location: string;
+	temperature: string;
+};

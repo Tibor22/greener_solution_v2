@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { API_URL, MAIN_URL } from '../../config/config';
+import { API_URL } from '../../config/config';
 import { Heading, Text } from '@/styles/sharedStyles';
 import Button from './Button';
 import { palette } from '@/styles/common';
