@@ -17,10 +17,7 @@ import FeaturedArticle from '@/components/FeaturedArticle';
 import { device } from '@/styles/device';
 import { palette } from '@/styles/common';
 import { NextSeo } from 'next-seo';
-import Button from '@/components/Button';
-import getWeatherData from './api/weather';
-import { client } from '../../clientHelpers/helpers';
-import { useState } from 'react';
+
 declare type Props = {
 	data: {
 		hero: HeroType | null;
@@ -82,10 +79,6 @@ export async function getStaticProps() {
 }
 
 export default function Home({ data }: Props) {
-	const [weatherData, setWeatherData] = useState<null | {
-		temperature: string;
-		location: string;
-	}>(null);
 	const categories = [
 		{
 			icon: <MdEnergySavingsLeaf color='white' size={'50%'} />,
