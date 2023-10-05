@@ -72,7 +72,7 @@ export async function getStaticProps() {
 			authorId: true,
 			category: true,
 		},
-		take: 5,
+		// take: 5,
 	});
 	const worldNews = await prisma.article.findFirst({
 		where: {

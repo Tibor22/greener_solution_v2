@@ -36,9 +36,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		const data2 = await resp2.data;
 
 		const $$ = cheerio.load(data2);
-		const selector2 = '.table-wrapper.over-x-auto table tbody tr:nth-child(1)';
-		const pollution = $$(selector2).text();
-		console.log('POLLUTION:', pollution);
+		const selector2 =
+			'.table-wrapper.over-x-auto table tbody tr:nth-child(1) td:nth-child(3)';
+		const selector3 =
+			'.table-wrapper.over-x-auto table tbody tr:nth-child(1) td:nth-child(4)';
+		const pollutionLocation = $$(selector2).text();
+		const pollutionNumber = $$(selector3).text();
+
+		const pollutionData = {
+			location: pollutionLocation,
+			data: pollutionNumber,
+		};
+
 		const data = await resp.data;
 		const $ = cheerio.load(data);
 		const selector =
@@ -52,18 +61,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			location: lines && lines[1]?.trim(),
 			temperature: lines && lines[3]?.trim(),
 		};
-		const lines2 = pollution
-			?.split(' ')
-			?.filter((line: any) => line?.trim() !== '');
-		const pollutionData = {
-			location:
-				lines2 &&
-				`${lines2[1]?.trim()} ${lines2[2]
-					?.trim()
-					?.slice(0, -1)} (${lines2[3]?.trim()})`,
-			data: lines2 && lines2[4]?.trim(),
-		};
-		console.log('POLLUTION DATA:', pollutionData);
+
 		if (lines) {
 			await prisma.weather.upsert({
 				where: {
@@ -79,22 +77,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 				},
 			});
 		}
-		if (lines2) {
+		if (pollutionData) {
 			await prisma.pollution.upsert({
 				where: {
 					id: 1,
 				},
 				update: {
-					location: pollutionData.location,
-					data: pollutionData.data,
+					location: pollutionData.location.trim(),
+					data: pollutionData.data.trim(),
 				},
 				create: {
-					location: pollutionData.location,
-					data: pollutionData.data,
+					location: pollutionData.location.trim(),
+					data: pollutionData.data.trim(),
 				},
 			});
 		}
-		console.log('DATA:', weatherData);
+
 		res.status(200).send({ weatherData, pollutionData });
 	} catch (error) {
 		console.error(error);
