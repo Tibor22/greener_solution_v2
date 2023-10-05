@@ -272,7 +272,7 @@ const RichText = styled.div`
 		}
 	
 	img {
-		margin-bottom: 3rem;
+		margin-bottom: 1rem;
 	}
 `;
 

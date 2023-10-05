@@ -37,8 +37,8 @@ const ArticleUiBox: FC<Props> = memo(({ article }): JSX.Element => {
 });
 const LabelWrapper = styled.div`
 	position: absolute;
-	top: 2rem;
-	right: 1rem;
+	top: 0.5rem;
+	right: 0.5rem;
 `;
 const Desc = styled.div`
 	flex-basis: 70%;
