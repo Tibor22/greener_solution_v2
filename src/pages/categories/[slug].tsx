@@ -54,7 +54,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 		featuredArticles = await prisma.category.findMany({
 			where: {
 				name: {
-					contains: slug?.replace(/-/g, ' '),
+					contains: slug === 'global-warming' ? slug : slug?.replace(/-/g, ' '),
 					mode: 'insensitive',
 				},
 			},
@@ -77,7 +77,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 		articles = await prisma.category.findMany({
 			where: {
 				name: {
-					contains: slug?.replace(/-/g, ' '),
+					contains: slug === 'global-warming' ? slug : slug?.replace(/-/g, ' '),
 					mode: 'insensitive',
 				},
 			},
@@ -99,7 +99,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 			take: 8,
 		});
 
-		if (articles[0].article.length > 0 || articles.length > 0) {
+		console.log('articles:', articles, 'slug:', slug?.replace(/-/g, ' '));
+
+		if (articles[0]?.article?.length > 0 || articles?.length > 0) {
 			articles = articles[0].article;
 			category = articles[0]?.category?.name;
 		}
