@@ -194,7 +194,7 @@ export default function Home({ data }: Props) {
 					))}
 				</Labels>
 			</CategoriesSection>
-			{data.worldNews && data.weather && data.pollution && (
+			{data?.worldNews && data?.weather && data?.pollution && (
 				<WorldSection>
 					<Heading family={'montserrat'} level={2}>
 						FROM AROUND THE WORLD

@@ -5,7 +5,7 @@ import { IconType } from 'react-icons';
 import { MdSavings } from 'react-icons/md';
 import { GiSpeedometer } from 'react-icons/gi';
 import { BsThermometerSun } from 'react-icons/bs';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { device } from '@/styles/device';
 
 interface Props {
@@ -32,22 +32,53 @@ const Widget: FC<Props> = ({ location, data, type }): JSX.Element => {
 
 	return (
 		<Wrapper>
+			<Live>
+				<Dot></Dot>Live
+			</Live>
 			<Heading style={{ marginBlockStart: '0px', marginBlockEnd: '0px' }}>
-				{`${
-					type === 'temperature' ? 'HOTTEST PLACE TODAY' : 'WORST AIR TODAY'
-				}`}
+				{`${type === 'temperature' ? 'HOTTEST PLACE' : 'WORST AIR'}`}
 			</Heading>
 			{icon}
 			<span style={{ fontSize: '3rem', fontWeight: 'bold' }}>{data}</span>
-			{/* {type === 'temperature' ? (
-				<span style={{ fontSize: '4rem', fontWeight: 'bold' }}>&#8451;</span>
-			) : (
-				<span></span>
-			)} */}
+
 			<Text>{location}</Text>
 		</Wrapper>
 	);
 };
+
+const pulse = keyframes`
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
+
+const Dot = styled.div`
+	background: #c33;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	animation: ${pulse} 2s infinite;
+	align-self: center;
+`;
+
+const Live = styled.div`
+	position: absolute;
+	top: 8px;
+	right: 10px;
+	display: flex;
+	gap: 6px;
+	font-size: 1.3rem;
+	text-transform: uppercase;
+	font-weight: bold;
+	align-items: center;
+	line-height: 8px;
+`;
 
 const Wrapper = styled.div`
 	padding: 2rem 2rem 1rem 2rem;
