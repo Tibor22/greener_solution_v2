@@ -286,13 +286,14 @@ const WorldSectionWrapper = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: auto auto;
-	justify-items: center;
+	gap: 3rem;
 	${device.tablet} {
+		justify-items: center;
+		gap: 6rem;
 	}
 	${device.laptop} {
 		grid-template-columns: 1fr 30rem 30rem;
 	}
-	gap: 6rem;
 `;
 
 const FeaturedWrapper = styled.div`

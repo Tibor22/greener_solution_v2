@@ -81,7 +81,7 @@ const Live = styled.div`
 `;
 
 const Wrapper = styled.div`
-	padding: 2rem 2rem 1rem 2rem;
+	padding: 2.5rem 2rem 1rem 2rem;
 	max-width: 200px;
 	border-radius: 8px;
 	text-align: center;
