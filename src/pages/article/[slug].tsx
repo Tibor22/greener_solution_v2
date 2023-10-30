@@ -243,7 +243,7 @@ const RichText = styled.div`
 
 	p {
 		font-size: ${fonts.medium};
-		line-height: 2.6rem;
+		line-height: 2.65rem;
 	}
 
 	${device.laptop} {
@@ -262,7 +262,7 @@ const RichText = styled.div`
 
 		p {
 			font-size: ${fonts.regular};
-			line-height: 2.3rem;
+			line-height: 2.6rem;
 		}
 
 		& li {
