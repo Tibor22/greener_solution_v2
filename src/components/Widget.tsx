@@ -92,7 +92,9 @@ const Wrapper = styled.div`
 	height: auto;
 	background: white;
 	box-shadow: ${palette.shadow};
-
+	@media (min-width: 500px) {
+		width: 200px;
+	}
 	& svg {
 		width: 5rem;
 		height: 5rem;
