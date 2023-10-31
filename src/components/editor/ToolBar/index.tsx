@@ -51,6 +51,15 @@ const ToolBar: FC<Props> = ({
 			label: 'Heading 3',
 			onClick: () => getFocusedEditor(editor).toggleHeading({ level: 3 }).run(),
 		},
+		{
+			label: 'img-description',
+			onClick: () =>
+				getFocusedEditor(editor)
+					.setMark('textStyle', {
+						class: 'img-text',
+					})
+					.run(),
+		},
 	];
 
 	const Head = () => {
@@ -66,6 +75,7 @@ const ToolBar: FC<Props> = ({
 		if (editor.isActive('heading', { level: 1 })) return 'Heading 1';
 		if (editor.isActive('heading', { level: 2 })) return 'Heading 2';
 		if (editor.isActive('heading', { level: 3 })) return 'Heading 3';
+		if (editor.isActive('textStyle')) return 'img-description';
 		return 'Paragraph';
 	};
 	const [visible, setVisible] = useState(false);

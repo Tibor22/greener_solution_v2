@@ -263,6 +263,7 @@ const RichText = styled.div`
 		p {
 			font-size: ${fonts.regular};
 			line-height: 2.6rem;
+
 		}
 
 		& li {
@@ -273,6 +274,12 @@ const RichText = styled.div`
 	
 	img {
 		margin-bottom: 1rem;
+	}
+
+	& span.img-text {
+		font-size: ${fonts.small};
+		margin-top:-2.5rem;
+		display:block;
 	}
 `;
 

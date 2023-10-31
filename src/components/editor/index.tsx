@@ -1,5 +1,7 @@
 import { ChangeEventHandler, FC, useEffect, useRef, useState } from 'react';
 import { useEditor, EditorContent, getMarkRange, Range } from '@tiptap/react';
+import TextStyle from '@tiptap/extension-text-style';
+
 import StarterKit from '@tiptap/starter-kit';
 import ToolBar from './ToolBar';
 import Underline from '@tiptap/extension-underline';
@@ -22,6 +24,7 @@ import SEOForm from './SEOForm';
 import ThumbnailSelector from './ThumbnailSelector';
 import Button from '../Button';
 import { Text } from '../../styles/sharedStyles';
+import { Extension, CommandProps } from '@tiptap/core';
 
 interface Props {
 	initialValue?: FinalPost;
@@ -68,10 +71,43 @@ const Editor: FC<Props> = ({
 		setUploading(false);
 	};
 
+	const CustomTextStyle = Extension.create({
+		name: 'customTextStyle',
+		defaultOptions: {
+			types: ['textStyle'],
+		},
+		addGlobalAttributes() {
+			return [
+				{
+					types: this.options.types,
+					attributes: {
+						class: {
+							default: null,
+							renderHTML: (attributes) => {
+								if (attributes?.class?.className) {
+									return { class: attributes.class.className };
+								} else if (attributes?.class) {
+									return { class: attributes.class };
+								} else {
+									return '';
+								}
+							},
+							parseHTML: (element) => {
+								return element.getAttribute('class');
+							},
+						},
+					},
+				},
+			];
+		},
+	});
+
 	const editor = useEditor({
 		extensions: [
 			StarterKit,
 			Underline,
+			TextStyle,
+			CustomTextStyle,
 			Link.configure({
 				autolink: false,
 				linkOnPaste: false,

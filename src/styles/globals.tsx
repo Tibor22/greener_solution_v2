@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import { playfair_display, montserrat, merriweather } from './fonts';
 import { device } from '@/styles/device';
+import { fonts } from './common';
 
 export default createGlobalStyle`
 
@@ -85,6 +86,12 @@ ${device.laptop} {
       > * + * {
         margin-top: 0.75em;
       }
+    }
+
+    .img-text {
+      font-size: ${fonts.small};
+      margin-top:-1rem;
+      display:block;
     }
 
     blockquote {
