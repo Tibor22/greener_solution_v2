@@ -39,7 +39,7 @@ const Newsletter: FC<Props> = (props): JSX.Element => {
 						<Heading level={2} looksLike={1}>
 							Want to help change the world?
 						</Heading>
-						<Text margin='-3rem 0rem 4rem 0rem'>
+						<Text margin='-3rem 0rem 1rem 0rem'>
 							Be an Earth Hero: Stay Informed with Our Eco-Friendly Newsletter!
 						</Text>
 						<Input
@@ -55,7 +55,7 @@ const Newsletter: FC<Props> = (props): JSX.Element => {
 							stretchMobile
 							type='primary'
 						>
-							I'M IN
+							<p style={{ fontSize: '1.5rem' }}> I'M IN</p>
 						</Button>
 					</>
 				) : (
@@ -81,6 +81,7 @@ const Content = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 2.2rem;
+	justify-content: center;
 
 	${device.laptop} {
 		height: 100%;

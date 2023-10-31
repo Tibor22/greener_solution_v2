@@ -26,13 +26,13 @@ const Hero: FC<Props> = ({ hero }: Props): JSX.Element => {
 			/>
 			<DetailsContainer>
 				<HeadingWrap>
-					<Heading margin='0rem' level={1}>
+					<Heading bold margin='0rem' level={1}>
 						{hero.title}
 					</Heading>
 					<Label color='red'>{hero.category.name}</Label>
 				</HeadingWrap>
 
-				<Description small>{hero.excerpt}</Description>
+				<Description>{hero.excerpt}</Description>
 
 				<Button
 					ifClicked={() => router.push(`${MAIN_URL}/article/${hero.slug}`)}

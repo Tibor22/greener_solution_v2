@@ -286,7 +286,13 @@ const WorldSectionWrapper = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: auto auto;
-	gap: 3rem;
+	gap: 2rem;
+	row-gap: 4rem;
+	@media (min-width: 500px) {
+		justify-items: center;
+		gap: 6rem;
+		row-gap: 6rem;
+	}
 	${device.tablet} {
 		justify-items: center;
 		gap: 6rem;
