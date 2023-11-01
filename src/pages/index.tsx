@@ -82,6 +82,9 @@ export async function getStaticProps() {
 				},
 			},
 		},
+		orderBy: {
+			createdAt: 'desc',
+		},
 		select: {
 			slug: true,
 			title: true,
