@@ -2,6 +2,7 @@ import Hero from '@/components/Hero';
 import { Text } from '@/styles/sharedStyles';
 import styled from 'styled-components';
 import CategoryLabel from '@/components/CategoryLabel';
+import Head from 'next/head';
 import {
 	FeaturedType,
 	HeroType,
@@ -156,10 +157,12 @@ export default function Home({ data }: Props) {
 
 	return (
 		<Wrapper>
-			<meta
-				name='facebook-domain-verification'
-				content='2kjfrr37cj54nsosguqtfxclg5wttb'
-			/>
+			<Head>
+				<meta
+					name='facebook-domain-verification'
+					content='2kjfrr37cj54nsosguqtfxclg5wttb'
+				/>
+			</Head>
 			<NextSeo
 				title='Climate Change & Energy News | Your Source for Environmental Updates'
 				description='Stay informed about the latest developments in climate change and energy on our environmental news platform.'
