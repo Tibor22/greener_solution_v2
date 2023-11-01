@@ -13,6 +13,7 @@ import {
 	LinkedinShareButton,
 	LinkedinIcon,
 } from 'next-share';
+import { device } from '@/styles/device';
 
 declare type Props = {
 	date: string;
@@ -60,9 +61,16 @@ export default function ArticleHeadingDetails({
 
 const Wrapper = styled.div`
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
+	gap: 2rem;
 	margin-bottom: 4.5rem;
-	align-items: center;
+
+	${device.mobileXL} {
+		flex-direction: row;
+		gap: 0rem;
+		justify-content: space-between;
+		align-items: center;
+	}
 `;
 
 const SocialWrapper = styled.div`
