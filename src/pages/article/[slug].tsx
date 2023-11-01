@@ -12,6 +12,7 @@ import { FeaturedType } from '../../../types/types';
 import { NextSeo } from 'next-seo';
 import Image from 'next/image';
 import ArticleHeadingDetails from '@/components/ArticleHeadingDetails';
+import { MAIN_URL } from '../../../config/config';
 
 interface Props {
 	article: {
@@ -23,6 +24,7 @@ interface Props {
 		updatedAt: string;
 		rawTime: string;
 		excerpt: string;
+		slug: string;
 	};
 	readNext: FeaturedType;
 	slug: string;
@@ -66,6 +68,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 			thumbnailUrl: true,
 			createdAt: true,
 			excerpt: true,
+			slug: true,
 		},
 	});
 
@@ -111,11 +114,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 	};
 };
 
-const Article: FC<Props> = ({
-	article,
-
-	readNext,
-}: Props): JSX.Element => {
+const Article: FC<Props> = ({ article, readNext }: Props): JSX.Element => {
+	const canonicalUrl = `${MAIN_URL}/article/${article.slug}`;
 	return (
 		<>
 			<NextSeo
@@ -129,6 +129,9 @@ const Article: FC<Props> = ({
 							height: 627,
 						},
 					],
+					url: canonicalUrl,
+					title: article.title,
+					description: article.meta,
 				}}
 			/>
 			<Wrapper>
@@ -165,6 +168,7 @@ const Article: FC<Props> = ({
 												rawDate={article.rawTime}
 												readingTime={3}
 												excerpt={article.excerpt}
+												url={canonicalUrl}
 											/>
 										);
 									}
@@ -220,22 +224,6 @@ const ReadMore = styled.div`
 	z-index: 0;
 `;
 
-// const BackButton = styled.div`
-// 	position: absolute;
-// 	font-size: 3rem;
-// 	left: 2rem;
-// 	top: 3rem;
-// 	${device.laptop} {
-// 		position: sticky;
-// 		font-size: 3rem;
-// 		left: 14rem;
-// 		margin-left: 2rem;
-// 		top: 10rem;
-// 	}
-
-// 	cursor: pointer;
-// `;
-
 const RichText = styled.div`
 	margin: 4rem auto;
 	${device.tablet} {
@@ -279,6 +267,10 @@ const RichText = styled.div`
 		font-size: ${fonts.medium};
 		line-height: 2.65rem;
 		margin-bottom:3rem;
+	}
+
+	li p {
+		margin-bottom:2rem;
 	}
 
 	${device.laptop} {

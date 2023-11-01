@@ -1,16 +1,25 @@
 import { palette } from '@/styles/common';
 import { AiOutlineClockCircle } from 'react-icons/ai';
-import { FaFacebook } from 'react-icons/fa';
-import { RiTwitterXFill } from 'react-icons/ri';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
-import { MAIN_URL } from '../../config/config';
+
+import React from 'react';
+import {
+	FacebookShareButton,
+	FacebookIcon,
+	TwitterShareButton,
+	TwitterIcon,
+	WhatsappShareButton,
+	WhatsappIcon,
+	LinkedinShareButton,
+	LinkedinIcon,
+} from 'next-share';
 
 declare type Props = {
 	date: string;
 	readingTime?: number | string;
 	rawDate: string;
 	excerpt?: string;
+	url: string;
 };
 
 export default function ArticleHeadingDetails({
@@ -18,25 +27,8 @@ export default function ArticleHeadingDetails({
 	readingTime,
 	rawDate,
 	excerpt,
+	url,
 }: Props) {
-	const router = useRouter();
-
-	const shareOnFacebook = () => {
-		window.open(
-			`https://www.facebook.com/sharer/sharer.php?u=${MAIN_URL}/${router.query.slug}`,
-			'Share',
-			'width=600,height=400'
-		);
-	};
-
-	const shareOnTwitter = () => {
-		window.open(
-			`https://twitter.com/intent/tweet?url=${MAIN_URL}/${router.query.slug}&text=${excerpt}`,
-			'Share',
-			'width=600,height=400'
-		);
-	};
-
 	return (
 		<Wrapper>
 			<TimeWrapper>
@@ -49,20 +41,18 @@ export default function ArticleHeadingDetails({
 				</time>
 			</TimeWrapper>
 			<SocialWrapper>
-				<div
-					style={{ cursor: 'pointer' }}
-					role='button'
-					onClick={shareOnFacebook}
-				>
-					<FaFacebook color={`#0866ff`} size={'2.7rem'} />
-				</div>
-				<div
-					style={{ cursor: 'pointer' }}
-					role='button'
-					onClick={shareOnTwitter}
-				>
-					<RiTwitterXFill size={'2.7rem'} />
-				</div>
+				<FacebookShareButton url={url} quote={excerpt}>
+					<FacebookIcon size={32} round />
+				</FacebookShareButton>
+				<TwitterShareButton title={excerpt} url={url}>
+					<TwitterIcon size={32} round />
+				</TwitterShareButton>
+				<WhatsappShareButton url={url}>
+					<WhatsappIcon size={32} round />
+				</WhatsappShareButton>
+				<LinkedinShareButton url={url}>
+					<LinkedinIcon size={32} round />
+				</LinkedinShareButton>
 			</SocialWrapper>
 		</Wrapper>
 	);
@@ -71,7 +61,7 @@ export default function ArticleHeadingDetails({
 const Wrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 5rem;
+	margin-bottom: 4.5rem;
 	align-items: center;
 `;
 
