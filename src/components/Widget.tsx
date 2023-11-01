@@ -102,7 +102,7 @@ const Wrapper = styled.div`
 		width: 30rem;
 		max-width: 30rem;
 		padding: 2rem 0rem 1rem 0rem;
-
+		justify-content: center;
 		& svg {
 			width: 7rem;
 			height: 7rem;
