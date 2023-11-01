@@ -1,8 +1,6 @@
 import { palette } from '@/styles/common';
 import { Heading, Text } from '@/styles/sharedStyles';
 import { FC } from 'react';
-import { IconType } from 'react-icons';
-import { MdSavings } from 'react-icons/md';
 import { GiSpeedometer } from 'react-icons/gi';
 import { BsThermometerSun } from 'react-icons/bs';
 import styled, { keyframes } from 'styled-components';

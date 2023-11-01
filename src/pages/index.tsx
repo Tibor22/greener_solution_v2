@@ -88,7 +88,9 @@ export async function getStaticProps() {
 			thumbnailUrl: true,
 			authorId: true,
 			category: true,
+			excerpt: true,
 		},
+		take: 1,
 	});
 
 	const weather = await prisma.weather.findUnique({

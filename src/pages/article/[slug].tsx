@@ -11,6 +11,7 @@ import FeaturedArticle from '@/components/FeaturedArticle';
 import { FeaturedType } from '../../../types/types';
 import { NextSeo } from 'next-seo';
 import Image from 'next/image';
+import ArticleHeadingDetails from '@/components/ArticleHeadingDetails';
 
 interface Props {
 	article: {
@@ -18,6 +19,10 @@ interface Props {
 		title: string;
 		meta: string;
 		thumbnailUrl: string;
+		createdAt: string;
+		updatedAt: string;
+		rawTime: string;
+		excerpt: string;
 	};
 	readNext: FeaturedType;
 	slug: string;
@@ -59,6 +64,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 			title: true,
 			meta: true,
 			thumbnailUrl: true,
+			createdAt: true,
+			excerpt: true,
 		},
 	});
 
@@ -77,10 +84,27 @@ export const getStaticProps: GetStaticProps = async (context) => {
 			excerpt: true,
 		},
 	});
+
+	const formattedDate = new Date(article?.createdAt as Date).toLocaleString(
+		'en-GB',
+		{
+			weekday: 'long',
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+			hour: 'numeric',
+			minute: 'numeric',
+		}
+	);
+
 	return {
 		props: {
 			slug,
-			article,
+			article: {
+				...article,
+				createdAt: formattedDate, // Use the formatted date
+				rawTime: article?.createdAt.toISOString(),
+			},
 			readNext,
 		},
 		revalidate: 10,
@@ -112,7 +136,7 @@ const Article: FC<Props> = ({
 					{' '}
 					{(parse(article.content) as any)?.length > 0
 						? (parse(article.content) as any).map(
-								(node: React.ReactElement) => {
+								(node: React.ReactElement, i: number, arr: any) => {
 									if (node.type === 'img') {
 										return (
 											<div
@@ -132,6 +156,16 @@ const Article: FC<Props> = ({
 													style={{ borderRadius: '8px' }}
 												/>
 											</div>
+										);
+									}
+									if (arr[i - 1]?.type === 'h1') {
+										return (
+											<ArticleHeadingDetails
+												date={article.createdAt}
+												rawDate={article.rawTime}
+												readingTime={3}
+												excerpt={article.excerpt}
+											/>
 										);
 									}
 
@@ -244,6 +278,7 @@ const RichText = styled.div`
 	p {
 		font-size: ${fonts.medium};
 		line-height: 2.65rem;
+		margin-bottom:3rem;
 	}
 
 	${device.laptop} {
@@ -262,8 +297,6 @@ const RichText = styled.div`
 
 		p {
 			font-size: ${fonts.regular};
-			line-height: 2.6rem;
-
 		}
 
 		& li {
