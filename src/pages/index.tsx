@@ -156,6 +156,10 @@ export default function Home({ data }: Props) {
 
 	return (
 		<Wrapper>
+			<meta
+				name='facebook-domain-verification'
+				content='2kjfrr37cj54nsosguqtfxclg5wttb'
+			/>
 			<NextSeo
 				title='Climate Change & Energy News | Your Source for Environmental Updates'
 				description='Stay informed about the latest developments in climate change and energy on our environmental news platform.'
