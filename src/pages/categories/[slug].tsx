@@ -99,8 +99,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 			take: 8,
 		});
 
-		console.log('articles:', articles, 'slug:', slug?.replace(/-/g, ' '));
-
 		if (articles[0]?.article?.length > 0 || articles?.length > 0) {
 			articles = articles[0].article;
 			category = articles[0]?.category?.name;
@@ -201,6 +199,8 @@ const Category: FC<Props> = ({
 		}
 	}, [slideBy]);
 
+	console.log({ featured, articles, category, allCategories });
+
 	return (
 		<div
 			style={{
@@ -257,40 +257,53 @@ const Category: FC<Props> = ({
 						)}
 					</div>
 				</SliderOuterWrapper>
-
-				<Heading margin='12rem 0rem 3rem 0rem' family={'montserrat'} level={2}>
-					{`FEATURED IN ${category.toUpperCase()}`}
-				</Heading>
-				<FeaturedSection length={featuredMemo.length}>
-					{featuredMemo.length > 0 &&
-						featuredMemo.map((f) => {
-							return <FeaturedArticle article={f} />;
-						})}
-				</FeaturedSection>
-				<ArticlesSection>
-					<div>
+				{featured?.length > 0 && (
+					<>
 						<Heading
-							margin='7rem 0rem 3rem 0rem'
+							margin='12rem 0rem 0rem 0rem'
 							family={'montserrat'}
 							level={2}
 						>
-							{`MORE FROM  ${category.toUpperCase()}`}
+							{`FEATURED IN ${category.toUpperCase()}`}
 						</Heading>
-						<ArticlesContainer>
-							{articlesMemo &&
-								articlesMemo.length > 0 &&
-								articlesMemo.map((article) => {
-									return (
-										<ArticleUiBox
-											key={article.slug}
-											article={{ ...article, category: article.category.name }}
-										></ArticleUiBox>
-									);
+
+						<FeaturedSection length={featuredMemo.length}>
+							{featuredMemo.length > 0 &&
+								featuredMemo.map((f) => {
+									return <FeaturedArticle article={f} />;
 								})}
-						</ArticlesContainer>
-					</div>
-					<div></div>
-				</ArticlesSection>
+						</FeaturedSection>
+					</>
+				)}
+				{articles?.length > 0 && (
+					<ArticlesSection>
+						<div>
+							<Heading
+								margin='7rem 0rem 3rem 0rem'
+								family={'montserrat'}
+								level={2}
+							>
+								{`MORE FROM  ${category.toUpperCase()}`}
+							</Heading>
+							<ArticlesContainer>
+								{articlesMemo &&
+									articlesMemo.length > 0 &&
+									articlesMemo.map((article) => {
+										return (
+											<ArticleUiBox
+												key={article.slug}
+												article={{
+													...article,
+													category: article.category.name,
+												}}
+											></ArticleUiBox>
+										);
+									})}
+							</ArticlesContainer>
+						</div>
+						<div></div>
+					</ArticlesSection>
+				)}
 			</Wrapper>
 		</div>
 	);
@@ -312,6 +325,7 @@ const SliderOuterWrapper = styled.div`
 	margin: 0px -15px;
 	padding: 0px 15px;
 	font-size: 4rem;
+	margin-bottom: 3rem;
 
 	${device.laptop} {
 		top: 80px;
@@ -364,7 +378,6 @@ const ArticlesContainer = styled.div`
 `;
 
 const ArticlesSection = styled.section`
-	margin-bottom: 10rem;
 	display: grid;
 	grid-template-columns: 1fr;
 	gap: 20%;
@@ -392,6 +405,7 @@ const Wrapper = styled.div`
 	margin: 0 auto;
 	padding: 0px 15px;
 	overflow: clip;
+	margin-bottom: 3rem;
 `;
 
 export default Category;
