@@ -199,8 +199,6 @@ const Category: FC<Props> = ({
 		}
 	}, [slideBy]);
 
-	console.log({ featured, articles, category, allCategories });
-
 	return (
 		<div
 			style={{
