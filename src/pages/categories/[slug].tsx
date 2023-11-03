@@ -258,7 +258,7 @@ const Category: FC<Props> = ({
 				{featured?.length > 0 && (
 					<>
 						<Heading
-							margin='12rem 0rem 0rem 0rem'
+							margin='12rem 0rem 3rem 0rem'
 							family={'montserrat'}
 							level={2}
 						>
